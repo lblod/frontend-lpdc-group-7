@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
-import SessionService from 'ember-simple-auth/services/session';
+import BaseSessionService from 'ember-simple-auth/services/session';
 
-export default class LoketSessionService extends SessionService {
+export default class SessionService extends BaseSessionService {
   @service currentSession;
 
   get isMockLoginSession() {

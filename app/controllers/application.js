@@ -6,5 +6,5 @@ export default class ApplicationController extends Controller {
   @service currentSession;
   @service router;
 
-  appTitle = 'Producten- en dienstencatalogus';
+  appTitle = 'Lokale Producten- en Dienstencatalogus';
 }

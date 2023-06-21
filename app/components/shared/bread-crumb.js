@@ -7,26 +7,35 @@ export default class SharedBreadCrumbComponent extends Component {
   bread = [
     {
       route: 'public-services.index',
-      crumbs: [{ label: 'Producten- en dienstencatalogus' }],
+      crumbs: [{ label: 'Lokale Producten- en Dienstencatalogus' }],
     },
     {
       route: 'public-services.add',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         { label: 'Product of dienst toevoegen' },
       ],
     },
     {
       route: 'public-services.new',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         { label: 'Product of dienst toevoegen' },
       ],
     },
     {
       route: 'public-services.details',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Details' },
       ],
@@ -34,7 +43,10 @@ export default class SharedBreadCrumbComponent extends Component {
     {
       route: 'public-services.details.content',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Details' },
         { label: 'Inhoud' },
@@ -43,7 +55,10 @@ export default class SharedBreadCrumbComponent extends Component {
     {
       route: 'public-services.details.properties',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Details' },
         { label: 'Eigenschappen' },
@@ -52,7 +67,10 @@ export default class SharedBreadCrumbComponent extends Component {
     {
       route: 'public-services.concept-details',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Concept details' },
       ],
@@ -60,21 +78,30 @@ export default class SharedBreadCrumbComponent extends Component {
     {
       route: 'public-services.link-concept.index',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         { label: 'Instantie koppelen' },
       ],
     },
     {
       route: 'public-services.link-concept.link',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         { label: 'Instantie koppelen' },
       ],
     },
     {
       route: 'public-services.concept-details.content',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Concept details' },
         { label: 'Inhoud' },
@@ -83,7 +110,10 @@ export default class SharedBreadCrumbComponent extends Component {
     {
       route: 'public-services.concept-details.properties',
       crumbs: [
-        { label: 'Producten- en dienstencatalogus', link: 'public-services' },
+        {
+          label: 'Lokale Producten- en Dienstencatalogus',
+          link: 'public-services',
+        },
         // TODO: this should be the name of the service, but the breadcrumbs system doesn't support that
         { label: 'Concept details' },
         { label: 'Eigenschappen' },

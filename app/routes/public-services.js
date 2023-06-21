@@ -1,3 +1,4 @@
+import { warn } from '@ember/debug';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { registerFormFields } from '@lblod/ember-submission-form-fields';
@@ -6,6 +7,7 @@ import ConceptSelector from 'frontend-lpdc/components/rdf-form-fields/concept-se
 import RichTextEditor from 'frontend-lpdc/components/rdf-form-fields/rich-text-editor';
 
 export default class PublicServicesRoute extends Route {
+  @service currentSession;
   @service session;
   @service router;
 
@@ -17,6 +19,17 @@ export default class PublicServicesRoute extends Route {
 
   beforeModel(transition) {
     this.session.requireAuthentication(transition, 'login');
+
+    return this.loadCurrentSession();
+  }
+
+  async loadCurrentSession() {
+    try {
+      await this.currentSession.load();
+    } catch (error) {
+      warn(error, { id: 'current-session-load-failure' });
+      this.router.transitionTo('auth.logout');
+    }
   }
 
   registerCustomFormFields() {

@@ -12,9 +12,10 @@ export default class CurrentSessionService extends Service {
   @tracked group;
   @tracked groupClassification;
   @tracked roles = [];
+  isLoaded = false;
 
   async load() {
-    if (this.session.isAuthenticated) {
+    if (this.session.isAuthenticated && !this.isLoaded) {
       let accountId =
         this.session.data.authenticated.relationships.account.data.id;
       this.account = await this.store.findRecord('account', accountId, {
@@ -31,6 +32,7 @@ export default class CurrentSessionService extends Service {
       this.groupClassification = await this.group.classificatie;
 
       this.setupSentrySession();
+      this.isLoaded = true;
     }
   }
 

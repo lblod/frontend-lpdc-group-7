@@ -17,3 +17,8 @@
 .u-table-cell-shrink-content {
   width: 1px !important;
 }
+
+// Appuniversum doesn't seem to have a flex-grow util yet
+.u-flex-grow {
+  flex-grow: 1;
+}

@@ -8,9 +8,6 @@ module.exports = function (defaults) {
     'ember-simple-auth': {
       useSessionSetupMethod: true,
     },
-    'ember-test-selectors': {
-      strip: false,
-    },
     '@appuniversum/ember-appuniversum': {
       dutchDatePickerLocalization: true,
       disableWormholeElement: true,

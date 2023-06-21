@@ -50,6 +50,9 @@ module.exports = function (environment) {
       // It also prevents the performance instrumentation code from running when Sentry isn't enabled (which is something that ideally is fixed in the addon itself).
       disablePerformance: true,
     },
+    'ember-simple-auth': {
+      routeAfterAuthentication: 'public-services',
+    },
   };
 
   if (environment === 'development') {

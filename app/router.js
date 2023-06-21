@@ -18,29 +18,21 @@ Router.map(function () {
     this.route('switch');
   });
 
-  this.route(
-    'public-services',
-    { path: '/producten-en-dienstencatalogus' },
-    function () {
-      this.route('add', { path: '/toevoegen' });
-      this.route('new', { path: '/nieuw' });
-      this.route('details', { path: '/:serviceId' }, function () {
-        this.route('content', { path: '/inhoud' });
-        this.route('properties', { path: '/eigenschappen' });
-      });
-      this.route('link-concept', { path: '/:serviceId/koppelen' }, function () {
-        this.route('link', { path: '/:conceptId' });
-      });
-      this.route(
-        'concept-details',
-        { path: '/concept/:conceptId' },
-        function () {
-          this.route('content', { path: '/inhoud' });
-          this.route('properties', { path: '/eigenschappen' });
-        }
-      );
-    }
-  );
+  this.route('public-services', { path: '/' }, function () {
+    this.route('add', { path: '/toevoegen' });
+    this.route('new', { path: '/nieuw' });
+    this.route('details', { path: '/:serviceId' }, function () {
+      this.route('content', { path: '/inhoud' });
+      this.route('properties', { path: '/eigenschappen' });
+    });
+    this.route('link-concept', { path: '/:serviceId/koppelen' }, function () {
+      this.route('link', { path: '/:conceptId' });
+    });
+    this.route('concept-details', { path: '/concept/:conceptId' }, function () {
+      this.route('content', { path: '/inhoud' });
+      this.route('properties', { path: '/eigenschappen' });
+    });
+  });
 
   this.route('legaal', function () {
     this.route('disclaimer');

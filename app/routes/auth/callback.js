@@ -6,7 +6,7 @@ export default class AuthCallbackRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.session.prohibitAuthentication('index');
+    this.session.prohibitAuthentication('public-services');
   }
 
   async model({ code }) {

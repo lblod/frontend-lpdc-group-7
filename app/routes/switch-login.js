@@ -8,7 +8,7 @@ export default class SwitchLoginRoute extends Route {
   @service router;
 
   beforeModel() {
-    if (this.session.prohibitAuthentication('index')) {
+    if (this.session.prohibitAuthentication('public-services')) {
       this.router.replaceWith('auth.login');
     }
   }

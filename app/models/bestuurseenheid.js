@@ -5,7 +5,10 @@ export default class Bestuurseenheid extends Model {
   @attr naam;
   @attr alternatieveNaam;
 
-  @belongsTo('bestuurseenheid-classificatie-code', { inverse: null })
+  @belongsTo('bestuurseenheid-classificatie-code', {
+    async: true,
+    inverse: null,
+  })
   classificatie;
 
   rdfaBindings = {

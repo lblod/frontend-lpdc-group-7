@@ -5,11 +5,19 @@ export default class GebruikerModel extends Model {
   @attr voornaam;
   @attr achternaam;
   @attr rijksregisterNummer;
-  @hasMany('account', { inverse: null }) account;
-  @hasMany('bestuurseenheid') bestuurseenheden;
+  @hasMany('account', {
+    async: true,
+    inverse: null,
+  })
+  account;
+  @hasMany('bestuurseenheid', {
+    async: true,
+    inverse: null,
+  })
+  bestuurseenheden;
 
   get group() {
-    return this.get('bestuurseenheden.firstObject');
+    return this.hasMany('bestuurseenheden').value()?.[0];
   }
 
   // used for mock login

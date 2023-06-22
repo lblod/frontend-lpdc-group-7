@@ -56,10 +56,10 @@ export default class RdfFormFieldsConceptSchemeSelectorComponent extends InputFi
     }
   }
 
-  loadConcepts(query = {}) {
+  async loadConcepts(query = {}) {
     let { conceptScheme, preloadAmount = 20 } = this.args.field.options;
 
-    return this.store.query('concept', {
+    return await this.store.query('concept', {
       'filter[concept-schemes][:uri:]': conceptScheme,
       sort: 'label',
       'page[size]': preloadAmount,
@@ -91,7 +91,7 @@ export default class RdfFormFieldsConceptSchemeSelectorComponent extends InputFi
       'filter[:uri:]': uri,
     });
 
-    return response.firstObject;
+    return response[0];
   }
 
   @action

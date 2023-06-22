@@ -10,6 +10,7 @@ export default class ConceptualPublicServiceModel extends Model {
   @attr('datetime') modified;
 
   @belongsTo('concept', {
+    async: true,
     inverse: null,
   })
   type;
@@ -27,21 +28,25 @@ export default class ConceptualPublicServiceModel extends Model {
   displayConfiguration;
 
   @hasMany('concept', {
+    async: true,
     inverse: null,
   })
   conceptTags;
 
   @hasMany('concept', {
+    async: true,
     inverse: null,
   })
   targetAudiences;
 
   @hasMany('concept', {
+    async: true,
     inverse: null,
   })
   competentAuthorityLevels;
 
   @hasMany('concept', {
+    async: true,
     inverse: null,
   })
   executingAuthorityLevels;

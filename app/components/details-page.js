@@ -271,7 +271,7 @@ export default class DetailsPageComponent extends Component {
           ':uri:': status,
         },
       })
-    ).firstObject;
+    )[0];
     service.status = statusRecord;
   }
 

@@ -121,7 +121,7 @@
         </td>
         <td>{{publicService.type.label}}</td>
         <td>
-          <PillList @list={{publicService.targetAudiences}} as |targetAudience|>
+          <PillList @list={{await publicService.targetAudiences}} as |targetAudience|>
             <AuPill>
               {{targetAudience.label}}
             </AuPill>
@@ -129,7 +129,7 @@
         </td>
         <td>
           <PillList
-            @list={{publicService.executingAuthorityLevels}}
+            @list={{await publicService.executingAuthorityLevels}}
             as |executingAuthorityLevel|
           >
             <AuPill>

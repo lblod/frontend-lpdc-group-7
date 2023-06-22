@@ -226,9 +226,11 @@ export default class DetailsPageComponent extends Component {
     this.modals.open(ConfirmDeletionModal, {
       deleteHandler: async () => {
         try {
-          await this.args.publicService.destroyRecord();
+          this.args.publicService.deleteRecord();
+          await this.args.publicService.save();
           this.hasUnsavedChanges = false;
           this.router.replaceWith('public-services');
+          this.args.publicService.unloadRecord();
         } catch (error) {
           console.error(error);
           this.toaster.error(
@@ -269,7 +271,7 @@ export default class DetailsPageComponent extends Component {
           ':uri:': status,
         },
       })
-    ).firstObject;
+    )[0];
     service.status = statusRecord;
   }
 

@@ -169,21 +169,21 @@
             <td>{{concept.productId}}</td>
             <td>{{concept.type.label}}</td>
             <td>
-              <PillList @list={{concept.targetAudiences}} as |targetAudience|>
+              <PillList @list={{await concept.targetAudiences}} as |targetAudience|>
                 <AuPill>
                   {{targetAudience.label}}
                 </AuPill>
               </PillList>
             </td>
             <td>
-              <PillList @list={{concept.competentAuthorityLevels}} as |level|>
+              <PillList @list={{await concept.competentAuthorityLevels}} as |level|>
                 <AuPill>
                   {{level.label}}
                 </AuPill>
               </PillList>
             </td>
             <td>
-              <PillList @list={{concept.conceptTags}} as |tag|>
+              <PillList @list={{await concept.conceptTags}} as |tag|>
                 <AuPill>
                   {{tag.label}}
                 </AuPill>

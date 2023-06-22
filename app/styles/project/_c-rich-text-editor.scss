@@ -91,6 +91,6 @@ $toolbar-height: 3.2rem; // TODO: we decrease the toolbar size so more icons fit
 
   // TODO: Should .au-c-content include link styles?
   a {
-    @extend .au-c-link;
+    @extend .au-c-link; /* stylelint-disable-line scss/at-extend-no-missing-placeholder */
   }
 }

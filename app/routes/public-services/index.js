@@ -60,13 +60,24 @@ export default class PublicServicesIndexRoute extends Route {
       promises.push(
         service.hasMany('targetAudiences').reload(),
         service.hasMany('executingAuthorityLevels').reload(),
-        service.belongsTo('type').reload(),
-        service.belongsTo('status').reload(),
-        service.belongsTo('reviewStatus').reload()
+        service.belongsTo('type').reload()
       );
     });
-
     yield Promise.all(promises);
+
+    // TODO: We've split this up into separate promise arrays to work around a bug in Ember Data 4.12.0
+    // Move this back into the forEach loop once the fix is released (supposedly in 4.12.1): https://github.com/emberjs/data/pull/8597
+    yield Promise.all(
+      publicServices.map((service) => service.belongsTo('status').reload())
+    );
+
+    // TODO: We've split this up into separate promise arrays to work around a bug in Ember Data 4.12.0
+    // Move this back into the forEach loop once the fix is released (supposedly in 4.12.1): https://github.com/emberjs/data/pull/8597
+    yield Promise.all(
+      publicServices.map((service) =>
+        service.belongsTo('reviewStatus').reload()
+      )
+    );
 
     return publicServices;
   }

@@ -24,19 +24,19 @@ export default class PublicServicesAddController extends Controller {
   @tracked isInstantiated;
 
   get publicServices() {
-    if (this.model.loadPublicServices.isFinished) {
-      return this.model.loadPublicServices.value;
+    if (this.model.loadConceptualPublicServices.isFinished) {
+      return this.model.loadConceptualPublicServices.value;
     }
 
-    return this.model.loadedPublicServices || [];
+    return this.model.loadedConceptualPublicServices || [];
   }
 
   get isLoading() {
-    return this.model.loadPublicServices.isRunning;
+    return this.model.loadConceptualPublicServices.isRunning;
   }
 
   get hasPreviousData() {
-    return this.model.loadedPublicServices?.length > 0;
+    return this.model.loadedConceptualPublicServices?.length > 0;
   }
 
   get showTableLoader() {
@@ -53,7 +53,7 @@ export default class PublicServicesAddController extends Controller {
   }
 
   get hasErrored() {
-    return this.model.loadPublicServices.isError;
+    return this.model.loadConceptualPublicServices.isError;
   }
 
   get hasActiveFilters() {

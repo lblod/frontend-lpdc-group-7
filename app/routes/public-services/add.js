@@ -26,13 +26,13 @@ export default class PublicServicesAddRoute extends Route {
 
   async model(params) {
     return {
-      loadPublicServices: this.loadPublicServicesTask.perform(params),
-      loadedPublicServices: this.loadPublicServicesTask.lastSuccessful?.value,
+      loadConceptualPublicServices: this.loadConceptualPublicServicesTask.perform(params),
+      loadedConceptualPublicServices: this.loadConceptualPublicServicesTask.lastSuccessful?.value,
     };
   }
 
   @restartableTask
-  *loadPublicServicesTask({
+  *loadConceptualPublicServicesTask({
     search,
     page,
     sort,

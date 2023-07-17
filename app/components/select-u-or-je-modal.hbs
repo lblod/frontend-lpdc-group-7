@@ -1,0 +1,50 @@
+<AuModal
+  @modalOpen={{this.modalOpen}}
+  @closeModal={{this.closeModal}}
+  @size={{this.size}}
+  @padding={{this.padding}}
+  @overflow={{this.overflow}}
+>
+  <:title>Kiest jouw lokaal bestuur voor "je" of voor "u"?</:title>
+  <:body>
+    <p>
+      Tot nu toe werden concepten steeds aangeboden in de u-vorm. Je kan nu ook kiezen voor de je-vorm:
+      dan krijg je alle concepten in de je-vorm en kun je ook je eigen (nieuwe) instanties makkelijk in de
+      je-vorm maken.
+    </p>
+    <p>
+      Deze keuze is eenmalig, definitief en geldt meteen voor iedereen van jouw lokaal bestuur en voor alle
+      nieuwe instanties die jullie maken. Weet je nog niet welke keuze jullie gaan maken? Stel ze dan nog
+      even uit, je kunt later nog steeds kiezen.
+    </p>
+    <p>
+      De reeds gemaakte instanties worden niet automatisch aangepast.
+    </p>
+    <AuRadioGroup
+      @alignment={{this.alignment}}
+      @name={{this.name}}
+      @selected={{this.selected}}
+      @disabled= {{this.disabled}}
+        @onChange={{this.onChange}}
+      as |Group|>
+      <Group.Radio @value="radioOne">Mijn bestuur kiest voor de "je"-vorm</Group.Radio>
+      <Group.Radio @value="radioTwo">Mijn bestuur kiest voor de "u"-vorm</Group.Radio>
+    </AuRadioGroup>
+  </:body>
+  <:footer>
+    <AuToolbar @border="none" @size="medium" as |Group|>
+      <Group>
+        <AuLinkExternal
+          href=""
+          @skin="primary"
+        >
+          Meer informatie vind je in de handleiding
+        </AuLinkExternal>
+      </Group>
+      <Group>
+        <AuButton @skin="secondary">Later kiezen</AuButton>
+        <AuButton>Bevestigen</AuButton>
+      </Group>
+    </AuToolbar>
+  </:footer>
+</AuModal>

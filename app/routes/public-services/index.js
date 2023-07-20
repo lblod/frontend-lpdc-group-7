@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import {inject as service} from '@ember/service';
 import {restartableTask} from 'ember-concurrency';
+import SelectUOrJeModal from "frontend-lpdc/components/select-u-or-je-modal";
 
 export default class PublicServicesIndexRoute extends Route {
   @service store;
   @service currentSession;
+  @service modals;
 
   queryParams = {
     search: {
@@ -21,6 +23,12 @@ export default class PublicServicesIndexRoute extends Route {
       refreshModel: true,
     },
   };
+
+  beforeModel({}) {
+    this.modals.open(SelectUOrJeModal, {
+      submitHandler: (value) => console.log(`You chose ${value}`)
+    });
+  }
 
   async model(params) {
     return {

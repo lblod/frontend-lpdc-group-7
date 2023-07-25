@@ -25,6 +25,7 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
 
     modalService.open(SelectUOrJeModal, {
       submitHandler: () => {},
+      makeChoiceLaterHandler: () => {},
     });
 
     await settled();
@@ -37,6 +38,7 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
     await render(hbs`<AuModalContainer /><EpmModalContainer />`);
     modalsService.open(SelectUOrJeModal, {
       submitHandler: () => {},
+      makeChoiceLaterHandler: () => {},
     });
 
     await settled();
@@ -54,6 +56,7 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
       submitHandler: (value) => {
         assert.step(`submitted with value: ${value}`);
       },
+      makeChoiceLaterHandler: () => {},
     });
 
     await settled();
@@ -77,6 +80,7 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
       submitHandler: (value) => {
         assert.step(`submitted with value: ${value}`);
       },
+      makeChoiceLaterHandler: () => {},
     });
 
     await settled();
@@ -100,13 +104,16 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
       submitHandler: () => {
         assert.step('submitted');
       },
+      makeChoiceLaterHandler: () => {
+        assert.step('choose later');
+      },
     });
 
     await settled();
     const cancelButton = document.querySelector(MODAL.CANCEL_BUTTON);
     await click(cancelButton);
     assert.dom(MODAL.ELEMENT).doesNotExist();
-    assert.verifySteps([]);
+    assert.verifySteps(['choose later']);
   });
 
   test('it ignores modal close requests while the submit handler is running', async function (assert) {
@@ -120,6 +127,7 @@ module('Integration | Component | select-u-or-je-modal', function (hooks) {
         assert.step(`submitted: ${count}`);
         count++;
       },
+      makeChoiceLaterHandler: () => {},
     });
 
     await settled();

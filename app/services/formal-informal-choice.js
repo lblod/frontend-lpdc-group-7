@@ -6,7 +6,7 @@ export default class FormalInformalChoiceService extends Service {
   async isChoiceMade() {
     const choices = await this.store.findAll('formal-informal-choice');
     return (
-      choices.length ||
+      !!choices.length ||
       localStorage.getItem('makeFormalInformalChoiceLater') === 'true'
     );
   }

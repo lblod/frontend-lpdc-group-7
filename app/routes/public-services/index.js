@@ -27,7 +27,11 @@ export default class PublicServicesIndexRoute extends Route {
   beforeModel() {
     this.modals.open(SelectUOrJeModal, {
       submitHandler: async (value) => {
-        console.log(`You chose ${value}`);
+        const choice = this.store.createRecord('formal-informal-choice', {
+          chosenForm: value,
+          dateCreated: new Date().toISOString(),
+        });
+        await choice.save();
       },
     });
   }
@@ -63,7 +67,8 @@ export default class PublicServicesIndexRoute extends Route {
       query['filter[:has:review-status]'] = true;
     }
 
-    query['include'] = 'target-audiences,type,executing-authority-levels,status';
+    query['include'] =
+      'target-audiences,type,executing-authority-levels,status';
 
     return yield this.store.query('public-service', query);
   }

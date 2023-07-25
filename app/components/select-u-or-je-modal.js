@@ -22,7 +22,6 @@ export default class SelectUOrJeModalComponent extends Component {
 
   @dropTask
   *confirm() {
-    console.log('confirm clicked');
     if (this.selectedVorm) {
       yield this.args.data.submitHandler(this.selectedVorm);
       this.close();

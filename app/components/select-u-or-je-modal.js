@@ -29,4 +29,10 @@ export default class SelectUOrJeModalComponent extends Component {
       this.showFormError = true;
     }
   }
+
+  @action
+  makeChoiceLater() {
+    this.args.data.makeChoiceLaterHandler();
+    this.close();
+  }
 }

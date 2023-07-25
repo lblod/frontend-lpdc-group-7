@@ -5,9 +5,11 @@ import ENV from 'frontend-lpdc/config/environment';
 export default class AuthLoginRoute extends Route {
   @service router;
   @service session;
+  @service formalInformalChoice;
 
   beforeModel() {
     if (this.session.prohibitAuthentication('public-services')) {
+      this.formalInformalChoice.enableChoiceIfNotPreviouslyConfirmed();
       if (isValidAcmidmConfig(ENV.acmidm)) {
         window.location.replace(buildLoginUrl(ENV.acmidm));
       } else {

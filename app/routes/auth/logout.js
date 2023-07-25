@@ -5,12 +5,14 @@ import ENV from 'frontend-lpdc/config/environment';
 export default class AuthLogoutRoute extends Route {
   @service router;
   @service session;
+  @service formalInformalChoice;
 
   async beforeModel(transition) {
     if (this.session.requireAuthentication(transition, 'login')) {
       try {
         let wasMockLoginSession = this.session.isMockLoginSession;
         await this.session.invalidate();
+        this.formalInformalChoice.enableChoiceIfNotPreviouslyConfirmed();
         let logoutUrl = wasMockLoginSession
           ? this.router.urlFor('mock-login')
           : ENV.acmidm.logoutUrl;

@@ -7,6 +7,7 @@ export default class PublicServicesIndexRoute extends Route {
   @service store;
   @service currentSession;
   @service modals;
+  @service formalInformalChoice;
 
   queryParams = {
     search: {
@@ -24,16 +25,17 @@ export default class PublicServicesIndexRoute extends Route {
     },
   };
 
-  beforeModel() {
-    this.modals.open(SelectUOrJeModal, {
-      submitHandler: async (value) => {
-        const choice = this.store.createRecord('formal-informal-choice', {
-          chosenForm: value,
-          dateCreated: new Date().toISOString(),
-        });
-        await choice.save();
-      },
-    });
+  async beforeModel() {
+    if (!(await this.formalInformalChoice.isChoiceMade())) {
+      this.modals.open(SelectUOrJeModal, {
+        submitHandler: async (value) => {
+          await this.formalInformalChoice.saveChoice(value);
+        },
+        makeChoiceLaterHandler: () => {
+          this.formalInformalChoice.makeChoiceLater();
+        },
+      });
+    }
   }
 
   async model(params) {

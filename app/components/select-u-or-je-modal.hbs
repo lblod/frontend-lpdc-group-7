@@ -1,4 +1,4 @@
-<AuModal @modalOpen={{true}} @closeModal={{this.close}} data-test-select-u-or-je-modal="modal">
+<AuModal @modalOpen={{true}} @closeModal={{this.makeChoiceLater}} data-test-select-u-or-je-modal="modal">
   <:title>Kiest jouw lokaal bestuur voor "je" of voor "u"?</:title>
   <:body>
     <p class="au-u-margin-bottom">
@@ -43,7 +43,7 @@
       <Group>
         <AuButton
           @skin="secondary"
-          {{on "click" this.close}}
+          {{on "click" this.makeChoiceLater}}
           data-test-select-u-or-je-modal="cancel-button"
         >
           Later kiezen

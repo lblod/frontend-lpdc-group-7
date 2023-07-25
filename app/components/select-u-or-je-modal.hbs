@@ -1,4 +1,4 @@
-<AuModal @modalOpen={{true}} @closeModal={{this.close}}>
+<AuModal @modalOpen={{true}} @closeModal={{this.close}} data-test-select-u-or-je-modal="modal">
   <:title>Kiest jouw lokaal bestuur voor "je" of voor "u"?</:title>
   <:body>
     <p class="au-u-margin-bottom">
@@ -17,13 +17,19 @@
     <AuRadioGroup
       @selected={{this.selectedVorm}}
       @onChange={{this.handleChangedVorm}}
+      data-test-select-u-or-je-modal="select"
       as |Group|>
-      <Group.Radio @value="je">Mijn bestuur kiest voor de "je"-vorm</Group.Radio>
-      <Group.Radio @value="u">Mijn bestuur kiest voor de "u"-vorm</Group.Radio>
+      <Group.Radio name='informal' @value="informal">Mijn bestuur kiest voor de "je"-vorm</Group.Radio>
+      <Group.Radio name='formal' @value="formal">Mijn bestuur kiest voor de "u"-vorm</Group.Radio>
     </AuRadioGroup>
 
     {{#if this.showFormError }}
-      <AuHelpText @error={{true}}>Je moet een keuze maken om te bevestigen</AuHelpText>
+      <AuHelpText
+        @error={{true}}
+        data-test-select-u-or-je-modal="error-message"
+      >
+        Je moet een keuze maken om te bevestigen
+      </AuHelpText>
     {{/if}}
   </:body>
 
@@ -35,8 +41,19 @@
         </AuLinkExternal>
       </Group>
       <Group>
-        <AuButton @skin="secondary" {{on "click" this.close}}>Later kiezen</AuButton>
-        <AuButton {{on 'click' this.confirm }}>Bevestigen</AuButton>
+        <AuButton
+          @skin="secondary"
+          {{on "click" this.close}}
+          data-test-select-u-or-je-modal="cancel-button"
+        >
+          Later kiezen
+        </AuButton>
+        <AuButton
+          {{on 'click' (perform this.confirm) }}
+          data-test-select-u-or-je-modal="submit-button"
+        >
+          Bevestigen
+        </AuButton>
       </Group>
     </AuToolbar>
   </:footer>

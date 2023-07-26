@@ -4,5 +4,3 @@ pipeline:
     settings:
       repo: ${CI_REPO}
       dry_run: true
-when:
-  event: pull_request

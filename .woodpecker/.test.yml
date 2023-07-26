@@ -23,5 +23,3 @@ pipeline:
     image: danlynn/ember-cli:4.2.0-node_16.14
     commands:
       - npm run test:ember
-when:
-  event: pull_request

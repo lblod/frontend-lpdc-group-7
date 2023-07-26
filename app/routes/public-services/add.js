@@ -26,8 +26,10 @@ export default class PublicServicesAddRoute extends Route {
 
   async model(params) {
     return {
-      loadConceptualPublicServices: this.loadConceptualPublicServicesTask.perform(params),
-      loadedConceptualPublicServices: this.loadConceptualPublicServicesTask.lastSuccessful?.value,
+      loadConceptualPublicServices:
+        this.loadConceptualPublicServicesTask.perform(params),
+      loadedConceptualPublicServices:
+        this.loadConceptualPublicServicesTask.lastSuccessful?.value,
     };
   }
 

@@ -49,5 +49,9 @@ function createMockService(context, service, classBody) {
   context.owner.register(service, Store);
 }
 
-
-export { setupApplicationTest, setupRenderingTest, setupTest, createMockService };
+export {
+  setupApplicationTest,
+  setupRenderingTest,
+  setupTest,
+  createMockService,
+};

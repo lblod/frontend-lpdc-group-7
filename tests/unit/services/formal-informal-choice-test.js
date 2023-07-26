@@ -55,7 +55,7 @@ module('Unit | Service | formal-informal-choice', function (hooks) {
 
   test('isChoiceMade should return true when choice saved in backend', async function (assert) {
     createMockService(this, 'service:store', {
-      findAll: (model) => [{ chosenForm: 'formal' }],
+      findAll: () => [{ chosenForm: 'formal' }],
     });
 
     const service = this.owner.lookup('service:formalInformalChoice');
@@ -64,7 +64,7 @@ module('Unit | Service | formal-informal-choice', function (hooks) {
 
   test('isChoiceMade should return true when chooseLater in localstorage', async function (assert) {
     createMockService(this, 'service:store', {
-      findAll: (model) => [],
+      findAll: () => [],
     });
 
     localStorage.setItem('makeFormalInformalChoiceLater', 'true');
@@ -74,7 +74,7 @@ module('Unit | Service | formal-informal-choice', function (hooks) {
 
   test('isChoiceMade should return false no chooseLater in localstorage and no choice saved in backend', async function (assert) {
     createMockService(this, 'service:store', {
-      findAll: (model) => [],
+      findAll: () => [],
     });
     const service = this.owner.lookup('service:formalInformalChoice');
     assert.false(await service.isChoiceMade());

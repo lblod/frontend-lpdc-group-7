@@ -11,4 +11,3 @@ when:
 
 depends_on:
   - test
-  - verify-build

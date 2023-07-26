@@ -3,6 +3,10 @@ pipeline:
     image: danlynn/ember-cli:4.2.0-node_16.14
     commands:
       - npm ci
+  build:
+    image: danlynn/ember-cli:4.2.0-node_16.14
+    commands:
+      - npm run build
   lint:js:
     image: danlynn/ember-cli:4.2.0-node_16.14
     commands:

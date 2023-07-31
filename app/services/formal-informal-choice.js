@@ -2,6 +2,7 @@ import Service, { inject as service } from '@ember/service';
 
 export default class FormalInformalChoiceService extends Service {
   @service store;
+  @service currentSession;
 
   async isChoiceMade() {
     const choices = await this.store.findAll('formal-informal-choice');
@@ -15,6 +16,7 @@ export default class FormalInformalChoiceService extends Service {
     const choice = this.store.createRecord('formal-informal-choice', {
       chosenForm: value,
       dateCreated: new Date().toISOString(),
+      bestuurseenheid: this.currentSession.group,
     });
     await choice.save();
   }

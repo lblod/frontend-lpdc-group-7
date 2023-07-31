@@ -47,10 +47,18 @@ module('Unit | Service | formal-informal-choice', function (hooks) {
       },
     });
 
+    const bestuurseenheid = {
+      uri: 'http://data.lblod.info/id/bestuurseenheden/c648ea5d12626ee3364a02debb223908a71e68f53d69a7a7136585b58a083e77',
+    };
+    createMockService(this, 'service:current-session', {
+      group: bestuurseenheid,
+    });
+
     this.owner.lookup('service:formalInformalChoice').saveChoice('formal');
 
     assert.strictEqual(calledWithValue?.chosenForm, 'formal');
     assert.notEqual(calledWithValue?.dateCreated, undefined);
+    assert.strictEqual(calledWithValue?.bestuurseenheid, bestuurseenheid);
   });
 
   test('isChoiceMade should return true when choice saved in backend', async function (assert) {

@@ -27,6 +27,12 @@ It is written in ember-js.
 
 ## 10. Deployment
 
+We use [release-it](https://github.com/release-it/release-it/tree/main) to make a new release.
+
+```shell
+  npm run release
+```
+
 ## 11. Operation and Support
 
 ## 12. Development Environment

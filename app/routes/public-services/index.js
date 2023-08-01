@@ -55,8 +55,7 @@ export default class PublicServicesIndexRoute extends Route {
     let query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
       'page[number]': page,
-      include:
-        'target-audiences,type,executing-authority-levels,status'
+      include: 'target-audiences,type,executing-authority-levels,status',
     };
 
     if (search) {

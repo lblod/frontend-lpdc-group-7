@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-import { restartableTask } from 'ember-concurrency';
+import {inject as service} from '@ember/service';
+import {restartableTask} from 'ember-concurrency';
 
 export default class PublicServicesLinkConceptIndexRoute extends Route {
   @service store;
@@ -38,7 +38,8 @@ export default class PublicServicesLinkConceptIndexRoute extends Route {
     let query = {
       'filter[:has-no:status]': 'yes',
       'page[number]': page,
-      include: 'display-configuration',
+      include:
+        'display-configuration,target-audiences,concept-tags,competent-authority-levels,type',
     };
 
     if (search) {
@@ -57,20 +58,6 @@ export default class PublicServicesLinkConceptIndexRoute extends Route {
       query.sort = sort;
     }
 
-    let concepts = yield this.store.query('conceptual-public-service', query);
-
-    let promises = [];
-    concepts.forEach((concept) => {
-      promises.push(
-        concept.hasMany('targetAudiences').load(),
-        concept.hasMany('conceptTags').load(),
-        concept.hasMany('competentAuthorityLevels').load(),
-        concept.belongsTo('type').load()
-      );
-    });
-
-    yield Promise.all(promises);
-
-    return concepts;
+    return yield this.store.query('conceptual-public-service', query);
   }
 }

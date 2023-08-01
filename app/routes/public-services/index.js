@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-import { restartableTask } from 'ember-concurrency';
+import {inject as service} from '@ember/service';
+import {restartableTask} from 'ember-concurrency';
 import SelectUOrJeModal from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesIndexRoute extends Route {
@@ -55,6 +55,8 @@ export default class PublicServicesIndexRoute extends Route {
     let query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
       'page[number]': page,
+      include:
+        'target-audiences,type,executing-authority-levels,status'
     };
 
     if (search) {
@@ -68,9 +70,6 @@ export default class PublicServicesIndexRoute extends Route {
     if (isReviewRequiredFilterEnabled) {
       query['filter[:has:review-status]'] = true;
     }
-
-    query['include'] =
-      'target-audiences,type,executing-authority-levels,status';
 
     return yield this.store.query('public-service', query);
   }

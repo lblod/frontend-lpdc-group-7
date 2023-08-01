@@ -8,3 +8,6 @@ pipeline:
 when:
   event: tag
   tag: v*
+
+depends_on:
+  - test

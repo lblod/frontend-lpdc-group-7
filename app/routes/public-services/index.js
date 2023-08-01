@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import {inject as service} from '@ember/service';
-import {restartableTask} from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { restartableTask } from 'ember-concurrency';
 import SelectUOrJeModal from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesIndexRoute extends Route {

@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import {inject as service} from '@ember/service';
-import {restartableTask} from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { restartableTask } from 'ember-concurrency';
 
 export default class PublicServicesAddRoute extends Route {
   @service store;

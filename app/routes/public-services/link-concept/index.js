@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import {inject as service} from '@ember/service';
-import {restartableTask} from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { restartableTask } from 'ember-concurrency';
 
 export default class PublicServicesLinkConceptIndexRoute extends Route {
   @service store;

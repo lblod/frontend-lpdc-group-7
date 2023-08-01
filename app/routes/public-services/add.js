@@ -44,6 +44,8 @@ export default class PublicServicesAddRoute extends Route {
     let query = {
       'filter[:has-no:status]': 'yes',
       'page[number]': page,
+      'fields[conceptual-public-services]':
+        'name,type,uri,product-id,display-configuration,target-audiences,concept-tags,competent-authority-levels',
       include:
         'display-configuration,target-audiences,concept-tags,competent-authority-levels,type',
     };

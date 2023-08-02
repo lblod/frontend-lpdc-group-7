@@ -52,9 +52,11 @@ export default class PublicServicesIndexRoute extends Route {
     sort,
     isReviewRequiredFilterEnabled,
   }) {
-    let query = {
+    const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
       'page[number]': page,
+      'fields[public-services]':
+        'name,review-status,type,target-audiences,executing-authority-levels,created,modified,status',
       include: 'target-audiences,type,executing-authority-levels,status',
     };
 

@@ -4,6 +4,7 @@ import { restartableTask } from 'ember-concurrency';
 
 export default class PublicServicesAddRoute extends Route {
   @service store;
+  @service formalInformalChoice;
 
   queryParams = {
     search: {
@@ -30,6 +31,7 @@ export default class PublicServicesAddRoute extends Route {
         this.loadConceptualPublicServicesTask.perform(params),
       loadedConceptualPublicServices:
         this.loadConceptualPublicServicesTask.lastSuccessful?.value,
+      formalInformalChoice: await this.formalInformalChoice.getChoice(),
     };
   }
 

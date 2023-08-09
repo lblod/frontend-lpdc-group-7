@@ -1,9 +1,13 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, timeout } from 'ember-concurrency';
+import SelectUOrJeModalComponent from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesAddController extends Controller {
+  @service modals;
+  @service('formal-informal-choice') formalInformalChoiceService;
   queryParams = [
     'search',
     'sort',
@@ -22,6 +26,7 @@ export default class PublicServicesAddController extends Controller {
   @tracked page = 0;
   @tracked isNewConcept;
   @tracked isInstantiated;
+  @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
     if (this.model.loadConceptualPublicServices.isFinished) {
@@ -90,5 +95,19 @@ export default class PublicServicesAddController extends Controller {
 
     this.search = searchValue;
     this.page = 0;
+  }
+
+  @action
+  openSelectUOrJeModal() {
+    this.modals.open(SelectUOrJeModalComponent, {
+      submitHandler: async (value) => {
+        await this.formalInformalChoiceService.saveChoice(value);
+        this.formalInformalChoice =
+          await this.formalInformalChoiceService.getChoice();
+      },
+      makeChoiceLaterHandler: () => {
+        this.formalInformalChoiceService.makeChoiceLater();
+      },
+    });
   }
 }

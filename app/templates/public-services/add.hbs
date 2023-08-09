@@ -4,6 +4,12 @@
   <:sidebar>
     <div class="au-o-box au-o-box--small au-o-flow">
       <div>
+        <ReminderUOrJeChoice
+          @chosenForm={{this.formalInformalChoice.chosenForm}}
+          @openSelectModal={{this.openSelectUOrJeModal}}
+        />
+      </div>
+      <div>
         <AuLabel for="search">Zoeken</AuLabel>
         {{! TODO: Replace this with `AuInput` once we get rid of 2-way-binding }}
         <input

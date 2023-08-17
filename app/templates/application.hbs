@@ -55,11 +55,13 @@
           <AuToolbar @size="medium" @skin="tint" @border="bottom" as |Group|>
             <Group>
               <ul class="au-c-list-horizontal au-c-list-horizontal--small">
-                <li class="au-c-list-horizontal__item">
-                  <AuLinkExternal @icon="arrow-left" href="https://loket.lokaalbestuur.vlaanderen.be">
-                    Loket voor Lokale Besturen
-                  </AuLinkExternal>
-                </li>
+                {{#if this.loketUrl}}
+                  <li class="au-c-list-horizontal__item">
+                    <AuLinkExternal @icon="arrow-left" href={{this.loketUrl}}>
+                      Loket voor Lokale Besturen
+                    </AuLinkExternal>
+                  </li>
+                {{/if}}
                 <BreadCrumb />
               </ul>
             </Group>

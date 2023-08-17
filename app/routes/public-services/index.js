@@ -57,7 +57,8 @@ export default class PublicServicesIndexRoute extends Route {
       'page[number]': page,
       'fields[public-services]':
         'name,review-status,type,target-audiences,executing-authority-levels,created,modified,status',
-      include: 'target-audiences,type,executing-authority-levels,status',
+      include:
+        'target-audiences,type,executing-authority-levels,status,review-status',
     };
 
     if (search) {

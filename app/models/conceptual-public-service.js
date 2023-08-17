@@ -52,13 +52,14 @@ export default class ConceptualPublicServiceModel extends Model {
   executingAuthorityLevels;
 
   get nameNl() {
-    if (this.name?.length) {
-      const nameNl = this.name.find((name) => name.language == 'nl');
-      if (nameNl) {
-        return nameNl.content;
-      } else return this.name[0].content; //gracious fallback
-    } else {
+    if (!this.name?.length) {
       return null;
     }
+    const nameNl = this.name.find((name) => name.language === 'nl')?.content;
+    const nl = this.name.find((name) =>
+      name.language.startsWith('nl')
+    )?.content;
+    const fallBack = this.name[0].content;
+    return nameNl ?? nl ?? fallBack;
   }
 }

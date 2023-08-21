@@ -43,6 +43,26 @@ export default class PublicServicesDetailsController extends Controller {
     );
   }
 
+  get isNewlyCreatedPublicService() {
+    const created = this.model.publicService.created.toString();
+    const modified = this.model.publicService.modified.toString();
+    return created === modified;
+  }
+
+  get conceptFormalInformalVersion() {
+    return this.model.languageVersionOfConcept.includes('informal')
+      ? 'je-versie'
+      : 'u-versie';
+  }
+
+  get isGeneratedFormalVersion() {
+    return this.model.languageVersionOfConcept.includes('generated-formal');
+  }
+
+  get isGeneratedInformalVersion() {
+    return this.model.languageVersionOfConcept.includes('generated-informal');
+  }
+
   @action
   showUnlinkWarning() {
     this.shouldShowUnlinkWarning = true;

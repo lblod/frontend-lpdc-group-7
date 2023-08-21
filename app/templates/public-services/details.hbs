@@ -110,6 +110,14 @@
             {{/if}}
           </:content>
         </Data>
+        {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
+        <Data>
+          <:title>Versie</:title>
+          <:content>
+            {{this.conceptFormalInformalVersion}}
+          </:content>
+        </Data>
+        {{/if}}
       </DataList>
       {{#if this.shouldShowUnlinkWarning}}
         <AuAlert
@@ -145,6 +153,20 @@
       {{/if}}
     </div>
   </Group>
+
+  {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
+  <Group>
+    {{#if this.isGeneratedInformalVersion}}
+      <AuPill @skin="warning" >
+        Automatische omzetting van u naar je
+      </AuPill>
+    {{else if this.isGeneratedFormalVersion}}
+      <AuPill @skin="warning" >
+        Automatische omzetting van je naar u
+      </AuPill>
+    {{/if}}
+  </Group>
+  {{/if}}
 
   {{#if (or this.showReviewRequiredMessage this.markAsReviewed.isRunning)}}
     <Group>

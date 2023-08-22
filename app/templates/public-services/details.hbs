@@ -111,12 +111,12 @@
           </:content>
         </Data>
         {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
-        <Data>
-          <:title>Versie</:title>
-          <:content>
-            {{this.conceptFormalInformalVersion}}
-          </:content>
-        </Data>
+          <Data>
+            <:title>Versie</:title>
+            <:content>
+              {{this.conceptFormalInformalVersion}}
+            </:content>
+          </Data>
         {{/if}}
       </DataList>
       {{#if this.shouldShowUnlinkWarning}}
@@ -142,12 +142,14 @@
               @loading={{this.unlinkConcept.isRunning}}
               @loadingMessage="Aan het loskoppelen"
               {{on "click" (perform this.unlinkConcept)}}
-            >Loskoppelen</AuButton>
+            >Loskoppelen
+            </AuButton>
             <AuButton
               @skin="secondary"
               @disabled={{this.unlinkConcept.isRunning}}
               {{on "click" this.hideUnlinkWarning}}
-            >Annuleren</AuButton>
+            >Annuleren
+            </AuButton>
           </AuButtonGroup>
         </AuAlert>
       {{/if}}
@@ -155,17 +157,25 @@
   </Group>
 
   {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
-  <Group>
-    {{#if this.isGeneratedInformalVersion}}
-      <AuPill @skin="warning" >
-        Automatische omzetting van u naar je
-      </AuPill>
-    {{else if this.isGeneratedFormalVersion}}
-      <AuPill @skin="warning" >
-        Automatische omzetting van je naar u
-      </AuPill>
-    {{/if}}
-  </Group>
+    <Group>
+      <div>
+        {{#if this.isGeneratedInformalVersion}}
+          <AuPill @skin="warning">
+            Automatische omzetting van u naar je
+          </AuPill>
+        {{else if this.isGeneratedFormalVersion}}
+          <AuPill @skin="warning">
+            Automatische omzetting van je naar u
+          </AuPill>
+        {{/if}}
+        <p class="au-u-text-right">
+          Zie je een fout?
+          <AuLinkExternal href={{this.mailToContent}}>
+            Meld het hier
+          </AuLinkExternal>
+        </p>
+      </div>
+    </Group>
   {{/if}}
 
   {{#if (or this.showReviewRequiredMessage this.markAsReviewed.isRunning)}}

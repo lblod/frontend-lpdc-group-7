@@ -110,7 +110,7 @@
             {{/if}}
           </:content>
         </Data>
-        {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
+        {{#if (and this.publicServiceHasConcept this.isNewlyCreatedPublicService)}}
           <Data>
             <:title>Versie</:title>
             <:content>
@@ -156,27 +156,12 @@
     </div>
   </Group>
 
-  {{#if (and @model.publicService.concept.id this.isNewlyCreatedPublicService)}}
+  {{#if this.shouldShowContentGeneratedWarning}}
     <Group>
-      <div>
-        {{#if this.isGeneratedInformalVersion}}
-          <AuPill @skin="warning">
-            Automatische omzetting van u naar je
-          </AuPill>
-        {{else if this.isGeneratedFormalVersion}}
-          <AuPill @skin="warning">
-            Automatische omzetting van je naar u
-          </AuPill>
-        {{/if}}
-        {{#if (or this.isGeneratedInformalVersion this.isGeneratedFormalVersion)}}
-          <p class="au-u-text-right">
-            Zie je een fout?
-            <AuLinkExternal href={{this.mailToContent}}>
-              Meld het hier
-            </AuLinkExternal>
-          </p>
-        {{/if}}
-      </div>
+      <GeneratedContentWarning
+        @languageVersion={{@model.languageVersionOfConcept}}
+        @conceptName={{@model.publicService.concept.nameNl}}
+        @conceptProductId={{@model.publicService.concept.productId}}/>
     </Group>
   {{/if}}
 

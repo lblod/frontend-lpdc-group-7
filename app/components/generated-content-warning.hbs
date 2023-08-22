@@ -1,0 +1,15 @@
+<div>
+  {{#if this.isGeneratedInformalVersion}}
+    <AuPill @skin="warning">
+      Automatische omzetting van u naar je
+    </AuPill>
+  {{else if this.isGeneratedFormalVersion}}
+    <AuPill @skin="warning">
+      Automatische omzetting van je naar u
+    </AuPill>
+  {{/if}}
+  <p class="au-u-text-right au-u-margin-top-tiny">
+    Zie je een fout?
+    <AuLinkExternal href={{this.mailToContent}}>Meld het hier</AuLinkExternal>
+  </p>
+</div>

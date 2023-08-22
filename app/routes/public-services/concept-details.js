@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { loadConceptLanguageVersion } from 'frontend-lpdc/utils/concept';
 
 export default class PublicServicesConceptDetailsRoute extends Route {
   @service store;
@@ -13,8 +14,13 @@ export default class PublicServicesConceptDetailsRoute extends Route {
       }
     );
 
+    const languageVersionOfConcept = await loadConceptLanguageVersion(
+      conceptId
+    );
+
     return {
       concept,
+      languageVersionOfConcept,
     };
   }
 }

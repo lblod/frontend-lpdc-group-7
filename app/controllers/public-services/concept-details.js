@@ -17,6 +17,10 @@ export default class PublicServicesConceptDetailsController extends Controller {
     return this.model.concept.status?.uri === ARCHIVED_STATUS;
   }
 
+  get isConceptLanguageVersionGenerated() {
+    return this.model.languageVersionOfConcept.includes('generated');
+  }
+
   @action async hideNewConceptMessage() {
     const { displayConfiguration } = this.model.concept;
     displayConfiguration.isNewConcept = false;

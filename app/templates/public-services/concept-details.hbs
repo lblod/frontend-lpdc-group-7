@@ -52,6 +52,14 @@
       {{{@model.concept.nameNl}}}
     </AuHeading>
   </Group>
+  {{#if this.isConceptLanguageVersionGenerated}}
+    <Group>
+      <GeneratedContentWarning
+        @languageVersion={{@model.languageVersionOfConcept}}
+        @conceptName={{@model.concept.nameNl}}
+        @conceptProductId={{@model.concept.productId}}/>
+    </Group>
+  {{/if}}
 </AuToolbar>
 
 {{#if this.isArchived}}

@@ -168,12 +168,14 @@
             Automatische omzetting van je naar u
           </AuPill>
         {{/if}}
-        <p class="au-u-text-right">
-          Zie je een fout?
-          <AuLinkExternal href={{this.mailToContent}}>
-            Meld het hier
-          </AuLinkExternal>
-        </p>
+        {{#if (or this.isGeneratedInformalVersion this.isGeneratedFormalVersion)}}
+          <p class="au-u-text-right">
+            Zie je een fout?
+            <AuLinkExternal href={{this.mailToContent}}>
+              Meld het hier
+            </AuLinkExternal>
+          </p>
+        {{/if}}
       </div>
     </Group>
   {{/if}}

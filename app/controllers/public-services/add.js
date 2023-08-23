@@ -4,9 +4,11 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, timeout } from 'ember-concurrency';
 import SelectUOrJeModalComponent from 'frontend-lpdc/components/select-u-or-je-modal';
+import { bestuursEenheidHasPublicServices } from 'frontend-lpdc/utils/public-services';
 
 export default class PublicServicesAddController extends Controller {
   @service modals;
+  @service store;
   @service('formal-informal-choice') formalInformalChoiceService;
   queryParams = [
     'search',
@@ -98,8 +100,12 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @action
-  openSelectUOrJeModal() {
+  async openSelectUOrJeModal() {
+    const hasPublicServices = await bestuursEenheidHasPublicServices(
+      this.store
+    );
     this.modals.open(SelectUOrJeModalComponent, {
+      newLpdcUser: !hasPublicServices,
       submitHandler: async (value) => {
         await this.formalInformalChoiceService.saveChoice(value);
         this.formalInformalChoice =

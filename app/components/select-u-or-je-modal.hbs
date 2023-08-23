@@ -1,7 +1,7 @@
 <AuModal @modalOpen={{true}} @closeModal={{this.makeChoiceLater}} data-test-select-u-or-je-modal="modal">
   <:title>Kiest jouw lokaal bestuur voor "je" of voor "u"?</:title>
   <:body>
-    {{#if this.args.data.newLpdcUser}}
+    {{#if @data.newLpdcUser}}
       <p class="au-u-margin-bottom">
         Concepten kunnen zowel in de u-vorm als in de je-vorm worden aangeboden. Op basis van jouw keuze krijg je de
         concepten te zien in de vorm die de voorkeur geniet van jouw lokaal bestuur. Zo kan je je eigen, nieuwe

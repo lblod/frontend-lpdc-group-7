@@ -2,13 +2,13 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { restartableTask } from 'ember-concurrency';
 import SelectUOrJeModal from 'frontend-lpdc/components/select-u-or-je-modal';
-import { bestuursEenheidHasPublicServices } from 'frontend-lpdc/utils/public-services';
 
 export default class PublicServicesIndexRoute extends Route {
   @service store;
   @service currentSession;
   @service modals;
   @service formalInformalChoice;
+  @service('public-service') publicServiceService;
 
   queryParams = {
     search: {
@@ -27,9 +27,8 @@ export default class PublicServicesIndexRoute extends Route {
   };
 
   async beforeModel() {
-    const hasPublicServices = await bestuursEenheidHasPublicServices(
-      this.store
-    );
+    const hasPublicServices =
+      await this.publicServiceService.bestuurseenheidHasPublicServices();
     if (!(await this.formalInformalChoice.isChoiceMade())) {
       this.modals.open(SelectUOrJeModal, {
         newLpdcUser: !hasPublicServices,

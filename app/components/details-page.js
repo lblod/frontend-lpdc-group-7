@@ -14,7 +14,6 @@ import ConfirmReopeningModal from 'frontend-lpdc/components/confirm-reopening-mo
 import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
 import UnsavedChangesModal from 'frontend-lpdc/components/unsaved-changes-modal';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
-import { loadPublicServiceDetails } from 'frontend-lpdc/utils/public-services';
 
 const FORM_MAPPING = {
   'cd0b5eba-33c1-45d9-aed9-75194c3728d3': 'inhoud',
@@ -38,6 +37,7 @@ export default class DetailsPageComponent extends Component {
   @service router;
   @service store;
   @service toaster;
+  @service('public-service') publicServiceService;
 
   @tracked hasUnsavedChanges = false;
   @tracked forceShowErrors = false;
@@ -184,7 +184,7 @@ export default class DetailsPageComponent extends Component {
     this.updateLastModifiedDate();
     yield publicService.save();
 
-    yield loadPublicServiceDetails(this.store, publicService.id);
+    yield this.publicServiceService.loadPublicServiceDetails(publicService.id);
   }
 
   @action

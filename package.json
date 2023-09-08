@@ -26,6 +26,7 @@
     "release": "release-it",
     "start": "ember serve",
     "start:local": "ember serve --proxy http://localhost:90",
+    "start:local-test": "ember serve --proxy http://localhost:96",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },

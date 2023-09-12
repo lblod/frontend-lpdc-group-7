@@ -53,6 +53,7 @@ module.exports = function (environment) {
     'ember-simple-auth': {
       routeAfterAuthentication: 'public-services',
     },
+    loketUrl: '{{LOKET_URL}}',
   };
 
   if (environment === 'development') {

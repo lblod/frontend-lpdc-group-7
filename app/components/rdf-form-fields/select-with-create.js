@@ -35,13 +35,12 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
     this.updateStore();
   }
 
-  loadOptions() {
-    // TODO fetch from backend
-    const options = ['016123123', '04/67193194'];
-    if (this.value) {
-      options.push(this.value);
-    }
-    this.options = Array.from(new Set(options));
+  async loadOptions() {
+    const field = this.storeOptions.path.value.split('http://schema.org/')[1];
+    const response = await fetch(
+      `/lpdc-management/contact-info-options/${field}`
+    );
+    this.options = await response.json();
   }
 
   updateStore() {

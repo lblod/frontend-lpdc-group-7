@@ -10,8 +10,11 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
 
   constructor() {
     super(...arguments);
+    //TODO LPDC-662: promise returned by loadOptions is ignored warning?
     this.loadOptions();
   }
+
+  //TODO LPDC-662: remove comment? Or still needed?
   // @action
   // isValueValid(value) {
   //   return value.trim().length > 0;
@@ -50,6 +53,7 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
   }
 
   async loadOptions() {
+    //TODO LPDC-662: this method is not tested in the end to end test ...
     const field = this.storeOptions.path.value.split('http://schema.org/')[1];
     const response = await fetch(
       `/lpdc-management/contact-info-options/${field}`

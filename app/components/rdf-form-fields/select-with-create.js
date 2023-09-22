@@ -12,10 +12,10 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
     super(...arguments);
     this.loadOptions();
   }
-  @action
-  isValueValid(value) {
-    return value.trim().length > 0;
-  }
+  // @action
+  // isValueValid(value) {
+  //   return value.trim().length > 0;
+  // }
 
   @action
   createSuggestion(value) {
@@ -24,9 +24,23 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
 
   @action
   createOption(newOption) {
-    this.options = [...this.options, newOption.trim()];
+    const options = [...this.options, newOption.trim()];
+    this.options = Array.from(new Set(options));
     this.value = newOption.trim();
     this.updateStore();
+  }
+
+  @action
+  showCreateWhen(term) {
+    if (term.trim().length === 0) {
+      return false;
+    }
+
+    const optionAlreadyExists = this.options.some(
+      (option) => option === term.trim()
+    );
+
+    return !optionAlreadyExists;
   }
 
   @action

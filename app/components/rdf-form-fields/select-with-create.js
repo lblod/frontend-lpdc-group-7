@@ -2,6 +2,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import SimpleInputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/simple-value-input-field';
 import { guidFor } from '@ember/object/internals';
+import { task } from 'ember-concurrency';
 
 export default class SelectWithCreateComponent extends SimpleInputFieldComponent {
   @tracked
@@ -10,15 +11,8 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
 
   constructor() {
     super(...arguments);
-    //TODO LPDC-662: promise returned by loadOptions is ignored warning?
-    this.loadOptions();
+    this.loadOptions.perform();
   }
-
-  //TODO LPDC-662: remove comment? Or still needed?
-  // @action
-  // isValueValid(value) {
-  //   return value.trim().length > 0;
-  // }
 
   @action
   createSuggestion(value) {
@@ -52,13 +46,13 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
     this.updateStore();
   }
 
-  async loadOptions() {
-    //TODO LPDC-662: this method is not tested in the end to end test ...
+  @task
+  *loadOptions() {
     const field = this.storeOptions.path.value.split('http://schema.org/')[1];
-    const response = await fetch(
+    const response = yield fetch(
       `/lpdc-management/contact-info-options/${field}`
     );
-    this.options = await response.json();
+    this.options = yield response.json();
   }
 
   updateStore() {

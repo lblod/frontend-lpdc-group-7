@@ -2,12 +2,16 @@ import InputFieldComponent from '@lblod/ember-submission-form-fields/components/
 import { updateSimpleFormValue } from '@lblod/submission-form-helpers';
 import { action } from '@ember/object';
 import { Literal, NamedNode } from 'rdflib';
+import { tracked } from '@glimmer/tracking';
 
 export default class AddressSelectorComponent extends InputFieldComponent {
-  municipality;
-  street;
-  houseNumber;
-  busNumber;
+  @tracked municipality;
+  @tracked street;
+  @tracked houseNumber;
+  @tracked busNumber;
+
+  municipalities = ['Aarschot', 'Leuven', 'Tienen'];
+  streets = ['Kerkstraat', 'Dorp', 'Pleinstraat'];
 
   initialObjectMunicipality;
   initialObjectStreet;
@@ -49,55 +53,62 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   @action
-  updateMunicipality() {
-    const municipality = this.municipality && this.municipality.trim();
-
+  updateMunicipality(value) {
+    const newObject = this.createObjectFromValue(value);
     this.updateField(
       predicates.municipality,
-      municipality,
+      newObject,
       this.initialObjectMunicipality
     );
-    this.loadProvidedValue();
+    this.municipality = newObject?.value;
+    this.initialObjectMunicipality = newObject;
   }
 
   @action
-  updateStreet() {
-    const street = this.street && this.street.trim();
-    this.updateField(predicates.street, street, this.initialObjectStreet);
-    this.loadProvidedValue();
+  updateStreet(value) {
+    const newObject = this.createObjectFromValue(value);
+    this.updateField(predicates.street, newObject, this.initialObjectStreet);
+    this.street = newObject?.value;
+    this.initialObjectStreet = newObject;
   }
 
   @action
   updateHouseNumber() {
     const houseNumber = this.houseNumber && this.houseNumber.trim();
+    const newObject = this.createObjectFromValue(houseNumber);
     this.updateField(
       predicates.houseNumber,
-      houseNumber,
+      newObject,
       this.initialObjectHouseNumber
     );
-    this.loadProvidedValue();
+    this.houseNumber = newObject?.value;
+    this.initialObjectHouseNumber = newObject;
   }
 
   @action
   updateBusNumber() {
     const busNumber = this.busNumber && this.busNumber.trim();
+    const newObject = this.createObjectFromValue(busNumber);
     this.updateField(
       predicates.busNumber,
-      busNumber,
+      newObject,
       this.initialObjectBusNumber
     );
-    this.loadProvidedValue();
+    this.busNumber = newObject?.value;
+    this.initialObjectBusNumber = newObject;
   }
 
-  updateField(path, newValue, originalObject) {
+  updateField(path, newObject, originalObject) {
     const storeOptions = {
       ...this.storeOptions,
       path: new NamedNode(path),
     };
 
-    const newObject = newValue ? new Literal(newValue, 'nl') : null;
-
     updateSimpleFormValue(storeOptions, newObject, originalObject);
+  }
+
+  createObjectFromValue(value) {
+    return value ? new Literal(value, 'nl') : null;
   }
 }
 

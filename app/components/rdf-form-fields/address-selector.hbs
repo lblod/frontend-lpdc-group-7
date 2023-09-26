@@ -1,0 +1,21 @@
+<div class="au-o-grid au-o-grid--tiny address-form">
+  <div class="au-o-grid__item">
+    <AuLabel for="municipality">Gemeente</AuLabel>
+    <AuInput id='municipality' @disabled={{false}} @value={{this.municipality}} {{on "blur" this.updateMunicipality}} />
+  </div>
+
+  <div class="au-o-grid__item">
+    <AuLabel for="street">Straat</AuLabel>
+    <AuInput id='street' @disabled={{false}} @value={{this.street}} {{on "blur" this.updateStreet}} />
+  </div>
+
+  <div class="au-o-grid__item au-u-1-2">
+    <AuLabel for="houseNumber">Huisnummer</AuLabel>
+    <AuInput id='houseNumber' @disabled={{false}} @value={{this.houseNumber}} {{on "blur" this.updateHouseNumber}}/>
+  </div>
+
+  <div class="au-o-grid__item au-u-1-2">
+    <AuLabel for="busNumber">Bus</AuLabel>
+    <AuInput id='busNumber' @disabled={{false}} @value={{this.busNumber}} {{on "blur" this.updateBusNumber}}/>
+  </div>
+</div>

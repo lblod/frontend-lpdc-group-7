@@ -3,10 +3,10 @@
     <AuLabel for="municipality">Gemeente</AuLabel>
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
-      @options={{this.municipalities}}
       @selected={{this.municipality}}
       @onChange={{this.updateMunicipality}}
       @searchEnabled={{true}}
+      @search={{perform this.searchMunicipalities}}
       @allowClear={{true}}
       @disabled={{false}}
       @triggerId="municipality"

@@ -3,6 +3,7 @@ import { updateSimpleFormValue } from '@lblod/submission-form-helpers';
 import { action } from '@ember/object';
 import { Literal, NamedNode } from 'rdflib';
 import { tracked } from '@glimmer/tracking';
+import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked municipality;
@@ -10,7 +11,6 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked houseNumber;
   @tracked busNumber;
 
-  municipalities = ['Aarschot', 'Leuven', 'Tienen'];
   streets = ['Kerkstraat', 'Dorp', 'Pleinstraat'];
 
   initialObjectMunicipality;
@@ -109,6 +109,15 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   createObjectFromValue(value) {
     return value ? new Literal(value, 'nl') : null;
+  }
+
+  @restartableTask
+  *searchMunicipalities(searchString) {
+    yield timeout(250);
+    const response = yield fetch(
+      `/lpdc-management/address/municipalities?search=${searchString}`
+    );
+    return yield response.json();
   }
 }
 

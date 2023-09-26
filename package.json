@@ -8,7 +8,7 @@
     "url": "git+https://github.com/lblod/frontend-lpdc.git"
   },
   "license": "MIT",
-  "author": "redpencil.io",
+  "author": "Kunlabora",
   "directories": {
     "doc": "doc",
     "test": "tests"

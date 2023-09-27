@@ -52,6 +52,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @action
   updateMunicipality(value) {
+    this.updateStreet(null);
+    this.updateHouseNumber(null);
+    this.updateBusNumber(null);
     const newObject = this.createObjectFromValue(value);
     this.updateField(
       predicates.municipality,
@@ -64,6 +67,8 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @action
   updateStreet(value) {
+    this.updateHouseNumber(null);
+    this.updateBusNumber(null);
     const newObject = this.createObjectFromValue(value);
     this.updateField(predicates.street, newObject, this.initialObjectStreet);
     this.street = newObject?.value;
@@ -71,8 +76,8 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   @action
-  updateHouseNumber() {
-    const houseNumber = this.houseNumber && this.houseNumber.trim();
+  updateHouseNumber(value) {
+    const houseNumber = value && value.trim();
     const newObject = this.createObjectFromValue(houseNumber);
     this.updateField(
       predicates.houseNumber,
@@ -84,8 +89,8 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   @action
-  updateBusNumber() {
-    const busNumber = this.busNumber && this.busNumber.trim();
+  updateBusNumber(value) {
+    const busNumber = value && value.trim();
     const newObject = this.createObjectFromValue(busNumber);
     this.updateField(
       predicates.busNumber,
@@ -94,6 +99,18 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
     this.busNumber = newObject?.value;
     this.initialObjectBusNumber = newObject;
+  }
+
+  get canUpdateStreet() {
+    return !!this.municipality;
+  }
+
+  get canUpdateHouseNumber() {
+    return !!this.municipality && !!this.street;
+  }
+
+  get canUpdateBusNumber() {
+    return !!this.municipality && !!this.street && !!this.houseNumber;
   }
 
   updateField(path, newObject, originalObject) {

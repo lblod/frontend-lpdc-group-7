@@ -10,9 +10,9 @@
       @allowClear={{true}}
       @disabled={{false}}
       @triggerId="municipality"
-      as |option|
+      as |municipality|
     >
-      {{option}}
+      {{municipality}}
     </PowerSelect>
   </div>
 
@@ -25,21 +25,31 @@
       @searchEnabled={{true}}
       @search={{perform this.searchStreets}}
       @allowClear={{true}}
-      @disabled={{false}}
+      @disabled={{not this.canUpdateStreet}}
       @triggerId="street"
-      as |option|
+      as |street|
     >
-      {{option}}
+      {{street}}
     </PowerSelect>
   </div>
 
   <div class="au-o-grid__item au-u-1-2">
     <AuLabel for="houseNumber">Huisnummer</AuLabel>
-    <AuInput id='houseNumber' @disabled={{false}} @value={{this.houseNumber}} {{on "blur" this.updateHouseNumber}}/>
+    <AuInput
+      id='houseNumber'
+      @value={{this.houseNumber}}
+      @disabled={{not this.canUpdateHouseNumber}}
+      {{on "blur" (fn this.updateHouseNumber this.houseNumber)}}
+    />
   </div>
 
   <div class="au-o-grid__item au-u-1-2">
     <AuLabel for="busNumber">Bus</AuLabel>
-    <AuInput id='busNumber' @disabled={{false}} @value={{this.busNumber}} {{on "blur" this.updateBusNumber}}/>
+    <AuInput
+      id='busNumber'
+      @value={{this.busNumber}}
+      @disabled={{not this.canUpdateBusNumber}}
+      {{on "blur" (fn this.updateBusNumber this.busNumber)}}
+    />
   </div>
 </div>

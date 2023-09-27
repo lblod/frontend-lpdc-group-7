@@ -11,8 +11,6 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked houseNumber;
   @tracked busNumber;
 
-  streets = ['Kerkstraat', 'Dorp', 'Pleinstraat'];
-
   initialObjectMunicipality;
   initialObjectStreet;
   initialObjectHouseNumber;
@@ -116,6 +114,15 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     yield timeout(250);
     const response = yield fetch(
       `/lpdc-management/address/municipalities?search=${searchString}`
+    );
+    return yield response.json();
+  }
+
+  @restartableTask
+  *searchStreets(searchString) {
+    yield timeout(250);
+    const response = yield fetch(
+      `/lpdc-management/address/streets?municipality=${this.municipality}&search=${searchString}`
     );
     return yield response.json();
   }

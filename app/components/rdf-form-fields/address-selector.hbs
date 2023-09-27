@@ -20,10 +20,10 @@
     <AuLabel for="street">Straat</AuLabel>
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
-      @options={{this.streets}}
       @selected={{this.street}}
       @onChange={{this.updateStreet}}
       @searchEnabled={{true}}
+      @search={{perform this.searchStreets}}
       @allowClear={{true}}
       @disabled={{false}}
       @triggerId="street"

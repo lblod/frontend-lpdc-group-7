@@ -65,6 +65,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
     this.municipality = newObject?.value;
     this.initialObjectMunicipality = newObject;
+    this.validateAddress.perform();
   }
 
   @action
@@ -75,6 +76,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.updateField(predicates.street, newObject, this.initialObjectStreet);
     this.street = newObject?.value;
     this.initialObjectStreet = newObject;
+    this.validateAddress.perform();
   }
 
   @action
@@ -102,6 +104,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
     this.busNumber = newObject?.value;
     this.initialObjectBusNumber = newObject;
+    this.validateAddress.perform();
   }
 
   get canUpdateStreet() {

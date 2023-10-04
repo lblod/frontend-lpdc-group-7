@@ -52,4 +52,24 @@
       {{on "blur" (fn this.updateBusNumber this.busNumber)}}
     />
   </div>
+
+  <div class="au-o-grid__item">
+    {{#if this.validateAddress.isRunning}}
+      <LoadingAlert @title="Valideren van adres" @skin="info" />
+    {{else if this.validatedAddress}}
+      <AuAlert
+        @title="Adres gevonden"
+        @skin="success"
+        @icon="check"
+      >
+        <p>{{this.validatedAddress}}</p>
+      </AuAlert>
+    {{else}}
+      <AuAlert
+        @title="Adres niet gevonden"
+        @skin="warning"
+        @icon="alert-triangle"
+      />
+    {{/if}}
+  </div>
 </div>

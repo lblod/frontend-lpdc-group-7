@@ -10,6 +10,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked street;
   @tracked houseNumber;
   @tracked busNumber;
+  @tracked validatedAddress;
 
   initialObjectMunicipality;
   initialObjectStreet;
@@ -20,6 +21,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     super(...arguments);
 
     this.loadProvidedValue();
+    this.validateAddress.perform();
   }
 
   loadProvidedValue() {
@@ -86,6 +88,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
     this.houseNumber = newObject?.value;
     this.initialObjectHouseNumber = newObject;
+    this.validateAddress.perform();
   }
 
   @action
@@ -124,6 +127,23 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   createObjectFromValue(value) {
     return value ? new Literal(value, 'nl') : null;
+  }
+
+  @restartableTask
+  *validateAddress() {
+    if (this.municipality && this.street && this.houseNumber) {
+      const busNumberQueryParam = this.busNumber
+        ? `&busNumber=${this.busNumber}`
+        : '';
+      const queryParams = `municipality=${this.municipality}&street=${this.street}&houseNumber=${this.houseNumber}${busNumberQueryParam}`;
+      const response = yield fetch(
+        `/lpdc-management/address/validate?${queryParams}`
+      );
+      const result = yield response.json();
+      this.validatedAddress = result.volledigAdres;
+    } else {
+      this.validatedAddress = undefined;
+    }
   }
 
   @restartableTask

@@ -13,9 +13,11 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked validatedAddress;
 
   initialObjectMunicipality;
+  initialObjectPostcode;
   initialObjectStreet;
   initialObjectHouseNumber;
   initialObjectBusNumber;
+  initialObjectCountry;
 
   constructor() {
     super(...arguments);
@@ -38,6 +40,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       (triple) => triple.predicate.value === predicates.municipality
     )?.object;
     this.municipality = this.initialObjectMunicipality?.value;
+    this.initialObjectPostcode = triples.find(
+      (triple) => triple.predicate.value === predicates.postcode
+    )?.object;
     this.initialObjectStreet = triples.find(
       (triple) => triple.predicate.value === predicates.street
     )?.object;
@@ -50,6 +55,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       (triple) => triple.predicate.value === predicates.busNumber
     )?.object;
     this.busNumber = this.initialObjectBusNumber?.value;
+    this.initialObjectCountry = triples.find(
+      (triple) => triple.predicate.value === predicates.country
+    )?.object;
   }
 
   @action
@@ -57,14 +65,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.updateStreet(null);
     this.updateHouseNumber(null);
     this.updateBusNumber(null);
-    const newObject = this.createObjectFromValue(value);
-    this.updateField(
-      predicates.municipality,
-      newObject,
-      this.initialObjectMunicipality
-    );
-    this.municipality = newObject?.value;
-    this.initialObjectMunicipality = newObject;
+    this.municipality = value;
     this.validateAddress.perform();
   }
 
@@ -72,38 +73,19 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   updateStreet(value) {
     this.updateHouseNumber(null);
     this.updateBusNumber(null);
-    const newObject = this.createObjectFromValue(value);
-    this.updateField(predicates.street, newObject, this.initialObjectStreet);
-    this.street = newObject?.value;
-    this.initialObjectStreet = newObject;
+    this.street = value;
     this.validateAddress.perform();
   }
 
   @action
   updateHouseNumber(value) {
-    const houseNumber = value && value.trim();
-    const newObject = this.createObjectFromValue(houseNumber);
-    this.updateField(
-      predicates.houseNumber,
-      newObject,
-      this.initialObjectHouseNumber
-    );
-    this.houseNumber = newObject?.value;
-    this.initialObjectHouseNumber = newObject;
+    this.houseNumber = value && value.trim();
     this.validateAddress.perform();
   }
 
   @action
   updateBusNumber(value) {
-    const busNumber = value && value.trim();
-    const newObject = this.createObjectFromValue(busNumber);
-    this.updateField(
-      predicates.busNumber,
-      newObject,
-      this.initialObjectBusNumber
-    );
-    this.busNumber = newObject?.value;
-    this.initialObjectBusNumber = newObject;
+    this.busNumber = value && value.trim();
     this.validateAddress.perform();
   }
 
@@ -144,6 +126,14 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       );
       const result = yield response.json();
       this.validatedAddress = result.volledigAdres;
+      if (result.volledigAdres) {
+        this.updateMunicipalityTriple();
+        this.updatePostcodeTriple(result.postcode);
+        this.updateStreetTriple();
+        this.updateHouseNumberTriple();
+        this.updateBusNumberTriple();
+        this.updateCountryTriple();
+      }
     } else {
       this.validatedAddress = undefined;
     }
@@ -166,12 +156,66 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
     return yield response.json();
   }
+
+  updateMunicipalityTriple() {
+    const newObject = this.createObjectFromValue(this.municipality);
+    this.updateField(
+      predicates.municipality,
+      newObject,
+      this.initialObjectMunicipality
+    );
+    this.initialObjectMunicipality = newObject;
+  }
+
+  updatePostcodeTriple(postcode) {
+    const newObject = this.createObjectFromValue(postcode);
+    this.updateField(
+      predicates.postcode,
+      newObject,
+      this.initialObjectPostcode
+    );
+    this.initialObjectPostcode = newObject;
+  }
+
+  updateStreetTriple() {
+    const newObject = this.createObjectFromValue(this.street);
+    this.updateField(predicates.street, newObject, this.initialObjectStreet);
+    this.initialObjectStreet = newObject;
+  }
+
+  updateHouseNumberTriple() {
+    const newObject = this.createObjectFromValue(this.houseNumber);
+    this.updateField(
+      predicates.houseNumber,
+      newObject,
+      this.initialObjectHouseNumber
+    );
+    this.initialObjectHouseNumber = newObject;
+  }
+
+  updateBusNumberTriple() {
+    const newObject = this.createObjectFromValue(this.busNumber);
+    this.updateField(
+      predicates.busNumber,
+      newObject,
+      this.initialObjectBusNumber
+    );
+    this.initialObjectBusNumber = newObject;
+  }
+
+  updateCountryTriple() {
+    const newObject = this.createObjectFromValue('België');
+    this.updateField(predicates.country, newObject, this.initialObjectCountry);
+    this.initialObjectCountry = newObject;
+  }
 }
 
 const predicates = {
   municipality: 'https://data.vlaanderen.be/ns/adres#gemeentenaam',
+  postcode: 'https://data.vlaanderen.be/ns/adres#postcode',
   street: 'https://data.vlaanderen.be/ns/adres#Straatnaam',
   houseNumber:
     'https://data.vlaanderen.be/ns/adres#Adresvoorstelling.huisnummer',
   busNumber: 'https://data.vlaanderen.be/ns/adres#Adresvoorstelling.busnummer',
+  country: 'https://data.vlaanderen.be/ns/adres#land',
 };

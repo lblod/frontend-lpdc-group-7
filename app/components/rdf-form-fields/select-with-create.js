@@ -33,9 +33,7 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
       return false;
     }
 
-    const optionAlreadyExists = this.options.some(
-      (option) => option === term.trim()
-    );
+    const optionAlreadyExists = this.options.some((option) => option === term);
 
     return !optionAlreadyExists;
   }

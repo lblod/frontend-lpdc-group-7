@@ -79,6 +79,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @action
   updateHouseNumber(value) {
+    this.updateBusNumber(null);
     this.houseNumber = value && value.trim();
     this.validateAddress.perform();
   }

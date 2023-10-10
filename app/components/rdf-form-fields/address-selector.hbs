@@ -39,7 +39,7 @@
       id='houseNumber'
       @value={{this.houseNumber}}
       @disabled={{not this.canUpdateHouseNumber}}
-      {{on "blur" (fn this.updateHouseNumber this.houseNumber)}}
+      {{on "input" (fn this.updateHouseNumber)}}
     />
   </div>
 
@@ -49,14 +49,14 @@
       id='busNumber'
       @value={{this.busNumber}}
       @disabled={{not this.canUpdateBusNumber}}
-      {{on "blur" (fn this.updateBusNumber this.busNumber)}}
+      {{on "input" (fn this.updateBusNumber)}}
     />
   </div>
 
   <div class="au-o-grid__item">
-    {{#if this.validateAddress.isRunning}}
+    {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
       <LoadingAlert @title="Valideren van adres" @skin="info" />
-    {{else if this.validatedAddress}}
+    {{else if (and this.canValidateAddress this.validatedAddress)}}
       <AuAlert
         @title="Adres gevonden"
         @skin="success"
@@ -64,12 +64,20 @@
       >
         <p>{{this.validatedAddress}}</p>
       </AuAlert>
-    {{else}}
+    {{else if this.canValidateAddress}}
       <AuAlert
         @title="Adres niet gevonden"
         @skin="warning"
         @icon="alert-triangle"
       />
+    {{else}}
+      <AuAlert
+        @title="Niet genoeg info om adres te valideren"
+        @skin="info"
+        @icon="pencil"
+      >
+        <p>Gelieve gemeente, straat en huisnummer in te vullen</p>
+      </AuAlert>
     {{/if}}
   </div>
 </div>

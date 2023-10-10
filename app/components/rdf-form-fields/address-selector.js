@@ -78,16 +78,23 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   @action
-  updateHouseNumber(value) {
+  updateHouseNumber(event) {
+    const value = event && event.target.value;
     this.updateBusNumber(null);
     this.houseNumber = value && value.trim();
     this.validateAddress.perform();
   }
 
   @action
-  updateBusNumber(value) {
+  updateBusNumber(event) {
+    console.log('in Bus number');
+    const value = event && event.target.value;
     this.busNumber = value && value.trim();
     this.validateAddress.perform();
+  }
+
+  get canValidateAddress() {
+    return !!this.municipality && !!this.street && !!this.houseNumber;
   }
 
   get canUpdateStreet() {
@@ -117,6 +124,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @restartableTask
   *validateAddress() {
+    yield timeout(250);
     if (this.municipality && this.street && this.houseNumber) {
       const busNumberQueryParam = this.busNumber
         ? `&busNumber=${this.busNumber}`

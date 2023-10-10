@@ -60,39 +60,6 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     )?.object;
   }
 
-  @action
-  updateMunicipality(value) {
-    this.updateStreet(null);
-    this.updateHouseNumber(null);
-    this.updateBusNumber(null);
-    this.municipality = value;
-    this.validateAddress.perform();
-  }
-
-  @action
-  updateStreet(value) {
-    this.updateHouseNumber(null);
-    this.updateBusNumber(null);
-    this.street = value;
-    this.validateAddress.perform();
-  }
-
-  @action
-  updateHouseNumber(event) {
-    const value = event && event.target.value;
-    this.updateBusNumber(null);
-    this.houseNumber = value && value.trim();
-    this.validateAddress.perform();
-  }
-
-  @action
-  updateBusNumber(event) {
-    console.log('in Bus number');
-    const value = event && event.target.value;
-    this.busNumber = value && value.trim();
-    this.validateAddress.perform();
-  }
-
   get canValidateAddress() {
     return !!this.municipality && !!this.street && !!this.houseNumber;
   }
@@ -109,17 +76,45 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     return !!this.municipality && !!this.street && !!this.houseNumber;
   }
 
-  updateField(path, newObject, originalObject) {
-    const storeOptions = {
-      ...this.storeOptions,
-      path: new NamedNode(path),
-    };
-
-    updateSimpleFormValue(storeOptions, newObject, originalObject);
-  }
-
   createObjectFromValue(value) {
     return value ? new Literal(value, 'nl') : null;
+  }
+
+  @action
+  updateMunicipality(value) {
+    this.updateStreet(null);
+    this.updateHouseNumber(null);
+    this.updateBusNumber(null);
+    this.municipality = value;
+    this.updateMunicipalityTriple();
+    this.validateAddress.perform();
+  }
+
+  @action
+  updateStreet(value) {
+    this.updateHouseNumber(null);
+    this.updateBusNumber(null);
+    this.street = value;
+    this.updateStreetTriple();
+    this.validateAddress.perform();
+  }
+
+  @action
+  updateHouseNumber(event) {
+    const value = event && event.target.value;
+    this.updateBusNumber(null);
+    this.houseNumber = value && value.trim();
+    this.updateHouseNumberTriple();
+    this.validateAddress.perform();
+  }
+
+  @action
+  updateBusNumber(event) {
+    console.log('in Bus number');
+    const value = event && event.target.value;
+    this.busNumber = value && value.trim();
+    this.updateBusNumberTriple();
+    this.validateAddress.perform();
   }
 
   @restartableTask
@@ -136,11 +131,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       const result = yield response.json();
       this.validatedAddress = result.volledigAdres;
       if (result.volledigAdres) {
-        this.updateMunicipalityTriple();
         this.updatePostcodeTriple(result.postcode);
-        this.updateStreetTriple();
-        this.updateHouseNumberTriple();
-        this.updateBusNumberTriple();
         this.updateCountryTriple();
       }
     } else {
@@ -216,6 +207,14 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     const newObject = this.createObjectFromValue('België');
     this.updateField(predicates.country, newObject, this.initialObjectCountry);
     this.initialObjectCountry = newObject;
+  }
+
+  updateField(path, newObject, originalObject) {
+    const storeOptions = {
+      ...this.storeOptions,
+      path: new NamedNode(path),
+    };
+    updateSimpleFormValue(storeOptions, newObject, originalObject);
   }
 }
 

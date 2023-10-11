@@ -136,11 +136,7 @@ export default class DetailsPageComponent extends Component {
           for (const error of errors) {
             //TODO: should probably handle this more in a more user friendly way
             //ie: redirect to said form and scroll down to the first invalid field
-            const formId = error.form.id;
-            this.toaster.error(
-              `Er zijn fouten opgetreden in de tab "${FORM_MAPPING[formId]}". Gelieve deze te verbeteren!`,
-              'Fout'
-            );
+            this.toaster.error(error.message, 'Fout');
           }
         }
       }

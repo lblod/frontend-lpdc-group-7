@@ -1,6 +1,6 @@
 <div class="au-o-grid au-o-grid--tiny address-form">
-  <div class="au-o-grid__item">
-    <AuLabel for="municipality">Gemeente</AuLabel>
+  <div class="au-o-grid__item au-u-margin-bottom-tiny">
+    <AuLabel for={{concat "municipality" this.id}}>Gemeente</AuLabel>
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
       @selected={{this.municipality}}
@@ -8,16 +8,16 @@
       @searchEnabled={{true}}
       @search={{perform this.searchMunicipalities}}
       @allowClear={{true}}
-      @disabled={{false}}
-      @triggerId="municipality"
+      @disabled={{@show}}
+      @triggerId={{concat "municipality" this.id}}
       as |municipality|
     >
       {{municipality}}
     </PowerSelect>
   </div>
 
-  <div class="au-o-grid__item">
-    <AuLabel for="street">Straat</AuLabel>
+  <div class="au-o-grid__item au-u-margin-bottom-tiny playwright-select-trick">
+    <AuLabel for={{concat "street" this.id}}>Straat</AuLabel>
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
       @selected={{this.street}}
@@ -26,58 +26,60 @@
       @search={{perform this.searchStreets}}
       @allowClear={{true}}
       @disabled={{not this.canUpdateStreet}}
-      @triggerId="street"
+      @triggerId={{concat "street" this.id}}
       as |street|
     >
       {{street}}
     </PowerSelect>
   </div>
 
-  <div class="au-o-grid__item au-u-1-2">
-    <AuLabel for="houseNumber">Huisnummer</AuLabel>
+  <div class="au-o-grid__item au-u-1-2 au-u-margin-bottom-tiny">
+    <AuLabel for={{concat "house-number" this.id}}>Huisnummer</AuLabel>
     <AuInput
-      id='houseNumber'
+      id={{concat "house-number" this.id}}
       @value={{this.houseNumber}}
       @disabled={{not this.canUpdateHouseNumber}}
       {{on "input" (fn this.updateHouseNumber)}}
     />
   </div>
 
-  <div class="au-o-grid__item au-u-1-2">
-    <AuLabel for="busNumber">Bus</AuLabel>
+  <div class="au-o-grid__item au-u-1-2 au-u-margin-bottom-tiny">
+    <AuLabel for={{concat "bus" this.id}}>Bus</AuLabel>
     <AuInput
-      id='busNumber'
+      id={{concat "bus" this.id}}
       @value={{this.busNumber}}
       @disabled={{not this.canUpdateBusNumber}}
       {{on "input" (fn this.updateBusNumber)}}
     />
   </div>
 
-  <div class="au-o-grid__item">
-    {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
-      <LoadingAlert @title="Valideren van adres" @skin="info" />
-    {{else if (and this.canValidateAddress this.validatedAddress)}}
-      <AuAlert
-        @title="Adres gevonden"
-        @skin="success"
-        @icon="check"
-      >
-        <p>{{this.validatedAddress}}</p>
-      </AuAlert>
-    {{else if this.canValidateAddress}}
-      <AuAlert
-        @title="Adres niet gevonden"
-        @skin="warning"
-        @icon="alert-triangle"
-      />
-    {{else}}
-      <AuAlert
-        @title="Niet genoeg info om adres te valideren"
-        @skin="info"
-        @icon="pencil"
-      >
-        <p>Gelieve gemeente, straat en huisnummer in te vullen</p>
-      </AuAlert>
-    {{/if}}
-  </div>
+  {{#if (not @show)}}
+    <div class="au-o-grid__item">
+      {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
+        <LoadingAlert @title="Valideren van adres" @skin="info" />
+      {{else if (and this.canValidateAddress this.validatedAddress)}}
+        <AuAlert
+          @title="Adres gevonden"
+          @skin="success"
+          @icon="check"
+        >
+          <p>{{this.validatedAddress}}</p>
+        </AuAlert>
+      {{else if this.canValidateAddress}}
+        <AuAlert
+          @title="Adres niet gevonden"
+          @skin="warning"
+          @icon="alert-triangle"
+        />
+      {{else}}
+        <AuAlert
+          @title="Niet genoeg info om adres te valideren"
+          @skin="info"
+          @icon="pencil"
+        >
+          <p>Gelieve gemeente, straat en huisnummer in te vullen</p>
+        </AuAlert>
+      {{/if}}
+    </div>
+  {{/if}}
 </div>

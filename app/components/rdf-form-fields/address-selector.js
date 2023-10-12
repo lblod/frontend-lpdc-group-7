@@ -4,8 +4,10 @@ import { action } from '@ember/object';
 import { Literal, NamedNode } from 'rdflib';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, timeout } from 'ember-concurrency';
+import { guidFor } from '@ember/object/internals';
 
 export default class AddressSelectorComponent extends InputFieldComponent {
+  id = '-' + guidFor(this);
   @tracked municipality;
   @tracked street;
   @tracked houseNumber;
@@ -65,19 +67,24 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   get canUpdateStreet() {
-    return !!this.municipality;
+    return !this.args.show && !!this.municipality;
   }
 
   get canUpdateHouseNumber() {
-    return !!this.municipality && !!this.street;
+    return !this.args.show && !!this.municipality && !!this.street;
   }
 
   get canUpdateBusNumber() {
-    return !!this.municipality && !!this.street && !!this.houseNumber;
+    return (
+      !this.args.show &&
+      !!this.municipality &&
+      !!this.street &&
+      !!this.houseNumber
+    );
   }
 
-  createObjectFromValue(value) {
-    return value ? new Literal(value, 'nl') : null;
+  createObjectFromValue(value, language) {
+    return value ? new Literal(value, language) : null;
   }
 
   @action
@@ -110,7 +117,6 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @action
   updateBusNumber(event) {
-    console.log('in Bus number');
     const value = event && event.target.value;
     this.busNumber = value && value.trim();
     this.updateBusNumberTriple();
@@ -158,7 +164,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   updateMunicipalityTriple() {
-    const newObject = this.createObjectFromValue(this.municipality);
+    const newObject = this.createObjectFromValue(this.municipality, 'nl');
     this.updateField(
       predicates.municipality,
       newObject,
@@ -178,7 +184,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   updateStreetTriple() {
-    const newObject = this.createObjectFromValue(this.street);
+    const newObject = this.createObjectFromValue(this.street, 'nl');
     this.updateField(predicates.street, newObject, this.initialObjectStreet);
     this.initialObjectStreet = newObject;
   }
@@ -204,7 +210,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   updateCountryTriple() {
-    const newObject = this.createObjectFromValue('België');
+    const newObject = this.createObjectFromValue('België', 'nl');
     this.updateField(predicates.country, newObject, this.initialObjectCountry);
     this.initialObjectCountry = newObject;
   }

@@ -39,7 +39,7 @@
       id={{concat "house-number" this.id}}
       @value={{this.houseNumber}}
       @disabled={{not this.canUpdateHouseNumber}}
-      {{on "input" (fn this.updateHouseNumber)}}
+      {{on "input" this.updateHouseNumber}}
     />
   </div>
 
@@ -49,11 +49,11 @@
       id={{concat "bus" this.id}}
       @value={{this.busNumber}}
       @disabled={{not this.canUpdateBusNumber}}
-      {{on "input" (fn this.updateBusNumber)}}
+      {{on "input" this.updateBusNumber}}
     />
   </div>
 
-  {{#if (not @show)}}
+  {{#unless @show}}
     <div class="au-o-grid__item">
       {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
         <LoadingAlert @title="Valideren van adres" @skin="info" />
@@ -81,5 +81,5 @@
         </AuAlert>
       {{/if}}
     </div>
-  {{/if}}
+  {{/unless}}
 </div>

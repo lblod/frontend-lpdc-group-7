@@ -15,11 +15,6 @@ import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
 import UnsavedChangesModal from 'frontend-lpdc/components/unsaved-changes-modal';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 
-const FORM_MAPPING = {
-  'cd0b5eba-33c1-45d9-aed9-75194c3728d3': 'inhoud',
-  '149a7247-0294-44a5-a281-0a4d3782b4fd': 'eigenschappen',
-};
-
 const FORM_GRAPHS = {
   formGraph: new NamedNode('http://data.lblod.info/form'),
   metaGraph: new NamedNode('http://data.lblod.info/metagraph'),

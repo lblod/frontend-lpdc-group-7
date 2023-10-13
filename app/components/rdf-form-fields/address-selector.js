@@ -20,6 +20,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   initialObjectHouseNumber;
   initialObjectBusNumber;
   initialObjectCountry;
+  initialObjectAdresId;
 
   constructor() {
     super(...arguments);
@@ -59,6 +60,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.busNumber = this.initialObjectBusNumber?.value;
     this.initialObjectCountry = triples.find(
       (triple) => triple.predicate.value === predicates.country
+    )?.object;
+    this.initialObjectAdresId = triples.find(
+      (triple) => triple.predicate.value === predicates.hasAdresId
     )?.object;
   }
 
@@ -136,9 +140,14 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       );
       const result = yield response.json();
       this.validatedAddress = result.volledigAdres;
-      if (result.volledigAdres) {
+      if (result.adressenRegisterId) {
         this.updatePostcodeTriple(result.postcode);
         this.updateCountryTriple();
+        this.updateAddressRegisterIdTriple(result.adressenRegisterId);
+      } else {
+        this.updateCountryTriple(null);
+        this.updatePostcodeTriple(null);
+        this.updateAddressRegisterIdTriple(null);
       }
     } else {
       this.validatedAddress = undefined;
@@ -209,10 +218,25 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.initialObjectBusNumber = newObject;
   }
 
-  updateCountryTriple() {
-    const newObject = this.createObjectFromValue('België', 'nl');
+  updateCountryTriple(country) {
+    const newObject = this.createObjectFromValue(
+      country === null ? undefined : 'België',
+      'nl'
+    );
     this.updateField(predicates.country, newObject, this.initialObjectCountry);
     this.initialObjectCountry = newObject;
+  }
+
+  updateAddressRegisterIdTriple(addressRegisterId) {
+    const newObject = addressRegisterId
+      ? new NamedNode(addressRegisterId)
+      : null;
+    this.updateField(
+      predicates.hasAdresId,
+      newObject,
+      this.initialObjectAdresId
+    );
+    this.initialObjectAdresId = newObject;
   }
 
   updateField(path, newObject, originalObject) {
@@ -232,4 +256,5 @@ const predicates = {
     'https://data.vlaanderen.be/ns/adres#Adresvoorstelling.huisnummer',
   busNumber: 'https://data.vlaanderen.be/ns/adres#Adresvoorstelling.busnummer',
   country: 'https://data.vlaanderen.be/ns/adres#land',
+  hasAdresId: 'https://data.vlaanderen.be/ns/adres#verwijstNaar',
 };

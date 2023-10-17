@@ -12,7 +12,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked street;
   @tracked houseNumber;
   @tracked busNumber;
-  @tracked validatedAddress;
+  @tracked adresMatchFound;
 
   initialObjectMunicipality;
   initialObjectPostcode;
@@ -139,18 +139,19 @@ export default class AddressSelectorComponent extends InputFieldComponent {
         `/lpdc-management/address/validate?${queryParams}`
       );
       const result = yield response.json();
-      this.validatedAddress = result.volledigAdres;
       if (result.adressenRegisterId) {
+        this.adresMatchFound = true;
         this.updatePostcodeTriple(result.postcode);
         this.updateCountryTriple();
         this.updateAddressRegisterIdTriple(result.adressenRegisterId);
       } else {
+        this.adresMatchFound = false;
         this.updateCountryTriple(null);
         this.updatePostcodeTriple(null);
         this.updateAddressRegisterIdTriple(null);
       }
     } else {
-      this.validatedAddress = undefined;
+      this.adresMatchFound = false;
     }
   }
 

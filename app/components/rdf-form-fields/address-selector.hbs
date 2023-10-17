@@ -57,14 +57,12 @@
     <div class="au-o-grid__item">
       {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
         <LoadingAlert @title="Valideren van adres" @skin="info" />
-      {{else if (and this.canValidateAddress this.validatedAddress)}}
+      {{else if (and this.canValidateAddress this.adresMatchFound)}}
         <AuAlert
           @title="Adres gevonden"
           @skin="success"
           @icon="check"
-        >
-          <p>{{this.validatedAddress}}</p>
-        </AuAlert>
+        />
       {{else if this.canValidateAddress}}
         <AuAlert
           @title="Adres niet gevonden"

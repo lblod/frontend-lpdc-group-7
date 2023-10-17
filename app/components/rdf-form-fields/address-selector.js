@@ -26,7 +26,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     super(...arguments);
 
     this.loadProvidedValue();
-    this.validateAddress.perform();
+    this.validateAddress.perform(false);
   }
 
   loadProvidedValue() {
@@ -87,25 +87,21 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
   }
 
-  createObjectFromValue(value, language) {
-    return value ? new Literal(value, language) : null;
-  }
-
   @action
   updateMunicipality(value) {
+    this.municipality = value;
     this.updateStreet(null);
     this.updateHouseNumber(null);
     this.updateBusNumber(null);
-    this.municipality = value;
     this.updateMunicipalityTriple();
     this.validateAddress.perform();
   }
 
   @action
   updateStreet(value) {
+    this.street = value;
     this.updateHouseNumber(null);
     this.updateBusNumber(null);
-    this.street = value;
     this.updateStreetTriple();
     this.validateAddress.perform();
   }
@@ -113,8 +109,8 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @action
   updateHouseNumber(event) {
     const value = event && event.target.value;
-    this.updateBusNumber(null);
     this.houseNumber = value && value.trim();
+    this.updateBusNumber(null);
     this.updateHouseNumberTriple();
     this.validateAddress.perform();
   }
@@ -128,30 +124,35 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   }
 
   @restartableTask
-  *validateAddress() {
+  *validateAddress(updateTriples = true) {
     yield timeout(250);
+    const result = yield this.preformValidateAddress();
+    this.adresMatchFound = !!result.adressenRegisterId;
+    if (updateTriples) {
+      this.adresMatchFound
+        ? this.updatePostcodeTriple(result.postcode)
+        : this.updateCountryTriple(null);
+      this.adresMatchFound
+        ? this.updateCountryTriple()
+        : this.updatePostcodeTriple(null);
+      this.adresMatchFound
+        ? this.updateAddressRegisterIdTriple(result.adressenRegisterId)
+        : this.updateAddressRegisterIdTriple(null);
+    }
+  }
+
+  async preformValidateAddress() {
     if (this.municipality && this.street && this.houseNumber) {
       const busNumberQueryParam = this.busNumber
         ? `&busNumber=${this.busNumber}`
         : '';
       const queryParams = `municipality=${this.municipality}&street=${this.street}&houseNumber=${this.houseNumber}${busNumberQueryParam}`;
-      const response = yield fetch(
+      const response = await fetch(
         `/lpdc-management/address/validate?${queryParams}`
       );
-      const result = yield response.json();
-      if (result.adressenRegisterId) {
-        this.adresMatchFound = true;
-        this.updatePostcodeTriple(result.postcode);
-        this.updateCountryTriple();
-        this.updateAddressRegisterIdTriple(result.adressenRegisterId);
-      } else {
-        this.adresMatchFound = false;
-        this.updateCountryTriple(null);
-        this.updatePostcodeTriple(null);
-        this.updateAddressRegisterIdTriple(null);
-      }
+      return await response.json();
     } else {
-      this.adresMatchFound = false;
+      return {};
     }
   }
 
@@ -219,11 +220,8 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.initialObjectBusNumber = newObject;
   }
 
-  updateCountryTriple(country) {
-    const newObject = this.createObjectFromValue(
-      country === null ? undefined : 'België',
-      'nl'
-    );
+  updateCountryTriple(country = 'België') {
+    const newObject = this.createObjectFromValue(country, 'nl');
     this.updateField(predicates.country, newObject, this.initialObjectCountry);
     this.initialObjectCountry = newObject;
   }
@@ -246,6 +244,10 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       path: new NamedNode(path),
     };
     updateSimpleFormValue(storeOptions, newObject, originalObject);
+  }
+
+  createObjectFromValue(value, language) {
+    return value ? new Literal(value, language) : null;
   }
 }
 

@@ -168,8 +168,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @restartableTask
   *searchStreets(searchString) {
     yield timeout(250);
+    const trimmedSearchString = searchString.trim();
     const response = yield fetch(
-      `/lpdc-management/address/streets?municipality=${this.municipality}&search=${searchString.trim()}`
+      `/lpdc-management/address/streets?municipality=${this.municipality}&search=${trimmedSearchString}`
     );
     return yield response.json();
   }

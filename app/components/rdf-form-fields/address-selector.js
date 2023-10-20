@@ -126,7 +126,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @restartableTask
   *validateAddress(updateTriples = true) {
     yield timeout(250);
-    const result = yield this.preformValidateAddress();
+    const result = yield this.performValidateAddress();
     this.adresMatchFound = !!result.adressenRegisterId;
     if (updateTriples) {
       this.adresMatchFound
@@ -141,7 +141,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     }
   }
 
-  async preformValidateAddress() {
+  async performValidateAddress() {
     if (this.municipality && this.street && this.houseNumber) {
       const busNumberQueryParam = this.busNumber
         ? `&busNumber=${this.busNumber}`
@@ -160,7 +160,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   *searchMunicipalities(searchString) {
     yield timeout(250);
     const response = yield fetch(
-      `/lpdc-management/address/municipalities?search=${searchString}`
+      `/lpdc-management/address/municipalities?search=${searchString.trim()}`
     );
     return yield response.json();
   }
@@ -169,7 +169,7 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   *searchStreets(searchString) {
     yield timeout(250);
     const response = yield fetch(
-      `/lpdc-management/address/streets?municipality=${this.municipality}&search=${searchString}`
+      `/lpdc-management/address/streets?municipality=${this.municipality}&search=${searchString.trim()}`
     );
     return yield response.json();
   }

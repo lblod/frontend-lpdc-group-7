@@ -10,6 +10,7 @@ import { inject as service } from '@ember/service';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
+  @service('public-service') publicServiceService;
 
   // We use a separate flag, otherwise the message would be hidden before the save was actually completed
   @tracked reviewStatus;
@@ -92,19 +93,8 @@ export default class PublicServicesDetailsController extends Controller {
 
   unlinkConcept = task({ drop: true }, async () => {
     const { publicService } = this.model;
-    const currentConcept = await publicService.concept;
-    publicService.concept = null;
-    publicService.modified = new Date();
-    await publicService.save();
-
-    if (!(await hasInstances(this.store, currentConcept))) {
-      const displayConfiguration = await currentConcept
-        .belongsTo('displayConfiguration')
-        .reload(); // `.reload` is needed since Ember Data considers sync relationships that didn't include data "empty" and it would instantly return null if we used `.load` instead
-      displayConfiguration.isInstantiated = false;
-      await displayConfiguration.save();
-    }
-
+    await this.publicServiceService.unlinkConcept(publicService.id);
+    await publicService.concept.reload();
     this.hideUnlinkWarning();
   });
 }

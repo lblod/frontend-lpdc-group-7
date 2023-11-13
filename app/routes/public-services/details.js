@@ -16,10 +16,16 @@ export default class PublicServicesDetailsRoute extends Route {
       ? await loadConceptLanguageVersion(publicService.concept.id)
       : undefined;
 
+    const publicServiceLanguageVersion =
+      await this.publicServiceService.loadPublicServiceLanguageVersion(
+        publicService.id
+      );
+
     return {
       publicService,
       readOnly,
       languageVersionOfConcept,
+      publicServiceLanguageVersion,
     };
   }
 

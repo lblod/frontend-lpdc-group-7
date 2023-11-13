@@ -27,4 +27,17 @@ export default class PublicServiceService extends Service {
       }
     );
   }
+
+  async loadPublicServiceLanguageVersion(publicServiceId) {
+    const response = await fetch(
+      `/lpdc-management/public-services/${publicServiceId}/language-version`,
+      {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      }
+    );
+    const body = await response.json();
+    return body?.languageVersion;
+  }
 }

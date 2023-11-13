@@ -187,15 +187,14 @@
         <div class="au-u-margin-top-small">
           <AuButtonGroup>
             {{#if @model.publicService.concept}}
-              <AuLink
-                @route="public-services.concept-details"
-                @model={{@model.publicService.concept.id}}
+              <AuLinkExternal
+                href={{this.ipdcConceptCompareLink}}
                 @skin="button"
                 @icon="eye"
                 target="blank"
               >
                 Concept bekijken
-              </AuLink>
+              </AuLinkExternal>
             {{/if}}
             <AuButton
               @skin="secondary"

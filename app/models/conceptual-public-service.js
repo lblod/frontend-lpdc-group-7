@@ -8,6 +8,7 @@ export default class ConceptualPublicServiceModel extends Model {
   @attr('datetime') endDate;
   @attr('datetime') created;
   @attr('datetime') modified;
+  @attr versionedSource;
 
   @belongsTo('concept', {
     async: true,

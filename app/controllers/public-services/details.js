@@ -98,11 +98,3 @@ export default class PublicServicesDetailsController extends Controller {
     this.hideUnlinkWarning();
   });
 }
-
-async function hasInstances(store, concept) {
-  const servicesWithConcept = await store.query('public-service', {
-    'filter[concept][:id:]': concept.id,
-  });
-
-  return servicesWithConcept.length > 0;
-}

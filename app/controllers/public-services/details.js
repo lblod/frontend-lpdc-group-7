@@ -7,6 +7,7 @@ import {
   isConceptUpdated,
 } from 'frontend-lpdc/models/public-service';
 import { inject as service } from '@ember/service';
+import ENV from 'frontend-lpdc/config/environment';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
@@ -71,6 +72,22 @@ export default class PublicServicesDetailsController extends Controller {
     return created === modified;
   }
 
+  get ipdcConceptCompareLink() {
+    const productId = this.model.publicService.concept.get('productId');
+    const languageVersion = this.model.publicServiceLanguageVersion.includes(
+      'informal'
+    )
+      ? 'nl/informeel'
+      : 'nl';
+    const latestSnapshot = this.getUuidFromUri(
+      this.model.publicService.concept.get('versionedSource')
+    );
+    const publicServiceSnapshot = this.getUuidFromUri(
+      this.model.publicService.versionedSource
+    );
+    return `${ENV.ipdcUrl}/${languageVersion}/concept/${productId}/revisie/vergelijk?revisie1=${publicServiceSnapshot}&revisie2=${latestSnapshot}`;
+  }
+
   @action
   showUnlinkWarning() {
     this.shouldShowUnlinkWarning = true;
@@ -97,4 +114,9 @@ export default class PublicServicesDetailsController extends Controller {
     await publicService.concept.reload();
     this.hideUnlinkWarning();
   });
+
+  getUuidFromUri(uri) {
+    const segmentedUri = uri.split('/');
+    return segmentedUri[segmentedUri.length - 1];
+  }
 }

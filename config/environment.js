@@ -54,9 +54,11 @@ module.exports = function (environment) {
       routeAfterAuthentication: 'public-services',
     },
     loketUrl: '{{LOKET_URL}}',
+    ipdcUrl: '{{IPDC_URL}}',
   };
 
   if (environment === 'development') {
+    ENV.ipdcUrl = 'http://localhost:30000';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;

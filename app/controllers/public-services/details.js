@@ -74,11 +74,17 @@ export default class PublicServicesDetailsController extends Controller {
 
   get ipdcConceptCompareLink() {
     const productId = this.model.publicService.concept.get('productId');
-    const languageVersion = this.model.publicServiceLanguageVersion.includes('informal')
+    const languageVersion = this.model.publicServiceLanguageVersion.includes(
+      'informal'
+    )
       ? 'nl/informeel'
       : 'nl';
-    const latestSnapshot = this.getUuidFromUri(this.model.publicService.concept.get('versionedSource'));
-    const publicServiceSnapshot = this.getUuidFromUri(this.model.publicService.versionedSource);
+    const latestSnapshot = this.getUuidFromUri(
+      this.model.publicService.concept.get('versionedSource')
+    );
+    const publicServiceSnapshot = this.getUuidFromUri(
+      this.model.publicService.versionedSource
+    );
     return `${ENV.ipdcUrl}/${languageVersion}/concept/${productId}/revisie/vergelijk?revisie1=${publicServiceSnapshot}&revisie2=${latestSnapshot}`;
   }
 

@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask, timeout } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
 
 export default class PublicServicesLinkConceptIndexController extends Controller {
+  @service('public-service') publicServiceService;
+
   queryParams = [
     'search',
     'sort',
@@ -91,4 +94,11 @@ export default class PublicServicesLinkConceptIndexController extends Controller
     this.search = searchValue;
     this.page = 0;
   }
+
+  linkConcept = task({ drop: true }, async () => {
+    const { publicService, concept } = this.model;
+    await this.publicServiceService.linkConcept(publicService.id, concept.id);
+    await publicService.concept.reload();
+    this.hideUnlinkWarning();
+  });
 }

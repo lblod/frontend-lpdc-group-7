@@ -14,6 +14,7 @@ import ConfirmReopeningModal from 'frontend-lpdc/components/confirm-reopening-mo
 import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
 import UnsavedChangesModal from 'frontend-lpdc/components/unsaved-changes-modal';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
+import ConfirmBijgewerktTotModal from 'frontend-lpdc/components/confirm-bijgewerkt-tot-modal';
 
 const FORM_GRAPHS = {
   formGraph: new NamedNode('http://data.lblod.info/form'),
@@ -151,6 +152,18 @@ export default class DetailsPageComponent extends Component {
 
     try {
       yield this.saveSemanticForm.unlinked().perform();
+
+      if (this.args.publicService.reviewStatus) {
+        yield this.modals.open(ConfirmBijgewerktTotModal, {
+          confirmBijgewerktTotHandler: async () => {
+            // TODO: versionedSource vervangen door laatste functionele change?
+            await this.publicServiceService.confirmBijgewerktTot(
+              this.args.publicService.id,
+              this.args.publicService.concept.get('versionedSource')
+            );
+          },
+        });
+      }
     } catch (error) {
       console.error(error);
       this.toaster.error(
@@ -241,11 +254,22 @@ export default class DetailsPageComponent extends Component {
     if (this.hasUnsavedChanges) {
       transition.abort();
 
-      let shouldTransition = await this.modals.open(UnsavedChangesModal, {
+      const shouldTransition = await this.modals.open(UnsavedChangesModal, {
         saveHandler: async () => {
           await this.saveSemanticForm.perform();
         },
       });
+
+      if (this.args.publicService.reviewStatus) {
+        await this.modals.open(ConfirmBijgewerktTotModal, {
+          confirmBijgewerktTotHandler: async () => {
+            await this.publicServiceService.confirmBijgewerktTot(
+              this.args.publicService.id,
+              this.args.publicService.concept.get('versionedSource')
+            );
+          },
+        });
+      }
 
       if (shouldTransition) {
         this.hasUnsavedChanges = false;

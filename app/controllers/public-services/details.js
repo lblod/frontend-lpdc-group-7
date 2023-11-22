@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { dropTask, task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
 import {
   hasConcept,
   isConceptUpdated,
@@ -108,12 +108,13 @@ export default class PublicServicesDetailsController extends Controller {
     this.reviewStatus = null;
   }
 
-  unlinkConcept = task({ drop: true }, async () => {
+  @dropTask()
+  *unlinkConcept() {
     const { publicService } = this.model;
-    await this.publicServiceService.unlinkConcept(publicService.id);
-    await publicService.concept.reload();
+    yield this.publicServiceService.unlinkConcept(publicService.id);
+    yield publicService.concept.reload();
     this.hideUnlinkWarning();
-  });
+  }
 
   getUuidFromUri(uri) {
     const segmentedUri = uri.split('/');

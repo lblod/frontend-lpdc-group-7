@@ -7,6 +7,7 @@ export default class PublicServicesLinkConceptRoute extends Route {
   @service store;
   @service router;
   @service('public-service') publicServiceService;
+  @service('concept') conceptService;
 
   queryParams = {
     search: {
@@ -49,29 +50,12 @@ export default class PublicServicesLinkConceptRoute extends Route {
 
   @restartableTask
   *loadConcepts({ search, page, sort, isNewConcept, isInstantiated }) {
-    let query = {
-      'filter[:has-no:status]': 'yes',
-      'page[number]': page,
-      include:
-        'display-configuration,target-audiences,concept-tags,competent-authority-levels,type',
-    };
-
-    if (search) {
-      query['filter'] = search.trim();
-    }
-
-    if (typeof isNewConcept === 'boolean') {
-      query['filter[display-configuration][is-new-concept]'] = isNewConcept;
-    }
-
-    if (typeof isInstantiated === 'boolean') {
-      query['filter[display-configuration][is-instantiated]'] = isInstantiated;
-    }
-
-    if (sort) {
-      query.sort = sort;
-    }
-
-    return yield this.store.query('conceptual-public-service', query);
+    return yield this.conceptService.loadAllConcepts({
+      search,
+      page,
+      sort,
+      isNewConcept,
+      isInstantiated,
+    });
   }
 }

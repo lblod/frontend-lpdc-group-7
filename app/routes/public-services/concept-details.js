@@ -1,22 +1,14 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { loadConceptLanguageVersion } from 'frontend-lpdc/utils/concept';
 
 export default class PublicServicesConceptDetailsRoute extends Route {
-  @service store;
+  @service('concept') conceptService;
 
   async model({ conceptId }) {
-    let concept = await this.store.findRecord(
-      'conceptual-public-service',
-      conceptId,
-      {
-        include: 'type,status,display-configuration',
-      }
-    );
+    const concept = await this.conceptService.loadConceptDetails(conceptId);
 
-    const languageVersionOfConcept = await loadConceptLanguageVersion(
-      conceptId
-    );
+    const languageVersionOfConcept =
+      await this.conceptService.loadConceptLanguageVersion(conceptId);
 
     return {
       concept,

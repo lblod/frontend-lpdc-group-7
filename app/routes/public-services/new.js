@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default class PublicServicesNewRoute extends Route {
   @service store;
   @service router;
+  @service('concept') conceptService;
 
   model({ concept: conceptId }) {
     // We intentionally don't return a promise here so the normal route template is rendered instantly
@@ -15,10 +16,7 @@ export default class PublicServicesNewRoute extends Route {
     let publicService = this.store.createRecord('public-service');
 
     if (conceptId) {
-      let concept = await this.store.findRecord(
-        'conceptual-public-service',
-        conceptId
-      );
+      const concept = await this.conceptService.loadConceptDetails(conceptId);
       publicService.concept = concept;
     }
 

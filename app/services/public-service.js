@@ -12,7 +12,8 @@ export default class PublicServiceService extends Service {
   async loadPublicServiceDetails(publicServiceId) {
     return this.store.findRecord('public-service', publicServiceId, {
       reload: true,
-      include: 'concept,type,status,review-status',
+      include:
+        'type,status,concept-tags,target-audiences,competent-authority-levels,executing-authority-levels,concept,review-status',
     });
   }
 

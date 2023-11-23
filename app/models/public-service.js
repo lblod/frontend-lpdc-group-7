@@ -1,14 +1,61 @@
-import { belongsTo } from '@ember-data/model';
-import ConceptualPublicServiceModel from './conceptual-public-service';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default class PublicServiceModel extends ConceptualPublicServiceModel {
+export default class PublicServiceModel extends Model {
+  @attr uri;
+  @attr productId;
+  @attr('language-string-set') name;
+  @attr('datetime') startDate;
+  @attr('datetime') endDate;
+  @attr('datetime') created;
+  @attr('datetime') modified;
+  @attr versionedSource;
+
+  @belongsTo('concept', {
+    async: false,
+    inverse: null,
+  })
+  type;
+
+  @belongsTo('concept', {
+    async: false,
+    inverse: null,
+  })
+  status;
+
+  @hasMany('concept', {
+    async: false,
+    inverse: null,
+  })
+  conceptTags;
+
+  @hasMany('concept', {
+    async: false,
+    inverse: null,
+  })
+  targetAudiences;
+
+  @hasMany('concept', {
+    async: false,
+    inverse: null,
+  })
+  competentAuthorityLevels;
+
+  @hasMany('concept', {
+    async: false,
+    inverse: null,
+  })
+  executingAuthorityLevels;
+
   @belongsTo('conceptual-public-service', {
     async: true,
     inverse: null,
   })
   concept;
 
-  @belongsTo('concept', { async: false, inverse: null })
+  @belongsTo('concept', {
+    async: false,
+    inverse: null,
+  })
   reviewStatus;
 
   get isSent() {
@@ -17,9 +64,22 @@ export default class PublicServiceModel extends ConceptualPublicServiceModel {
       'http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c'
     );
   }
+
+  get nameNl() {
+    if (!this.name?.length) {
+      return null;
+    }
+    const nameNl = this.name.find((name) => name.language === 'nl')?.content;
+    const nl = this.name.find((name) =>
+      name.language.startsWith('nl')
+    )?.content;
+    const fallBack = this.name[0].content;
+    return nameNl ?? nl ?? fallBack;
+  }
 }
 
 export function serviceNeedsReview(publicService) {
+  console.log(publicService.reviewStatus);
   return Boolean(publicService.reviewStatus);
 }
 

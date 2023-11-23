@@ -165,7 +165,7 @@
     </Group>
   {{/if}}
 
-  {{#if (or this.showReviewRequiredMessage this.markAsReviewed.isRunning)}}
+  {{#if @model.publicService.reviewStatus}}
     <Group class="w-100">
       <AuAlert
         @title={{if this.isConceptUpdatedStatus "Herziening nodig" "Concept gearchiveerd"}}

@@ -13,20 +13,10 @@ export default class PublicServicesDetailsController extends Controller {
   @service store;
   @service('public-service') publicServiceService;
 
-  // We use a separate flag, otherwise the message would be hidden before the save was actually completed
-  @tracked reviewStatus;
   @tracked shouldShowUnlinkWarning = false;
 
-  get showReviewRequiredMessage() {
-    return Boolean(this.reviewStatus);
-  }
-
   get isConceptUpdatedStatus() {
-    if (!this.showReviewRequiredMessage) {
-      return false;
-    }
-
-    return isConceptUpdated(this.reviewStatus);
+    return isConceptUpdated(this.model.publicService.reviewStatus);
   }
 
   get canLinkConcept() {
@@ -104,8 +94,6 @@ export default class PublicServicesDetailsController extends Controller {
     publicService.reviewStatus = null;
 
     yield publicService.save();
-
-    this.reviewStatus = null;
   }
 
   @dropTask()

@@ -191,10 +191,9 @@
             </td>
             <td class="u-table-cell-fit-content">
               <AuLink
-                @route="public-services.link-concept.link"
-                @model={{concept.id}}
                 @icon="link"
                 @skin="button-secondary"
+                {{on 'click' (perform this.linkConcept concept.id)}}
               >
                 Koppelen
               </AuLink>

@@ -79,7 +79,6 @@ export default class PublicServiceModel extends Model {
 }
 
 export function serviceNeedsReview(publicService) {
-  console.log(publicService.reviewStatus);
   return Boolean(publicService.reviewStatus);
 }
 

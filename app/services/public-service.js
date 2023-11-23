@@ -28,6 +28,7 @@ export default class PublicServiceService extends Service {
       }
     );
   }
+
   async linkConcept(publicServiceId, conceptId) {
     await fetch(
       `/lpdc-management/public-services/${publicServiceId}/koppelen/${conceptId}`,

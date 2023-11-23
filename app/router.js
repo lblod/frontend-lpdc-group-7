@@ -25,9 +25,7 @@ Router.map(function () {
       this.route('content', { path: '/inhoud' });
       this.route('properties', { path: '/eigenschappen' });
     });
-    this.route('link-concept', { path: '/:serviceId/koppelen' }, function () {
-      this.route('link', { path: '/:conceptId' });
-    });
+    this.route('link-concept', { path: '/:serviceId/koppelen' });
     this.route('concept-details', { path: '/concept/:conceptId' }, function () {
       this.route('content', { path: '/inhoud' });
       this.route('properties', { path: '/eigenschappen' });

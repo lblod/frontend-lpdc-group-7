@@ -76,17 +76,7 @@ export default class BreadCrumbComponent extends Component {
       ],
     },
     {
-      route: 'public-services.link-concept.index',
-      crumbs: [
-        {
-          label: 'Lokale Producten- en Dienstencatalogus',
-          link: 'public-services',
-        },
-        { label: 'Instantie koppelen' },
-      ],
-    },
-    {
-      route: 'public-services.link-concept.link',
+      route: 'public-services.link-concept',
       crumbs: [
         {
           label: 'Lokale Producten- en Dienstencatalogus',

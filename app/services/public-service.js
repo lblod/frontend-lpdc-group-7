@@ -27,6 +27,7 @@ export default class PublicServiceService extends Service {
         },
       }
     );
+    await this.loadPublicServiceDetails(publicServiceId);
   }
 
   async linkConcept(publicServiceId, conceptId) {
@@ -39,6 +40,7 @@ export default class PublicServiceService extends Service {
         },
       }
     );
+    await this.loadPublicServiceDetails(publicServiceId);
   }
 
   async loadPublicServiceLanguageVersion(publicServiceId) {
@@ -65,5 +67,6 @@ export default class PublicServiceService extends Service {
         body: JSON.stringify({ bijgewerktTot: snapshotUri }),
       }
     );
+    await this.loadPublicServiceDetails(publicServiceId);
   }
 }

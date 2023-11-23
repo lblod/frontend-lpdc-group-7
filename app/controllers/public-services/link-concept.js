@@ -100,7 +100,6 @@ export default class PublicServicesLinkConceptIndexController extends Controller
   *linkConcept(conceptId) {
     const { publicService } = this.model;
     yield this.publicServiceService.linkConcept(publicService.id, conceptId);
-    yield publicService.concept.reload();
     this.router.replaceWith('public-services.details', publicService.id);
   }
 }

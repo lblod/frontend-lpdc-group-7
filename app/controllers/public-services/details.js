@@ -91,16 +91,18 @@ export default class PublicServicesDetailsController extends Controller {
   @dropTask
   *markAsReviewed() {
     let { publicService } = this.model;
-    publicService.reviewStatus = null;
 
-    yield publicService.save();
+    // TODO: versionedSource vervangen door laatste functionele change zoals in app/components/details-page.js
+    yield this.publicServiceService.confirmBijgewerktTot(
+      publicService.id,
+      publicService.concept.get('versionedSource')
+    );
   }
 
   @dropTask()
   *unlinkConcept() {
     const { publicService } = this.model;
     yield this.publicServiceService.unlinkConcept(publicService.id);
-    yield publicService.concept.reload();
     this.hideUnlinkWarning();
   }
 

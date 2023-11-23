@@ -164,10 +164,6 @@ export default class DetailsPageComponent extends Component {
           },
         });
       }
-
-      yield this.publicServiceService.loadPublicServiceDetails(
-        this.args.publicService.id
-      );
     } catch (error) {
       console.error(error);
       this.toaster.error(
@@ -274,10 +270,6 @@ export default class DetailsPageComponent extends Component {
           },
         });
       }
-
-      await this.publicServiceService.loadPublicServiceDetails(
-        this.args.publicService.id
-      );
 
       if (shouldTransition) {
         this.hasUnsavedChanges = false;

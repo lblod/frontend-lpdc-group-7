@@ -11,43 +11,43 @@ export default class ConceptualPublicServiceModel extends Model {
   @attr versionedSource;
 
   @belongsTo('concept', {
-    async: true,
+    async: false,
     inverse: null,
   })
   type;
 
   @belongsTo('concept', {
-    inverse: null,
     async: false,
+    inverse: null,
   })
   status;
 
   @belongsTo('concept-display-configuration', {
-    inverse: null,
     async: false,
+    inverse: null,
   })
   displayConfiguration;
 
   @hasMany('concept', {
-    async: true,
+    async: false,
     inverse: null,
   })
   conceptTags;
 
   @hasMany('concept', {
-    async: true,
+    async: false,
     inverse: null,
   })
   targetAudiences;
 
   @hasMany('concept', {
-    async: true,
+    async: false,
     inverse: null,
   })
   competentAuthorityLevels;
 
   @hasMany('concept', {
-    async: true,
+    async: false,
     inverse: null,
   })
   executingAuthorityLevels;

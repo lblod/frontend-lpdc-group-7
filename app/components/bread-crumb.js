@@ -20,16 +20,6 @@ export default class BreadCrumbComponent extends Component {
       ],
     },
     {
-      route: 'public-services.new',
-      crumbs: [
-        {
-          label: 'Lokale Producten- en Dienstencatalogus',
-          link: 'public-services',
-        },
-        { label: 'Product of dienst toevoegen' },
-      ],
-    },
-    {
       route: 'public-services.details',
       crumbs: [
         {

@@ -2,6 +2,7 @@ import Service, { inject as service } from '@ember/service';
 
 export default class PublicServiceService extends Service {
   @service store;
+  @service('concept') conceptService;
 
   async bestuurseenheidHasPublicServices() {
     const query = { 'page[size]': 1, 'page[number]': 0 };
@@ -68,5 +69,17 @@ export default class PublicServiceService extends Service {
       }
     );
     await this.loadPublicServiceDetails(publicServiceId);
+  }
+
+  async createPublicService(conceptId) {
+    const publicService = this.store.createRecord('public-service');
+
+    if (conceptId) {
+      const concept = await this.conceptService.loadConceptDetails(conceptId);
+      publicService.concept = concept;
+    }
+
+    await publicService.save();
+    return publicService.id;
   }
 }

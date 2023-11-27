@@ -20,7 +20,6 @@ Router.map(function () {
 
   this.route('public-services', { path: '/' }, function () {
     this.route('add', { path: '/toevoegen' });
-    this.route('new', { path: '/nieuw' });
     this.route('details', { path: '/:serviceId' }, function () {
       this.route('content', { path: '/inhoud' });
       this.route('properties', { path: '/eigenschappen' });

@@ -2,10 +2,11 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask, timeout } from 'ember-concurrency';
+import { dropTask, restartableTask, timeout } from 'ember-concurrency';
 import SelectUOrJeModalComponent from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesAddController extends Controller {
+  @service router;
   @service modals;
   @service('public-service') publicServiceService;
   @service('formal-informal-choice') formalInformalChoiceService;
@@ -113,5 +114,13 @@ export default class PublicServicesAddController extends Controller {
         this.formalInformalChoiceService.makeChoiceLater();
       },
     });
+  }
+
+  @dropTask
+  *createPublicService(conceptId) {
+    const publicServiceId = yield this.publicServiceService.createPublicService(
+      conceptId
+    );
+    this.router.transitionTo('public-services.details', publicServiceId);
   }
 }

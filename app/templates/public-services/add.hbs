@@ -71,10 +71,9 @@
       </Group>
       <Group class="au-u-flex au-u-flex--vertical-center">
         <AuLink
-          @route="public-services.new"
-          @query={{hash concept=undefined}}
           @icon="add"
           @skin="button"
+          {{on 'click' (perform this.createPublicService undefined)}}
         >
           Volledig nieuw product toevoegen
         </AuLink>
@@ -136,28 +135,28 @@
             </td>
           </tr>
         {{else if this.hasResults}}
-          <Content.body as |publicService|>
+          <Content.body as |concept|>
             <td>
               <AuLink
                 @route="public-services.concept-details"
-                @model={{publicService.id}}
+                @model={{concept.id}}
                 @query={{hash preview=true}}
               >
                 {{! template-lint-disable no-triple-curlies~}}
-                {{{publicService.nameNl}}}
+                {{{concept.nameNl}}}
               </AuLink>
-              {{#if publicService.displayConfiguration.isNewConcept}}
+              {{#if concept.displayConfiguration.isNewConcept}}
                 <AuPill @skin="success">Nieuw</AuPill>
               {{/if}}
-              {{#if publicService.displayConfiguration.isInstantiated}}
+              {{#if concept.displayConfiguration.isInstantiated}}
                 <AuPill @skin="border">Toegevoegd</AuPill>
               {{/if}}
             </td>
-            <td>{{publicService.productId}}</td>
-            <td>{{publicService.type.label}}</td>
+            <td>{{concept.productId}}</td>
+            <td>{{concept.type.label}}</td>
             <td>
               <PillList
-                @list={{await publicService.targetAudiences}}
+                @list={{await concept.targetAudiences}}
                 as |targetAudience|
               >
                 <AuPill>
@@ -167,7 +166,7 @@
             </td>
             <td>
               <PillList
-                @list={{await publicService.competentAuthorityLevels}}
+                @list={{await concept.competentAuthorityLevels}}
                 as |level|
               >
                 <AuPill>
@@ -176,7 +175,7 @@
               </PillList>
             </td>
             <td>
-              <PillList @list={{await publicService.conceptTags}} as |tag|>
+              <PillList @list={{await concept.conceptTags}} as |tag|>
                 <AuPill>
                   {{tag.label}}
                 </AuPill>
@@ -184,10 +183,9 @@
             </td>
             <td class="u-table-cell-fit-content">
               <AuLink
-                @route="public-services.new"
-                @query={{hash concept=publicService.id}}
                 @icon="add"
                 @skin="button-secondary"
+                {{on 'click' (perform this.createPublicService concept.id)}}
               >
                 Voeg toe
               </AuLink>

@@ -10,10 +10,9 @@
 
     <Group>
       <AuLink
-        @route="public-services.new"
-        @query={{hash concept=@model.concept.id}}
         @skin="button-secondary"
         @icon="add"
+        {{on 'click' (perform this.createPublicService @model.concept.id)}}
       >
         Voeg toe
       </AuLink>

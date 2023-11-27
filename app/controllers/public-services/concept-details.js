@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { dropTask } from "ember-concurrency";
+import { dropTask } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 
 const ARCHIVED_STATUS =

@@ -69,8 +69,9 @@ export default class PublicServicesDetailsController extends Controller {
     )
       ? 'nl/informeel'
       : 'nl';
+
     const latestSnapshot = this.getUuidFromUri(
-      this.model.publicService.concept.get('versionedSource')
+      this.model.publicService.concept.get('hasLatestFunctionalChange')
     );
     const publicServiceSnapshot = this.getUuidFromUri(
       this.model.publicService.versionedSource
@@ -90,12 +91,8 @@ export default class PublicServicesDetailsController extends Controller {
 
   @dropTask
   *markAsReviewed() {
-    let { publicService } = this.model;
-
-    // TODO: versionedSource vervangen door laatste functionele change zoals in app/components/details-page.js
-    yield this.publicServiceService.confirmBijgewerktTot(
-      publicService.id,
-      publicService.concept.get('versionedSource')
+    yield this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+      this.model.publicService
     );
   }
 

@@ -57,18 +57,20 @@ export default class PublicServiceService extends Service {
     return body?.languageVersion;
   }
 
-  async confirmBijgewerktTot(publicServiceId, snapshotUri) {
+  async confirmBijgewerktTotLatestFunctionalChange(publicService) {
     await fetch(
-      `/lpdc-management/public-services/${publicServiceId}/confirm-bijgewerkt-tot`,
+      `/lpdc-management/public-services/${publicService.id}/confirm-bijgewerkt-tot`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: JSON.stringify({ bijgewerktTot: snapshotUri }),
+        body: JSON.stringify({
+          bijgewerktTot: publicService.concept.get('hasLatestFunctionalChange'),
+        }),
       }
     );
-    await this.loadPublicServiceDetails(publicServiceId);
+    await this.loadPublicServiceDetails(publicService.id);
   }
 
   async createPublicService(conceptId) {

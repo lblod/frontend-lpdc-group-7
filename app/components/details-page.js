@@ -156,10 +156,8 @@ export default class DetailsPageComponent extends Component {
       if (this.args.publicService.reviewStatus) {
         yield this.modals.open(ConfirmBijgewerktTotModal, {
           confirmBijgewerktTotHandler: async () => {
-            // TODO: versionedSource vervangen door laatste functionele change?
-            await this.publicServiceService.confirmBijgewerktTot(
-              this.args.publicService.id,
-              this.args.publicService.concept.get('versionedSource')
+            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+              this.args.publicService
             );
           },
         });
@@ -263,9 +261,8 @@ export default class DetailsPageComponent extends Component {
       if (this.args.publicService.reviewStatus) {
         await this.modals.open(ConfirmBijgewerktTotModal, {
           confirmBijgewerktTotHandler: async () => {
-            await this.publicServiceService.confirmBijgewerktTot(
-              this.args.publicService.id,
-              this.args.publicService.concept.get('versionedSource')
+            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+              this.args.publicService
             );
           },
         });

@@ -9,6 +9,7 @@ export default class ConceptualPublicServiceModel extends Model {
   @attr('datetime') created;
   @attr('datetime') modified;
   @attr versionedSource;
+  @attr hasLatestFunctionalChange;
 
   @belongsTo('concept', {
     async: false,

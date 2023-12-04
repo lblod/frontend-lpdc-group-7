@@ -109,11 +109,7 @@ export default class DetailsPageComponent extends Component {
   *publishPublicService() {
     const { publicService } = this.args;
     try {
-      if (this.hasUnsavedChanges) {
-        yield this.saveSemanticForm.unlinked().perform();
-      }
-
-      const response = yield submitFormData(publicService.id);
+      const response = yield validateFormData(publicService.id);
 
       if (response.ok) {
         yield this.setServiceStatus(publicService, SERVICE_STATUS.SENT);
@@ -189,8 +185,8 @@ export default class DetailsPageComponent extends Component {
     yield this.publicServiceService.loadPublicServiceDetails(publicService.id);
   }
 
-  @action
-  requestSubmitConfirmation() {
+  @dropTask
+  *requestSubmitConfirmation() {
     let isValidForm = validateForm(this.form, {
       ...this.graphs,
       sourceNode: this.sourceNode,
@@ -198,8 +194,22 @@ export default class DetailsPageComponent extends Component {
     });
     this.forceShowErrors = !isValidForm;
 
+    if (this.hasUnsavedChanges) {
+      yield this.saveSemanticForm.unlinked().perform();
+    }
+
     if (isValidForm) {
-      this.modals.open(ConfirmSubmitModal, {
+      if (this.args.publicService.reviewStatus) {
+        yield this.modals.open(ConfirmBijgewerktTotModal, {
+          confirmBijgewerktTotHandler: async () => {
+            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+              this.args.publicService
+            );
+          },
+        });
+      }
+
+      yield this.modals.open(ConfirmSubmitModal, {
         submitHandler: async () => {
           await this.publishPublicService.perform();
         },
@@ -322,7 +332,7 @@ async function saveFormData(serviceId, formId, formData) {
   });
 }
 
-async function submitFormData(serviceId) {
+async function validateFormData(serviceId) {
   const response = await fetch(`/lpdc-management/${serviceId}/submit`, {
     method: 'POST',
     body: JSON.stringify({}),

@@ -50,7 +50,7 @@
       {{else}}
         <AuButton
           @disabled={{not this.canSubmit}}
-          {{on "click" this.requestSubmitConfirmation}}
+          {{on "click" (perform this.requestSubmitConfirmation)}}
         >
           Verzend naar Vlaamse overheid
         </AuButton>

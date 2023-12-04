@@ -7,23 +7,20 @@ export default class UnsavedChangesModalComponent extends Component {
   *save() {
     yield this.args.data.saveHandler();
 
-    let shouldTransition = true;
-    this.args.close(shouldTransition);
+    this.args.close({ shouldTransition: true, saved: true });
   }
 
   @action
   discardChanges() {
     if (this.save.isIdle) {
-      let shouldTransition = true;
-      this.args.close(shouldTransition);
+      this.args.close({ shouldTransition: true, saved: false });
     }
   }
 
   @action
   cancel() {
     if (this.save.isIdle) {
-      let shouldTransition = false;
-      this.args.close(shouldTransition);
+      this.args.close({ shouldTransition: false, saved: false });
     }
   }
 }

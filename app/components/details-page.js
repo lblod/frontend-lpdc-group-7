@@ -252,13 +252,16 @@ export default class DetailsPageComponent extends Component {
     if (this.hasUnsavedChanges) {
       transition.abort();
 
-      const shouldTransition = await this.modals.open(UnsavedChangesModal, {
-        saveHandler: async () => {
-          await this.saveSemanticForm.perform();
-        },
-      });
+      const { shouldTransition, saved } = await this.modals.open(
+        UnsavedChangesModal,
+        {
+          saveHandler: async () => {
+            await this.saveSemanticForm.perform();
+          },
+        }
+      );
 
-      if (this.args.publicService.reviewStatus) {
+      if (this.args.publicService.reviewStatus && saved) {
         await this.modals.open(ConfirmBijgewerktTotModal, {
           confirmBijgewerktTotHandler: async () => {
             await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(

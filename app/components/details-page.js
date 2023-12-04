@@ -113,7 +113,6 @@ export default class DetailsPageComponent extends Component {
 
       if (response.ok) {
         yield this.setServiceStatus(publicService, SERVICE_STATUS.SENT);
-        this.resetReviewStatus();
         this.updateLastModifiedDate();
         yield publicService.save();
 

@@ -169,19 +169,21 @@ export default class DetailsPageComponent extends Component {
 
   @dropTask
   *saveSemanticForm() {
-    let { publicService, formId } = this.args;
-    let serializedData = this.formStore.serializeDataWithAddAndDelGraph(
-      this.graphs.sourceGraph,
-      'application/n-triples'
-    );
+    try {
+      let { publicService, formId } = this.args;
+      let serializedData = this.formStore.serializeDataWithAddAndDelGraph(
+        this.graphs.sourceGraph,
+        'application/n-triples'
+      );
 
-    yield saveFormData(publicService.id, formId, serializedData);
-
-    this.hasUnsavedChanges = false;
-    this.updateLastModifiedDate();
-    yield publicService.save();
-
-    yield this.publicServiceService.loadPublicServiceDetails(publicService.id);
+      yield saveFormData(publicService.id, formId, serializedData);
+      this.hasUnsavedChanges = false;
+      yield this.publicServiceService.loadPublicServiceDetails(
+        publicService.id
+      );
+    } catch (error) {
+      this.toaster.error(error);
+    }
   }
 
   @dropTask
@@ -322,13 +324,18 @@ async function fetchFormGraphs(serviceId, formId) {
 }
 
 async function saveFormData(serviceId, formId, formData) {
-  await fetch(`/lpdc-management/${serviceId}/form/${formId}`, {
+  const response = await fetch(`/lpdc-management/${serviceId}/form/${formId}`, {
     method: 'PUT',
     body: JSON.stringify(formData),
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   });
+  if (!response.ok) {
+    const message = await response.json();
+    console.error(message);
+    throw new Error(message.message);
+  }
 }
 
 async function validateFormData(serviceId) {

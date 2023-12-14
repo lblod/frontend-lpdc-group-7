@@ -182,7 +182,7 @@ export default class DetailsPageComponent extends Component {
         publicService.id
       );
     } catch (error) {
-      this.toaster.error(error);
+      this.toaster.error(error, 'Fout');
     }
   }
 

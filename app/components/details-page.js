@@ -23,9 +23,8 @@ const FORM_GRAPHS = {
 };
 
 const SERVICE_STATUS = {
-  SENT: 'http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c',
-  CONCEPT:
-    'http://lblod.data.gift/concepts/79a52da4-f491-4e2f-9374-89a13cde8ecd',
+  SENT: 'http://lblod.data.gift/concepts/instance-status/verstuurd',
+  ONTWERP: 'http://lblod.data.gift/concepts/instance-status/ontwerp',
 };
 
 export default class DetailsPageComponent extends Component {
@@ -225,7 +224,7 @@ export default class DetailsPageComponent extends Component {
     this.modals.open(ConfirmReopeningModal, {
       reopeningHandler: async () => {
         let { publicService } = this.args;
-        await this.setServiceStatus(publicService, SERVICE_STATUS.CONCEPT);
+        await this.setServiceStatus(publicService, SERVICE_STATUS.ONTWERP);
         this.updateLastModifiedDate();
         await publicService.save();
 

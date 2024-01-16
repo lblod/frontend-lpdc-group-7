@@ -10,7 +10,7 @@ export default class PublicServicesDetailsRoute extends Route {
       await this.publicServiceService.loadPublicServiceDetails(serviceId);
     const readOnly =
       publicService.status.uri !==
-      'http://lblod.data.gift/concepts/79a52da4-f491-4e2f-9374-89a13cde8ecd';
+      'http://lblod.data.gift/concepts/instance-status/ontwerp';
 
     const languageVersionOfConcept = publicService.concept.id
       ? await this.conceptService.loadConceptLanguageVersion(

@@ -318,7 +318,7 @@ export default class DetailsPageComponent extends Component {
 }
 
 async function fetchFormGraphs(serviceId, formId) {
-  let response = await fetch(`/lpdc-management/${serviceId}/form/${formId}`);
+  const response = await fetch(`/lpdc-management/${serviceId}/form/${formId}`);
   return await response.json();
 }
 

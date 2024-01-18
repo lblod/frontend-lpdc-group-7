@@ -111,6 +111,7 @@ export default class DetailsPageComponent extends Component {
       const response = yield validateFormData(publicService.id);
 
       if (response.ok) {
+        //TODO LPDC-917 move to operation in lpdc management (and rename the 'submit')
         yield this.setServiceStatus(publicService, SERVICE_STATUS.SENT);
         this.updateLastModifiedDate();
         yield publicService.save();
@@ -224,6 +225,7 @@ export default class DetailsPageComponent extends Component {
     this.modals.open(ConfirmReopeningModal, {
       reopeningHandler: async () => {
         let { publicService } = this.args;
+        //TODO LPDC-917 move to operation in lpdc management
         await this.setServiceStatus(publicService, SERVICE_STATUS.ONTWERP);
         this.updateLastModifiedDate();
         await publicService.save();
@@ -318,18 +320,23 @@ export default class DetailsPageComponent extends Component {
 }
 
 async function fetchFormGraphs(serviceId, formId) {
-  const response = await fetch(`/lpdc-management/${serviceId}/form/${formId}`);
+  const response = await fetch(
+    `/lpdc-management/public-services/${serviceId}/form/${formId}`
+  );
   return await response.json();
 }
 
 async function saveFormData(serviceId, formId, formData) {
-  const response = await fetch(`/lpdc-management/${serviceId}/form/${formId}`, {
-    method: 'PUT',
-    body: JSON.stringify(formData),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
+  const response = await fetch(
+    `/lpdc-management/public-services/${serviceId}/form/${formId}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    }
+  );
   if (!response.ok) {
     const message = await response.json();
     console.error(message);
@@ -338,12 +345,15 @@ async function saveFormData(serviceId, formId, formData) {
 }
 
 async function validateFormData(serviceId) {
-  const response = await fetch(`/lpdc-management/${serviceId}/submit`, {
-    method: 'POST',
-    body: JSON.stringify({}),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
+  const response = await fetch(
+    `/lpdc-management/public-services/${serviceId}/submit`,
+    {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    }
+  );
   return response;
 }

@@ -10,9 +10,11 @@ export default class ConceptService extends Service {
     });
   }
 
-  async loadConceptLanguageVersion(conceptId) {
+  async loadConceptLanguageVersionByConceptUri(conceptUri) {
     const response = await fetch(
-      `/lpdc-management/conceptual-public-services/${conceptId}/dutch-language-version`
+      `/lpdc-management/conceptual-public-services/${encodeURIComponent(
+        conceptUri
+      )}/dutch-language-version`
     );
     return (await response.json()).languageVersion;
   }

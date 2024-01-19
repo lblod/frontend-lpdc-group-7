@@ -12,9 +12,13 @@ export default class PublicServicesDetailsRoute extends Route {
       publicService.status.uri !==
       'http://lblod.data.gift/concepts/instance-status/ontwerp';
 
-    const languageVersionOfConcept = publicService.concept.id
-      ? await this.conceptService.loadConceptLanguageVersion(
-          publicService.concept.id
+    const concept = publicService.concept.id
+      ? await this.conceptService.loadConceptDetails(publicService.concept.id)
+      : undefined;
+
+    const languageVersionOfConcept = concept
+      ? await this.conceptService.loadConceptLanguageVersionByConceptUri(
+          concept.uri
         )
       : undefined;
 

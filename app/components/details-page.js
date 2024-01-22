@@ -3,7 +3,10 @@ import { guidFor } from '@ember/object/internals';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { ForkingStore, validateForm, } from '@lblod/ember-submission-form-fields';
+import {
+  ForkingStore,
+  validateForm,
+} from '@lblod/ember-submission-form-fields';
 import { NamedNode } from 'rdflib';
 import { dropTask, dropTaskGroup, task } from 'ember-concurrency';
 import ConfirmDeletionModal from 'frontend-lpdc/components/confirm-deletion-modal';

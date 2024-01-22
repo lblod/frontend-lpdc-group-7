@@ -33,7 +33,7 @@ export default class DetailsPageComponent extends Component {
       form: formTtl,
       meta: metaTtl,
       source: sourceTtl,
-    } = yield fetchFormGraphs(this.args.concept.id, this.args.formId);
+    } = yield fetchFormGraphs(this.args.concept.uri, this.args.formId);
 
     let formStore = new ForkingStore();
     formStore.parse(formTtl, FORM_GRAPHS.formGraph, 'text/turtle');
@@ -54,7 +54,9 @@ export default class DetailsPageComponent extends Component {
 
 async function fetchFormGraphs(serviceId, formId) {
   let response = await fetch(
-    `/lpdc-management/conceptual-public-services/${serviceId}/form/${formId}`
+    `/lpdc-management/conceptual-public-services/${encodeURIComponent(
+      serviceId
+    )}/form/${formId}`
   );
   return await response.json();
 }

@@ -44,9 +44,11 @@ export default class PublicServiceService extends Service {
     await this.loadPublicServiceDetails(publicServiceId);
   }
 
-  async loadPublicServiceLanguageVersion(publicServiceId) {
+  async loadPublicServiceLanguageVersion(publicServiceUri) {
     const response = await fetch(
-      `/lpdc-management/public-services/${publicServiceId}/language-version`,
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicServiceUri
+      )}/dutch-language-version`,
       {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',

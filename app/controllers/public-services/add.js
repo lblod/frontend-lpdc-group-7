@@ -9,6 +9,7 @@ export default class PublicServicesAddController extends Controller {
   @service router;
   @service modals;
   @service('public-service') publicServiceService;
+  @service('concept') conceptService;
   @service('formal-informal-choice') formalInformalChoiceService;
   queryParams = [
     'search',
@@ -117,10 +118,13 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @dropTask
-  *createPublicService(conceptId) {
-    const publicServiceId = yield this.publicServiceService.createPublicService(
-      conceptId
-    );
-    this.router.transitionTo('public-services.details', publicServiceId);
+  *createPublicService(conceptUuid) {
+    console.log(conceptUuid);
+    const conceptId = conceptUuid
+      ? (yield this.conceptService.loadConceptDetails(conceptUuid)).uri
+      : undefined;
+    const publicServiceUuid =
+      yield this.publicServiceService.createPublicService(conceptId);
+    this.router.transitionTo('public-services.details', publicServiceUuid);
   }
 }

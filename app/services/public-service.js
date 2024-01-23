@@ -76,14 +76,15 @@ export default class PublicServiceService extends Service {
   }
 
   async createPublicService(conceptId) {
-    const publicService = this.store.createRecord('public-service');
+    const body = conceptId ? { conceptId: conceptId } : {};
 
-    if (conceptId) {
-      const concept = await this.conceptService.loadConceptDetails(conceptId);
-      publicService.concept = concept;
-    }
+    const response = await fetch('/lpdc-management/public-services', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify(body),
+    });
 
-    await publicService.save();
-    return publicService.id;
+    const publicService = await response.json();
+    return publicService.data.id;
   }
 }

@@ -9,6 +9,7 @@ const ARCHIVED_STATUS =
 export default class PublicServicesConceptDetailsController extends Controller {
   @service router;
   @service('public-service') publicServiceService;
+  @service('concept') conceptService;
   queryParams = [{ isPreview: 'preview', publicServiceId: 'id' }];
   isPreview = false;
   publicServiceId = '';
@@ -37,10 +38,11 @@ export default class PublicServicesConceptDetailsController extends Controller {
   }
 
   @dropTask
-  *createPublicService(conceptId) {
-    const publicServiceId = yield this.publicServiceService.createPublicService(
-      conceptId
-    );
-    this.router.transitionTo('public-services.details', publicServiceId);
+  *createPublicService(conceptUuid) {
+    const concept = yield this.conceptService.loadConceptDetails(conceptUuid);
+    const publicServiceUuid =
+      yield this.publicServiceService.createPublicService(concept.uri);
+
+    this.router.transitionTo('public-services.details', publicServiceUuid);
   }
 }

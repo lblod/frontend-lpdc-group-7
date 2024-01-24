@@ -87,4 +87,16 @@ export default class PublicServiceService extends Service {
     const publicService = await response.json();
     return publicService.data.id;
   }
+
+  async deletePublicService(publicServiceId) {
+    await fetch(
+      `/lpdc-management/public-services/${encodeURIComponent(publicServiceId)}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      }
+    );
+  }
 }

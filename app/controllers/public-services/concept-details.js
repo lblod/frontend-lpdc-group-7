@@ -4,7 +4,7 @@ import { dropTask } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 
 const ARCHIVED_STATUS =
-  'http://lblod.data.gift/concepts/3f2666df-1dae-4cc2-a8dc-e8213e713081';
+  'http://lblod.data.gift/concepts/concept-status/gearchiveerd';
 
 export default class PublicServicesConceptDetailsController extends Controller {
   @service router;

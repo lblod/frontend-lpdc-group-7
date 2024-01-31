@@ -65,7 +65,9 @@ export default class PublicServiceService extends Service {
 
   async confirmBijgewerktTotLatestFunctionalChange(publicService) {
     await fetch(
-      `/lpdc-management/public-services/${publicService.id}/confirm-bijgewerkt-tot`,
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/confirm-bijgewerkt-tot`,
       {
         method: 'POST',
         headers: {

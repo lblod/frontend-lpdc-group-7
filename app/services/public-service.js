@@ -105,4 +105,19 @@ export default class PublicServiceService extends Service {
       }
     );
   }
+
+  async reopenPublicService(publicService) {
+    await fetch(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/reopen`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      }
+    );
+    await this.loadPublicServiceDetails(publicService.id);
+  }
 }

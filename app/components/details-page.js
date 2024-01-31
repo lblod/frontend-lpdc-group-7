@@ -225,10 +225,7 @@ export default class DetailsPageComponent extends Component {
     this.modals.open(ConfirmReopeningModal, {
       reopeningHandler: async () => {
         let { publicService } = this.args;
-        //TODO LPDC-917 move to operation in lpdc management
-        await this.setServiceStatus(publicService, SERVICE_STATUS.ONTWERP);
-        this.updateLastModifiedDate();
-        await publicService.save();
+        await this.publicServiceService.reopenPublicService(publicService);
 
         this.router.refresh('public-services.details');
       },

@@ -99,7 +99,7 @@ export default class PublicServicesDetailsController extends Controller {
   @dropTask()
   *unlinkConcept() {
     const { publicService } = this.model;
-    yield this.publicServiceService.unlinkConcept(publicService.id);
+    yield this.publicServiceService.unlinkConcept(publicService);
     this.hideUnlinkWarning();
   }
 

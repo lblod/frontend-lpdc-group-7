@@ -97,9 +97,9 @@ export default class PublicServicesLinkConceptIndexController extends Controller
   }
 
   @dropTask
-  *linkConcept(conceptId) {
+  *linkConcept(concept) {
     const { publicService } = this.model;
-    yield this.publicServiceService.linkConcept(publicService.id, conceptId);
+    yield this.publicServiceService.linkConcept(publicService, concept);
     this.router.replaceWith('public-services.details', publicService.id);
   }
 }

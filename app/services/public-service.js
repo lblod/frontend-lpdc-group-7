@@ -18,9 +18,11 @@ export default class PublicServiceService extends Service {
     });
   }
 
-  async unlinkConcept(publicServiceId) {
+  async unlinkConcept(publicService) {
     await fetch(
-      `/lpdc-management/public-services/${publicServiceId}/ontkoppelen`,
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/ontkoppelen`,
       {
         method: 'PUT',
         headers: {
@@ -28,12 +30,14 @@ export default class PublicServiceService extends Service {
         },
       }
     );
-    await this.loadPublicServiceDetails(publicServiceId);
+    await this.loadPublicServiceDetails(publicService.id);
   }
 
-  async linkConcept(publicServiceId, conceptId) {
+  async linkConcept(publicService, concept) {
     await fetch(
-      `/lpdc-management/public-services/${publicServiceId}/koppelen/${conceptId}`,
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/koppelen/${encodeURIComponent(concept.uri)}`,
       {
         method: 'PUT',
         headers: {
@@ -41,7 +45,7 @@ export default class PublicServiceService extends Service {
         },
       }
     );
-    await this.loadPublicServiceDetails(publicServiceId);
+    await this.loadPublicServiceDetails(publicService.id);
   }
 
   async loadPublicServiceLanguageVersion(publicServiceUri) {

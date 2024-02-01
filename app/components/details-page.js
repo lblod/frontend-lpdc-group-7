@@ -346,7 +346,9 @@ async function saveFormData(serviceId, formId, formData) {
 
 async function validateFormData(serviceId) {
   return await fetch(
-    `/lpdc-management/public-services/${encodeURIComponent(serviceId)}/submit`,
+    `/lpdc-management/public-services/${encodeURIComponent(
+      serviceId
+    )}/validate-for-publish`,
     {
       method: 'POST',
       body: JSON.stringify({}),

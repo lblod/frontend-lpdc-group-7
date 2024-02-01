@@ -22,11 +22,6 @@ const FORM_GRAPHS = {
   sourceGraph: new NamedNode(`http://data.lblod.info/sourcegraph`),
 };
 
-const SERVICE_STATUS = {
-  SENT: 'http://lblod.data.gift/concepts/instance-status/verstuurd',
-  ONTWERP: 'http://lblod.data.gift/concepts/instance-status/ontwerp',
-};
-
 export default class DetailsPageComponent extends Component {
   @service modals;
   @service router;

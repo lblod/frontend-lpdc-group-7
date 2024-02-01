@@ -125,7 +125,13 @@ export default class PublicServiceService extends Service {
     await fetch(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/publish`
+      )}/publish`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      }
     );
     await this.loadPublicServiceDetails(publicService.id);
   }

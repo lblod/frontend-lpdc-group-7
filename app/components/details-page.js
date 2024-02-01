@@ -111,10 +111,7 @@ export default class DetailsPageComponent extends Component {
       const response = yield validateFormData(publicService.uri);
 
       if (response.ok) {
-        //TODO LPDC-917 move to operation in lpdc management (and rename the 'submit')
-        yield this.setServiceStatus(publicService, SERVICE_STATUS.SENT);
-        this.updateLastModifiedDate();
-        yield publicService.save();
+        yield this.publicServiceService.publishInstance(publicService);
 
         this.router.transitionTo('public-services');
       } else {

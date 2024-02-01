@@ -120,4 +120,13 @@ export default class PublicServiceService extends Service {
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
+
+  async publishInstance(publicService) {
+    await fetch(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/publish`
+    );
+    await this.loadPublicServiceDetails(publicService.id);
+  }
 }

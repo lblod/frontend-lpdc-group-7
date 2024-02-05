@@ -64,7 +64,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   @task
-  *loadForm() {
+  * loadForm() {
     const {
       form: formTtl,
       meta: metaTtl,
@@ -100,7 +100,7 @@ export default class DetailsPageComponent extends Component {
 
   @dropTaskGroup publicServiceAction;
 
-  @task({ group: 'publicServiceAction' })
+  @task({group: 'publicServiceAction'})
   *publishPublicService() {
     const { publicService } = this.args;
     try {
@@ -169,7 +169,7 @@ export default class DetailsPageComponent extends Component {
         'application/n-triples'
       );
 
-      yield saveFormData(publicService.id, formId, serializedData);
+      yield saveFormData(publicService.uri, formId, serializedData);
       yield this.publicServiceService.loadPublicServiceDetails(
         publicService.id
       );
@@ -281,25 +281,6 @@ export default class DetailsPageComponent extends Component {
     }
   }
 
-  async setServiceStatus(service, status) {
-    const statusRecord = (
-      await this.store.query('concept', {
-        filter: {
-          ':uri:': status,
-        },
-      })
-    )[0];
-    service.status = statusRecord;
-  }
-
-  updateLastModifiedDate() {
-    this.args.publicService.modified = new Date();
-  }
-
-  resetReviewStatus() {
-    this.args.publicService.reviewStatus = null;
-  }
-
   willDestroy() {
     super.willDestroy(...arguments);
 
@@ -321,7 +302,9 @@ async function fetchFormGraphs(serviceId, formId) {
 
 async function saveFormData(serviceId, formId, formData) {
   const response = await fetch(
-    `/lpdc-management/public-services/${serviceId}/form/${formId}`,
+    `/lpdc-management/public-services/${encodeURIComponent(
+      serviceId
+    )}/form/${formId}`,
     {
       method: 'PUT',
       body: JSON.stringify(formData),

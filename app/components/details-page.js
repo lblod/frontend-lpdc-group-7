@@ -34,7 +34,7 @@ export default class DetailsPageComponent extends Component {
   @tracked form;
 
   id = guidFor(this);
-  formStore;
+  @tracked formStore;
   graphs = FORM_GRAPHS;
 
   constructor() {
@@ -89,6 +89,7 @@ export default class DetailsPageComponent extends Component {
 
     this.form = form;
     this.formStore = formStore;
+    this.hasUnsavedChanges = false;
   }
 
   @action
@@ -169,10 +170,10 @@ export default class DetailsPageComponent extends Component {
       );
 
       yield saveFormData(publicService.id, formId, serializedData);
-      this.hasUnsavedChanges = false;
       yield this.publicServiceService.loadPublicServiceDetails(
         publicService.id
       );
+      yield this.loadForm.perform();
     } catch (error) {
       this.toaster.error(error.message, 'Fout');
     }

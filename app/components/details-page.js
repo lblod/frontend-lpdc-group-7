@@ -64,7 +64,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   @task
-  * loadForm() {
+  *loadForm() {
     const {
       form: formTtl,
       meta: metaTtl,
@@ -100,7 +100,7 @@ export default class DetailsPageComponent extends Component {
 
   @dropTaskGroup publicServiceAction;
 
-  @task({group: 'publicServiceAction'})
+  @task({ group: 'publicServiceAction' })
   *publishPublicService() {
     const { publicService } = this.args;
     try {

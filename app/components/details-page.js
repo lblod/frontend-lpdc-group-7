@@ -302,9 +302,7 @@ async function fetchFormGraphs(serviceId, formId) {
 
 async function saveFormData(serviceId, formId, formData) {
   const response = await fetch(
-    `/lpdc-management/public-services/${encodeURIComponent(
-      serviceId
-    )}/form/${formId}`,
+    `/lpdc-management/public-services/${encodeURIComponent(serviceId)}`,
     {
       method: 'PUT',
       body: JSON.stringify(formData),

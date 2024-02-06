@@ -47,4 +47,18 @@ export default class ConceptService extends Service {
 
     return await this.store.query('conceptual-public-service', query);
   }
+
+  async removeIsNewConceptFlag(concept) {
+    await fetch(
+      `/lpdc-management/conceptual-public-services/${encodeURIComponent(
+        concept.uri
+      )}/remove-is-new-flag`,
+      {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      }
+    );
+  }
 }

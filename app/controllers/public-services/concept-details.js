@@ -28,10 +28,9 @@ export default class PublicServicesConceptDetailsController extends Controller {
 
   @action
   async hideNewConceptMessage() {
-    const { displayConfiguration } = this.model.concept;
-    displayConfiguration.isNewConcept = false;
     try {
-      await displayConfiguration.save();
+      await this.conceptService.removeIsNewConceptFlag(this.model.concept);
+      await this.conceptService.loadConceptDetails(this.model.concept.id);
     } catch (error) {
       // TODO: Something went wrong while saving, but a fully fledged error state seems overkill. We should send a message to GlitchTip.
     }

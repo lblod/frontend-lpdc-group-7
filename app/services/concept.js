@@ -5,6 +5,7 @@ export default class ConceptService extends Service {
 
   async loadConceptDetails(conceptId) {
     return this.store.findRecord('conceptual-public-service', conceptId, {
+      reload: true,
       include:
         'type,status,display-configuration,concept-tags,target-audiences,competent-authority-levels,executing-authority-levels',
     });

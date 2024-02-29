@@ -273,6 +273,24 @@
     }
 
     > .au-o-grid
+      > .au-o-grid__item:nth-last-child(3)
+      > .au-o-grid
+      > .au-u-4-5
+      > .au-o-grid
+      > .au-u-4-5
+      > div:first-child
+      > .au-u-margin-bottom-small:last-child {
+        width: 100% !important;
+      }
+
+    > .au-o-grid
+      > .au-o-grid__item:nth-last-child(3)
+      > .au-u-margin-bottom-small:has(> .au-c-heading--3) {
+        width: 100% !important;
+      }
+
+
+    > .au-o-grid
       > .au-o-grid__item:nth-last-child(1)
       > .au-o-grid
       > .au-u-4-5

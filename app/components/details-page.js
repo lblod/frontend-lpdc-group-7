@@ -69,7 +69,10 @@ export default class DetailsPageComponent extends Component {
       form: formTtl,
       meta: metaTtl,
       source: sourceTtl,
-    } = yield fetchFormGraphs(this.args.publicService.uri, this.args.formId);
+    } = yield this.publicServiceService.getPublicServiceForm(
+      this.args.publicService.uri,
+      this.args.formId
+    );
 
     let formStore = new ForkingStore();
     formStore.parse(formTtl, FORM_GRAPHS.formGraph, 'text/turtle');
@@ -103,80 +106,58 @@ export default class DetailsPageComponent extends Component {
   @task({ group: 'publicServiceAction' })
   *publishPublicService() {
     const { publicService } = this.args;
-    try {
-      const response = yield validateFormData(publicService.uri);
+    const response = yield validateFormData(publicService.uri);
 
-      if (response.ok) {
-        yield this.publicServiceService.publishInstance(publicService);
+    if (response.ok) {
+      yield this.publicServiceService.publishInstance(publicService);
 
-        this.router.transitionTo('public-services');
+      this.router.transitionTo('public-services');
+    } else {
+      const jsonResponse = yield response.json();
+      const errors = jsonResponse?.data?.errors;
+
+      if (response.status == 500 || !errors) {
+        throw 'Unexpected error while validating data in backend';
       } else {
-        const jsonResponse = yield response.json();
-        const errors = jsonResponse?.data?.errors;
-
-        if (response.status == 500 || !errors) {
-          throw 'Unexpected error while validating data in backend';
-        } else {
-          for (const error of errors) {
-            //TODO: should probably handle this more in a more user friendly way
-            //ie: redirect to said form and scroll down to the first invalid field
-            this.toaster.error(error.message, 'Fout');
-          }
+        for (const error of errors) {
+          //TODO: should probably handle this more in a more user friendly way
+          //ie: redirect to said form and scroll down to the first invalid field
+          this.toaster.error(error.message, 'Fout');
         }
       }
-    } catch (error) {
-      console.error(error);
-      this.toaster.error(
-        `Onverwachte fout bij het verwerken van het product, gelieve de helpdesk te contacteren.
-         Foutboodschap: ${error.message || error}`,
-        'Fout'
-      );
     }
   }
 
   @task({ group: 'publicServiceAction' })
   *handleFormSubmit(event) {
     event?.preventDefault?.();
+    yield this.saveSemanticForm.unlinked().perform();
 
-    try {
-      yield this.saveSemanticForm.unlinked().perform();
-
-      if (this.args.publicService.reviewStatus) {
-        yield this.modals.open(ConfirmBijgewerktTotModal, {
-          confirmBijgewerktTotHandler: async () => {
-            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
-              this.args.publicService
-            );
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      this.toaster.error(
-        `Onverwachte fout bij het bewaren van het formulier, gelieve de helpdesk te contacteren.
-         Foutboodschap: ${error.message || error}`,
-        'Fout'
-      );
+    if (this.args.publicService.reviewStatus) {
+      yield this.modals.open(ConfirmBijgewerktTotModal, {
+        confirmBijgewerktTotHandler: async () => {
+          await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+            this.args.publicService
+          );
+        },
+      });
     }
   }
 
   @dropTask
   *saveSemanticForm() {
-    try {
-      let { publicService, formId } = this.args;
-      let serializedData = this.formStore.serializeDataWithAddAndDelGraph(
-        this.graphs.sourceGraph,
-        'application/n-triples'
-      );
+    let { publicService } = this.args;
+    let serializedData = this.formStore.serializeDataWithAddAndDelGraph(
+      this.graphs.sourceGraph,
+      'application/n-triples'
+    );
 
-      yield saveFormData(publicService.uri, formId, serializedData);
-      yield this.publicServiceService.loadPublicServiceDetails(
-        publicService.id
-      );
-      yield this.loadForm.perform();
-    } catch (error) {
-      this.toaster.error(error.message, 'Fout');
-    }
+    yield this.publicServiceService.updatePublicService(
+      publicService,
+      serializedData
+    );
+    yield this.publicServiceService.loadPublicServiceDetails(publicService.id);
+    yield this.loadForm.perform();
   }
 
   @dropTask
@@ -229,20 +210,11 @@ export default class DetailsPageComponent extends Component {
   removePublicService() {
     this.modals.open(ConfirmDeletionModal, {
       deleteHandler: async () => {
-        try {
-          await this.publicServiceService.deletePublicService(
-            this.args.publicService.uri
-          );
-          this.hasUnsavedChanges = false;
-          this.router.replaceWith('public-services');
-        } catch (error) {
-          console.error(error);
-          this.toaster.error(
-            `Onverwachte fout bij het verwijderen van het product, gelieve de helpdesk te contacteren.
-             Foutboodschap: ${error.message || error}`,
-            'Fout'
-          );
-        }
+        await this.publicServiceService.deletePublicService(
+          this.args.publicService.uri
+        );
+        this.hasUnsavedChanges = false;
+        this.router.replaceWith('public-services');
       },
     });
   }
@@ -288,33 +260,6 @@ export default class DetailsPageComponent extends Component {
       this.formStore?.deregisterObserver(this.id);
       this.router.off('routeWillChange', this, this.showUnsavedChangesModal);
     }
-  }
-}
-
-async function fetchFormGraphs(serviceId, formId) {
-  const response = await fetch(
-    `/lpdc-management/public-services/${encodeURIComponent(
-      serviceId
-    )}/form/${formId}`
-  );
-  return await response.json();
-}
-
-async function saveFormData(serviceId, formId, formData) {
-  const response = await fetch(
-    `/lpdc-management/public-services/${encodeURIComponent(serviceId)}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    }
-  );
-  if (!response.ok) {
-    const message = await response.json();
-    console.error(message);
-    throw new Error(message.message);
   }
 }
 

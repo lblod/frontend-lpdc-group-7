@@ -15,6 +15,7 @@ const FORM_GRAPHS = {
 export default class DetailsPageComponent extends Component {
   @service router;
   @service store;
+  @service('concept') conceptService;
 
   id = guidFor(this);
   form;
@@ -33,7 +34,10 @@ export default class DetailsPageComponent extends Component {
       form: formTtl,
       meta: metaTtl,
       source: sourceTtl,
-    } = yield fetchFormGraphs(this.args.concept.uri, this.args.formId);
+    } = yield this.conceptService.getConceptForm(
+      this.args.concept.uri,
+      this.args.formId
+    );
 
     let formStore = new ForkingStore();
     formStore.parse(formTtl, FORM_GRAPHS.formGraph, 'text/turtle');
@@ -50,13 +54,4 @@ export default class DetailsPageComponent extends Component {
     this.form = form;
     this.formStore = formStore;
   }
-}
-
-async function fetchFormGraphs(serviceId, formId) {
-  let response = await fetch(
-    `/lpdc-management/conceptual-public-services/${encodeURIComponent(
-      serviceId
-    )}/form/${formId}`
-  );
-  return await response.json();
 }

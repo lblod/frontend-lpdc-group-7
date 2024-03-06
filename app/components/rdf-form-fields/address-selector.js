@@ -5,6 +5,8 @@ import { Literal, NamedNode } from 'rdflib';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, timeout } from 'ember-concurrency';
 import { guidFor } from '@ember/object/internals';
+import { inject as service } from '@ember/service';
+import { HttpRequest } from 'frontend-lpdc/helpers/http-request';
 
 export default class AddressSelectorComponent extends InputFieldComponent {
   id = '-' + guidFor(this);
@@ -13,6 +15,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked houseNumber;
   @tracked busNumber;
   @tracked adresMatchFound;
+
+  @service toaster;
+  httpRequest = new HttpRequest(this.toaster);
 
   initialObjectMunicipality;
   initialObjectPostcode;
@@ -147,10 +152,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
         ? `&busNumber=${this.busNumber}`
         : '';
       const queryParams = `municipality=${this.municipality}&street=${this.street}&houseNumber=${this.houseNumber}${busNumberQueryParam}`;
-      const response = await fetch(
+      return this.httpRequest.get(
         `/lpdc-management/address/validate?${queryParams}`
       );
-      return await response.json();
     } else {
       return {};
     }
@@ -159,20 +163,18 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @restartableTask
   *searchMunicipalities(searchString) {
     yield timeout(250);
-    const response = yield fetch(
+    return this.httpRequest.get(
       `/lpdc-management/address/municipalities?search=${searchString.trim()}`
     );
-    return yield response.json();
   }
 
   @restartableTask
   *searchStreets(searchString) {
     yield timeout(250);
     const trimmedSearchString = searchString.trim();
-    const response = yield fetch(
+    return this.httpRequest.get(
       `/lpdc-management/address/streets?municipality=${this.municipality}&search=${trimmedSearchString}`
     );
-    return yield response.json();
   }
 
   updateMunicipalityTriple() {

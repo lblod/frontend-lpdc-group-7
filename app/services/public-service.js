@@ -1,8 +1,12 @@
 import Service, { inject as service } from '@ember/service';
+import { HttpRequest } from 'frontend-lpdc/helpers/http-request';
 
 export default class PublicServiceService extends Service {
   @service store;
   @service('concept') conceptService;
+  @service toaster;
+
+  httpRequest = new HttpRequest(this.toaster);
 
   async bestuurseenheidHasPublicServices() {
     const query = { 'page[size]': 1, 'page[number]': 0 };
@@ -18,120 +22,91 @@ export default class PublicServiceService extends Service {
     });
   }
 
-  async unlinkConcept(publicService) {
-    await fetch(
+  async updatePublicService(publicService, formData) {
+    await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/ontkoppelen`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}`,
+      formData
+    );
+  }
+
+  async getPublicServiceForm(serviceId, formId) {
+    return this.httpRequest.get(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        serviceId
+      )}/form/${formId}`
+    );
+  }
+
+  async unlinkConcept(publicService) {
+    await this.httpRequest.put(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/ontkoppelen`
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
 
   async linkConcept(publicService, concept) {
-    await fetch(
+    await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/koppelen/${encodeURIComponent(concept.uri)}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}/koppelen/${encodeURIComponent(concept.uri)}`
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
 
   async loadPublicServiceLanguageVersion(publicServiceUri) {
-    const response = await fetch(
+    const responseBody = await this.httpRequest.get(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicServiceUri
-      )}/dutch-language-version`,
-      {
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}/dutch-language-version`
     );
-    const body = await response.json();
-    return body?.languageVersion;
+    return responseBody?.languageVersion;
   }
 
   async confirmBijgewerktTotLatestFunctionalChange(publicService) {
-    await fetch(
+    await this.httpRequest.post(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
       )}/confirm-bijgewerkt-tot`,
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-          bijgewerktTot: publicService.concept.get('hasLatestFunctionalChange'),
-        }),
+        bijgewerktTot: publicService.concept.get('hasLatestFunctionalChange'),
       }
     );
+
     await this.loadPublicServiceDetails(publicService.id);
   }
 
   async createPublicService(conceptId) {
-    const body = conceptId ? { conceptId: conceptId } : {};
-
-    const response = await fetch('/lpdc-management/public-services', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify(body),
-    });
-
-    const publicService = await response.json();
-    return publicService.data.id;
+    const responseBody = await this.httpRequest.post(
+      '/lpdc-management/public-services',
+      conceptId ? { conceptId: conceptId } : {}
+    );
+    return responseBody.data.id;
   }
 
   async deletePublicService(publicServiceId) {
-    await fetch(
-      `/lpdc-management/public-services/${encodeURIComponent(publicServiceId)}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+    await this.httpRequest.delete(
+      `/lpdc-management/public-services/${encodeURIComponent(publicServiceId)}`
     );
   }
 
   async reopenPublicService(publicService) {
-    await fetch(
+    await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/reopen`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}/reopen`
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
 
   async publishInstance(publicService) {
-    await fetch(
+    await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/publish`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}/publish`
     );
     await this.loadPublicServiceDetails(publicService.id);
   }

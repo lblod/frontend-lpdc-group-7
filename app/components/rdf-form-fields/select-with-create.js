@@ -3,11 +3,16 @@ import { action } from '@ember/object';
 import SimpleInputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/simple-value-input-field';
 import { guidFor } from '@ember/object/internals';
 import { task } from 'ember-concurrency';
+import { HttpRequest } from 'frontend-lpdc/helpers/http-request';
+import { inject as service } from '@ember/service';
 
 export default class SelectWithCreateComponent extends SimpleInputFieldComponent {
   @tracked
   options = [];
   id = 'select-with-create-' + guidFor(this);
+  @service toaster;
+
+  httpRequest = new HttpRequest(this.toaster);
 
   constructor() {
     super(...arguments);
@@ -47,10 +52,9 @@ export default class SelectWithCreateComponent extends SimpleInputFieldComponent
   @task
   *loadOptions() {
     const field = this.storeOptions.path.value.split('http://schema.org/')[1];
-    const response = yield fetch(
+    this.options = yield this.httpRequest.get(
       `/lpdc-management/contact-info-options/${field}`
     );
-    this.options = yield response.json();
   }
 
   updateStore() {

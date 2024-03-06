@@ -1,7 +1,11 @@
 import Service, { inject as service } from '@ember/service';
+import { HttpRequest } from 'frontend-lpdc/helpers/http-request';
 
 export default class ConceptService extends Service {
   @service store;
+  @service toaster;
+
+  httpRequest = new HttpRequest(this.toaster);
 
   async loadConceptDetails(conceptId) {
     return this.store.findRecord('conceptual-public-service', conceptId, {
@@ -11,13 +15,21 @@ export default class ConceptService extends Service {
     });
   }
 
+  async getConceptForm(serviceId, formId) {
+    return this.httpRequest.get(
+      `/lpdc-management/conceptual-public-services/${encodeURIComponent(
+        serviceId
+      )}/form/${formId}`
+    );
+  }
+
   async loadConceptLanguageVersionByConceptUri(conceptUri) {
-    const response = await fetch(
+    const responseBody = await this.httpRequest.get(
       `/lpdc-management/conceptual-public-services/${encodeURIComponent(
         conceptUri
       )}/dutch-language-version`
     );
-    return (await response.json()).languageVersion;
+    return responseBody.languageVersion;
   }
 
   async loadAllConcepts({ search, page, sort, isNewConcept, isInstantiated }) {
@@ -50,16 +62,10 @@ export default class ConceptService extends Service {
   }
 
   async removeIsNewConceptFlag(conceptDisplayConfiguration) {
-    await fetch(
+    await this.httpRequest.put(
       `/lpdc-management/concept-display-configuration/${encodeURIComponent(
         conceptDisplayConfiguration.uri
-      )}/remove-is-new-flag`,
-      {
-        method: 'put',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      }
+      )}/remove-is-new-flag`
     );
   }
 }

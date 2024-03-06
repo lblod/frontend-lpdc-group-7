@@ -10,7 +10,7 @@ export class HttpRequest {
     if (!response.ok) {
       const message = await response.json();
       console.error(message);
-      this.toaster.error(message._message, 'Fout');
+      this.toaster.error(message._message, 'Fout', { timeOut: 5000 });
     } else {
       return this.getResponseBody(response);
     }
@@ -25,7 +25,7 @@ export class HttpRequest {
     if (!response.ok) {
       const message = await response.json();
       console.error(message);
-      this.toaster.error(message._message, 'Fout');
+      this.toaster.error(message._message, 'Fout', { timeOut: 5000 });
     } else {
       return this.getResponseBody(response);
     }
@@ -40,7 +40,7 @@ export class HttpRequest {
     if (!response.ok) {
       const message = await response.json();
       console.error(message);
-      this.toaster.error(message._message, 'Fout');
+      this.toaster.error(message._message, 'Fout', { timeOut: 5000 });
     } else {
       return this.getResponseBody(response);
     }
@@ -54,7 +54,7 @@ export class HttpRequest {
     if (!response.ok) {
       const message = await response.json();
       console.error(message);
-      this.toaster.error(message._message, 'Fout');
+      this.toaster.error(message._message, 'Fout', { timeOut: 5000 });
     }
   }
 

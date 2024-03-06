@@ -122,7 +122,7 @@ export default class DetailsPageComponent extends Component {
         for (const error of errors) {
           //TODO: should probably handle this more in a more user friendly way
           //ie: redirect to said form and scroll down to the first invalid field
-          this.toaster.error(error.message, 'Fout');
+          this.toaster.error(error.message, 'Fout', { timeOut: 5000 });
         }
       }
     }
@@ -190,7 +190,7 @@ export default class DetailsPageComponent extends Component {
         },
       });
     } else {
-      this.toaster.error('Formulier is ongeldig', 'Fout');
+      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 5000 });
     }
   }
 

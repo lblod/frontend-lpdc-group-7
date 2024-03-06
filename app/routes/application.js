@@ -3,12 +3,14 @@ import { inject as service } from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
 import 'moment';
 import 'moment-timezone';
+import { action } from '@ember/object';
 
 export default class ApplicationRoute extends Route {
   @service intl;
   @service moment;
   @service session;
   @service plausible;
+  @service toaster;
 
   async beforeModel() {
     await this.session.setup();
@@ -36,5 +38,11 @@ export default class ApplicationRoute extends Route {
         apiHost,
       });
     }
+  }
+
+  @action
+  error(error) {
+    console.error(error);
+    this.toaster.error('Oeps er ging iets mis', 'Fout', { timeOut: 5000 });
   }
 }

@@ -9,7 +9,7 @@ export default class PublicServiceService extends Service {
   httpRequest = new HttpRequest(this.toaster);
 
   async bestuurseenheidHasPublicServices() {
-    const query = { 'page[size]': 1, 'page[number]': 0 };
+    const query = {'page[size]': 1, 'page[number]': 0};
     const publicServices = await this.store.query('public-service', query);
     return publicServices.length !== 0;
   }
@@ -82,7 +82,7 @@ export default class PublicServiceService extends Service {
   async createPublicService(conceptId) {
     const responseBody = await this.httpRequest.post(
       '/lpdc-management/public-services',
-      conceptId ? { conceptId: conceptId } : {}
+      conceptId ? {conceptId: conceptId} : {}
     );
     return responseBody.data.id;
   }
@@ -100,6 +100,14 @@ export default class PublicServiceService extends Service {
       )}/reopen`
     );
     await this.loadPublicServiceDetails(publicService.id);
+  }
+
+  async validateInstance(publicService) {
+    return this.httpRequest.put(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/validate-for-publish`
+    );
   }
 
   async publishInstance(publicService) {

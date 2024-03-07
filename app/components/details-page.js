@@ -106,25 +106,18 @@ export default class DetailsPageComponent extends Component {
   @task({ group: 'publicServiceAction' })
   *publishPublicService() {
     const { publicService } = this.args;
-    const response = yield validateFormData(publicService.uri);
+    const validationErrors = yield this.publicServiceService.validateInstance(
+      publicService
+    );
 
-    if (response.ok) {
+    if (validationErrors.length > 0) {
+      for (const validationError of validationErrors) {
+        this.toaster.error(validationError.message, 'Fout', { timeOut: 10000 });
+      }
+    } else {
       yield this.publicServiceService.publishInstance(publicService);
 
       this.router.transitionTo('public-services');
-    } else {
-      const jsonResponse = yield response.json();
-      const errors = jsonResponse?.data?.errors;
-
-      if (response.status == 500 || !errors) {
-        throw 'Unexpected error while validating data in backend';
-      } else {
-        for (const error of errors) {
-          //TODO: should probably handle this more in a more user friendly way
-          //ie: redirect to said form and scroll down to the first invalid field
-          this.toaster.error(error.message, 'Fout', { timeOut: 5000 });
-        }
-      }
     }
   }
 
@@ -190,7 +183,7 @@ export default class DetailsPageComponent extends Component {
         },
       });
     } else {
-      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 5000 });
+      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 10000 });
     }
   }
 
@@ -261,19 +254,4 @@ export default class DetailsPageComponent extends Component {
       this.router.off('routeWillChange', this, this.showUnsavedChangesModal);
     }
   }
-}
-
-async function validateFormData(serviceId) {
-  return await fetch(
-    `/lpdc-management/public-services/${encodeURIComponent(
-      serviceId
-    )}/validate-for-publish`,
-    {
-      method: 'POST',
-      body: JSON.stringify({}),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    }
-  );
 }

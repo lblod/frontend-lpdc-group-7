@@ -43,6 +43,10 @@ export default class ApplicationRoute extends Route {
   @action
   error(error) {
     console.error(error);
-    this.toaster.error('Oeps er ging iets mis', 'Fout', { timeOut: 5000 });
+    this.toaster.error(
+      'Er is een serverfout opgetreden. Probeer het later opnieuw of neem contact op indien het probleem aanhoudt. Onze excuses voor het ongemak.',
+      'Fout',
+      { timeOut: 10000 }
+    );
   }
 }

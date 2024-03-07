@@ -9,7 +9,7 @@ export default class PublicServiceService extends Service {
   httpRequest = new HttpRequest(this.toaster);
 
   async bestuurseenheidHasPublicServices() {
-    const query = {'page[size]': 1, 'page[number]': 0};
+    const query = { 'page[size]': 1, 'page[number]': 0 };
     const publicServices = await this.store.query('public-service', query);
     return publicServices.length !== 0;
   }
@@ -82,7 +82,7 @@ export default class PublicServiceService extends Service {
   async createPublicService(conceptId) {
     const responseBody = await this.httpRequest.post(
       '/lpdc-management/public-services',
-      conceptId ? {conceptId: conceptId} : {}
+      conceptId ? { conceptId: conceptId } : {}
     );
     return responseBody.data.id;
   }

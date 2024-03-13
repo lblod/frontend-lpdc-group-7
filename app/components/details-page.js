@@ -112,7 +112,7 @@ export default class DetailsPageComponent extends Component {
 
     if (validationErrors.length > 0) {
       for (const validationError of validationErrors) {
-        this.toaster.error(validationError.message, 'Fout', { timeOut: 10000 });
+        this.toaster.error(validationError.message, 'Fout', { timeOut: 30000 });
       }
     } else {
       yield this.publicServiceService.publishInstance(publicService);
@@ -183,7 +183,7 @@ export default class DetailsPageComponent extends Component {
         },
       });
     } else {
-      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 10000 });
+      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 30000 });
     }
   }
 

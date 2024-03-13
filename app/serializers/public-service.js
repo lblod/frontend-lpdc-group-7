@@ -2,8 +2,10 @@ import ApplicationSerializer from './application';
 
 export const ALLOWED_FIELDS = [
   'concept',
+  'date-modified',
   'dateModified',
   'status',
+  'review-status',
   'reviewStatus',
 ];
 

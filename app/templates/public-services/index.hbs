@@ -72,7 +72,7 @@
         Uitvoerende bestuursniveaus
       </th>
       <AuDataTableThSortable
-        @field="modified"
+        @field="dateModified"
         @currentSorting={{this.sort}}
         @label="Laatst bewerkt"
       />
@@ -144,7 +144,7 @@
           </PillList>
         </td>
         <td>
-          {{moment-format publicService.modified "DD-MM-YYYY - HH:mm"}}
+          {{moment-format publicService.dateModified "DD-MM-YYYY - HH:mm"}}
         </td>
         {{!-- <td>
              <TranslationStatus

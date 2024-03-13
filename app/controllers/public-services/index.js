@@ -14,7 +14,7 @@ export default class PublicServicesIndexController extends Controller {
     },
   ];
   @tracked search = '';
-  @tracked sort = '-modified';
+  @tracked sort = '-date-modified';
   @tracked page = 0;
   @tracked isReviewRequiredFilterEnabled = false;
   serviceNeedsReview = serviceNeedsReview;

@@ -40,7 +40,7 @@ module('Unit | Serializer | public service', function (hooks) {
     });
 
     let record = store.peekRecord('public-service', '1');
-    record.modified = new Date();
+    record.dateModified = new Date();
 
     let serializedRecord = record.serialize();
     let serializedAttributeNames = Object.keys(

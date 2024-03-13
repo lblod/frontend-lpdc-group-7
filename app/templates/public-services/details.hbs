@@ -61,7 +61,7 @@
         <Data>
           <:title>Aangemaakt op</:title>
           <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.created}}>
+            <ValueWithPlaceholder @value={{@model.publicService.dateCreated}}>
               <:value as |value|>
                 {{moment-format value "DD-MM-YYYY - HH:mm"}}
               </:value>
@@ -71,7 +71,7 @@
         <Data>
           <:title>Bewerkt op</:title>
           <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.modified}}>
+            <ValueWithPlaceholder @value={{@model.publicService.dateModified}}>
               <:value as |value|>
                 {{moment-format value "DD-MM-YYYY - HH:mm"}}
               </:value>

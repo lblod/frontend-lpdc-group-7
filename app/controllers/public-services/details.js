@@ -57,9 +57,9 @@ export default class PublicServicesDetailsController extends Controller {
   }
 
   get isNewlyCreatedPublicService() {
-    const created = this.model.publicService.created.toString();
-    const modified = this.model.publicService.modified.toString();
-    return created === modified;
+    const dateCreated = this.model.publicService.dateCreated.toString();
+    const dateModified = this.model.publicService.dateModified.toString();
+    return dateCreated === dateModified;
   }
 
   get ipdcConceptCompareLink() {

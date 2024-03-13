@@ -6,8 +6,8 @@ export default class PublicServiceModel extends Model {
   @attr('language-string-set') name;
   @attr('datetime') startDate;
   @attr('datetime') endDate;
-  @attr('datetime') created;
-  @attr('datetime') modified;
+  @attr('datetime') dateCreated;
+  @attr('datetime') dateModified;
   @attr versionedSource;
 
   @belongsTo('concept', {

@@ -1,5 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { HttpRequest } from 'frontend-lpdc/helpers/http-request';
+import moment from 'moment';
 
 export default class PublicServiceService extends Service {
   @service store;
@@ -27,7 +28,10 @@ export default class PublicServiceService extends Service {
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
       )}`,
-      formData
+      formData,
+      {
+        version: moment(publicService.dateModified).toISOString(),
+      }
     );
   }
 

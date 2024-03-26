@@ -17,11 +17,14 @@ export class HttpRequest {
     }
   }
 
-  async put(url, body = {}) {
+  async put(url, body = {}, headers = {}) {
     const response = await fetch(url, {
       method: 'PUT',
       body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
     });
     if (!response.ok) {
       const message = await response.json();

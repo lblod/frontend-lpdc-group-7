@@ -28,8 +28,6 @@ export default class FormalInformalChoiceService extends Service {
   }
 
   async getChoice() {
-    const choices = await this.store.findAll('formal-informal-choice');
-    const sortedChoices = choices.sortBy('dateCreated');
-    return sortedChoices[0];
+    return await this.store.findAll('formal-informal-choice')[0];
   }
 }

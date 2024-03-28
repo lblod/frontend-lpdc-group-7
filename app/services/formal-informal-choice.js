@@ -28,6 +28,6 @@ export default class FormalInformalChoiceService extends Service {
   }
 
   async getChoice() {
-    return await this.store.findAll('formal-informal-choice')[0];
+    return (await this.store.findAll('formal-informal-choice'))[0];
   }
 }

@@ -15,8 +15,6 @@ export default class FormalInformalChoiceService extends Service {
   async saveChoice(value) {
     const choice = this.store.createRecord('formal-informal-choice', {
       chosenForm: value,
-      dateCreated: new Date().toISOString(),
-      bestuurseenheid: this.currentSession.group,
     });
     await choice.save();
   }

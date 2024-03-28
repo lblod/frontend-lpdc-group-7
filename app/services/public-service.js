@@ -30,7 +30,7 @@ export default class PublicServiceService extends Service {
       )}`,
       formData,
       {
-        version: moment(publicService.dateModified).toISOString(),
+        'instance-version': moment(publicService.dateModified).toISOString(),
       }
     );
   }
@@ -47,7 +47,11 @@ export default class PublicServiceService extends Service {
     await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/ontkoppelen`
+      )}/ontkoppelen`,
+      {},
+      {
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
@@ -56,7 +60,12 @@ export default class PublicServiceService extends Service {
     await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/koppelen/${encodeURIComponent(concept.uri)}`
+      )}/koppelen/${encodeURIComponent(concept.uri)}`,
+      {},
+      {
+        test: 'test',
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
@@ -77,6 +86,9 @@ export default class PublicServiceService extends Service {
       )}/confirm-bijgewerkt-tot`,
       {
         bijgewerktTot: publicService.concept.get('hasLatestFunctionalChange'),
+      },
+      {
+        'instance-version': moment(publicService.dateModified).toISOString(),
       }
     );
 
@@ -101,16 +113,24 @@ export default class PublicServiceService extends Service {
     await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/reopen`
+      )}/reopen`,
+      {},
+      {
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
 
   async validateInstance(publicService) {
-    return this.httpRequest.put(
+    return await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/validate-for-publish`
+      )}/validate-for-publish`,
+      {},
+      {
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
     );
   }
 
@@ -118,7 +138,12 @@ export default class PublicServiceService extends Service {
     await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/publish`
+      )}/publish`,
+      {},
+      {
+        test: 'test',
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
     );
     await this.loadPublicServiceDetails(publicService.id);
   }

@@ -36,11 +36,14 @@ export class HttpRequest {
     }
   }
 
-  async post(url, body) {
+  async post(url, body, headers = {}) {
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
     });
     if (!response.ok) {
       const message = await response.json();

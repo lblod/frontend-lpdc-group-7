@@ -22,16 +22,10 @@ export default class PublicServicesDetailsRoute extends Route {
         )
       : undefined;
 
-    const publicServiceLanguageVersion =
-      await this.publicServiceService.loadPublicServiceLanguageVersion(
-        publicService.uri
-      );
-
     return {
       publicService,
       readOnly,
       languageVersionOfConcept,
-      publicServiceLanguageVersion,
     };
   }
 

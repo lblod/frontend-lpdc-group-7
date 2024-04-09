@@ -70,15 +70,6 @@ export default class PublicServiceService extends Service {
     await this.loadPublicServiceDetails(publicService.id);
   }
 
-  async loadPublicServiceLanguageVersion(publicServiceUri) {
-    const responseBody = await this.httpRequest.get(
-      `/lpdc-management/public-services/${encodeURIComponent(
-        publicServiceUri
-      )}/dutch-language-version`
-    );
-    return responseBody?.languageVersion;
-  }
-
   async confirmBijgewerktTotLatestFunctionalChange(publicService) {
     await this.httpRequest.post(
       `/lpdc-management/public-services/${encodeURIComponent(

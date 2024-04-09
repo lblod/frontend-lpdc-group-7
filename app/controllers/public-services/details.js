@@ -64,11 +64,11 @@ export default class PublicServicesDetailsController extends Controller {
 
   get ipdcConceptCompareLink() {
     const productId = this.model.publicService.concept.get('productId');
-    const languageVersion = this.model.publicServiceLanguageVersion.includes(
-      'informal'
-    )
-      ? 'nl/informeel'
-      : 'nl';
+    const languageVersion =
+      this.model.publicService.dutchLanguageVariant.toLowerCase() ===
+      'nl-be-x-informal'
+        ? 'nl/informeel'
+        : 'nl';
 
     const latestSnapshot = this.getUuidFromUri(
       this.model.publicService.concept.get('hasLatestFunctionalChange')

@@ -9,6 +9,7 @@ export default class PublicServiceModel extends Model {
   @attr('datetime') dateCreated;
   @attr('datetime') dateModified;
   @attr versionedSource;
+  @attr dutchLanguageVariant;
 
   @belongsTo('concept', {
     async: false,

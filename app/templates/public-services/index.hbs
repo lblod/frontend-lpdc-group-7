@@ -121,6 +121,11 @@
               Herziening nodig
             </AuPill>
           {{/if}}
+          {{#if publicService.needsConversionFromFormalToInformal}}
+            <AuPill @skin="default" @size="small" @icon="message">
+              u->je
+            </AuPill>
+          {{/if}}
         </td>
         <td>
             {{publicService.productId}}

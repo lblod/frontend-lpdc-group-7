@@ -165,14 +165,14 @@
     </Group>
   {{/if}}
 
-  {{#if @model.publicService.reviewStatus}}
-    <Group class="w-100">
+  <Group class="w-100">
+    {{#if @model.publicService.reviewStatus}}
       <AuAlert
         @title={{if this.isConceptUpdatedStatus "Herziening nodig" "Concept gearchiveerd"}}
         @skin={{if this.isConceptUpdatedStatus "warning" "error"}}
         @icon="alert-triangle"
         @size="small"
-        class="au-u-margin-bottom-none"
+        class="au-u-margin-bottom-none au-u-1-2"
       >
         <p>
           {{#if this.isConceptUpdatedStatus}}
@@ -209,8 +209,44 @@
           </AuButtonGroup>
         </div>
       </AuAlert>
-    </Group>
-  {{/if}}
+    {{/if}}
+    {{#if this.shouldShowConversionAlert }}
+      <AuAlert
+        @title="Omzetting naar de je-vorm"
+        @skin="info"
+        @icon="message"
+        @size="small"
+        class="au-u-margin-bottom-none au-u-1-2"
+      >
+        <p>
+          Deze instantie is nog gebaseerd op een concept in de u-vorm. Zet deze om naar de je-vorm.
+        </p>
+        <div class="au-u-margin-top-small">
+          <AuButtonGroup>
+            <AuButton
+              @skin="primary"
+              @icon="eye"
+            >
+              Instantie in je-vorm bekijken
+            </AuButton>
+            <AuButton
+              @skin="primary"
+              @icon="pencil"
+            >
+              Omzetten naar de je-vorm
+            </AuButton>
+            <AuButton
+              @skin="secondary"
+              @icon="check"
+            >
+              Inhoud is al in de je-vorm
+            </AuButton>
+          </AuButtonGroup>
+        </div>
+      </AuAlert>
+    {{/if}}
+  </Group>
+
 </AuToolbar>
 
 <AuTabs as |Tab|>

@@ -33,6 +33,14 @@ export default class PublicServicesDetailsController extends Controller {
     );
   }
 
+  get shouldShowConversionAlert() {
+    const { publicService, formalInformalChoice } = this.model;
+    return (
+      publicService.needsConversionFromFormalToInformal &&
+      formalInformalChoice.chosenForm === 'informal'
+    );
+  }
+
   get publicServiceDutchLanguageVariant() {
     switch (this.model.publicService.dutchLanguageVariant) {
       case 'nl-be-x-informal':

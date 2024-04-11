@@ -77,7 +77,8 @@ export default class PublicServicesIndexController extends Controller {
 
   @action
   toggleNeedsConversionFromFormalToInformalFilter() {
-    this.needsConversionFromFormalToInformalFilterEnabled = !this.needsConversionFromFormalToInformalFilterEnabled;
+    this.needsConversionFromFormalToInformalFilterEnabled =
+      !this.needsConversionFromFormalToInformalFilterEnabled;
     this.resetPagination();
   }
 

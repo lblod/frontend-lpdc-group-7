@@ -26,7 +26,7 @@ export default class PublicServicesIndexRoute extends Route {
     },
     needsConversionFromFormalToInformalFilterEnabled: {
       refreshModel: true,
-    }
+    },
   };
 
   async beforeModel() {
@@ -43,7 +43,6 @@ export default class PublicServicesIndexRoute extends Route {
         },
       });
     }
-
   }
 
   async model(params) {
@@ -60,7 +59,7 @@ export default class PublicServicesIndexRoute extends Route {
     page,
     sort,
     isReviewRequiredFilterEnabled,
-    needsConversionFromFormalToInformalFilterEnabled
+    needsConversionFromFormalToInformalFilterEnabled,
   }) {
     const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,

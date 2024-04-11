@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default class PublicServicesDetailsRoute extends Route {
   @service('public-service') publicServiceService;
   @service('concept') conceptService;
+  @service('formal-informal-choice') formalInformalChoiceService;
 
   async model({ serviceId }) {
     const publicService =
@@ -22,10 +23,14 @@ export default class PublicServicesDetailsRoute extends Route {
         )
       : undefined;
 
+    const formalInformalChoice =
+      await this.formalInformalChoiceService.getChoice();
+
     return {
       publicService,
       readOnly,
       languageVersionOfConcept,
+      formalInformalChoice,
     };
   }
 

@@ -110,11 +110,11 @@
             {{/if}}
           </:content>
         </Data>
-        {{#if (and this.publicServiceHasConcept this.isNewlyCreatedPublicService)}}
+        {{#if this.shouldDisplayVersion}}
           <Data>
             <:title>Versie</:title>
             <:content>
-              {{this.conceptFormalInformalVersion}}
+              {{this.publicServiceDutchLanguageVariant}}
             </:content>
           </Data>
         {{/if}}

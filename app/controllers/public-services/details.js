@@ -14,7 +14,6 @@ export default class PublicServicesDetailsController extends Controller {
   @service('public-service') publicServiceService;
 
   @tracked shouldShowUnlinkWarning = false;
-
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.model.publicService.reviewStatus);
   }
@@ -34,10 +33,19 @@ export default class PublicServicesDetailsController extends Controller {
     );
   }
 
-  get conceptFormalInformalVersion() {
-    return this.model.languageVersionOfConcept.includes('informal')
-      ? 'je-versie'
-      : 'u-versie';
+  get publicServiceDutchLanguageVariant() {
+    switch (this.model.publicService.dutchLanguageVariant) {
+      case 'nl-be-x-informal':
+        return 'je-versie';
+      case 'nl-be-x-formal':
+        return 'u-versie';
+      default:
+        return 'onbekend';
+    }
+  }
+
+  get shouldDisplayVersion() {
+    return this.model.formalInformalChoice?.chosenForm === 'informal';
   }
 
   get shouldShowContentGeneratedWarning() {

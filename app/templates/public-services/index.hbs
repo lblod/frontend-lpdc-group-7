@@ -39,9 +39,15 @@
     >
       Herziening nodig
     </AuToggleSwitch>
-    <AuHelpText @skin="tertiary" class="au-u-margin-top-none">
-      Toon enkel producten waarvan het concept aangepast of verwijderd werd.
-    </AuHelpText>
+    {{#if this.isChosenFormInformal}}
+      <AuToggleSwitch
+        @checked={{this.needsConversionFromFormalToInformalFilterEnabled}}
+        @onChange={{this.toggleNeedsConversionFromFormalToInformalFilter}}
+      >
+        u->je conversie nodig
+      </AuToggleSwitch>
+    {{/if}}
+
   </Group>
 </AuToolbar>
 
@@ -93,11 +99,11 @@
 
     {{#if this.showTableLoader}}
       <tbody>
-        <tr>
-          <td colspan="100%" class="au-c-data-table__message">
-            <AuLoader @size="small" />
-          </td>
-        </tr>
+      <tr>
+        <td colspan="100%" class="au-c-data-table__message">
+          <AuLoader @size="small" />
+        </td>
+      </tr>
       </tbody>
     {{else if this.hasErrored}}
       <tr>
@@ -128,7 +134,7 @@
           {{/if}}
         </td>
         <td>
-            {{publicService.productId}}
+          {{publicService.productId}}
         </td>
         <td>{{publicService.type.label}}</td>
         <td>
@@ -184,10 +190,10 @@
         <td colspan="100%" class="au-c-data-table__message">
           <AuAlert
             @title={{if
-              this.isFiltering
-              "Er werden geen producten of diensten gevonden"
-              "Er werden nog geen producten of diensten toegevoegd"
-            }}
+            this.isFiltering
+            "Er werden geen producten of diensten gevonden"
+            "Er werden nog geen producten of diensten toegevoegd"
+          }}
             @icon="info-circle"
             @skin="info"
             @size="small"

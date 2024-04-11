@@ -17,6 +17,7 @@ export default class PublicServicesIndexController extends Controller {
   @tracked sort = '-date-modified';
   @tracked page = 0;
   @tracked isReviewRequiredFilterEnabled = false;
+  @tracked needsConversionFromFormalToInformalFilterEnabled = false;
   serviceNeedsReview = serviceNeedsReview;
 
   get publicServices() {
@@ -25,6 +26,10 @@ export default class PublicServicesIndexController extends Controller {
     }
 
     return this.model.loadedPublicServices || [];
+  }
+
+  get isChosenFormInformal() {
+    return this.model.formalInformalChoice?.chosenForm;
   }
 
   get isFiltering() {
@@ -67,6 +72,12 @@ export default class PublicServicesIndexController extends Controller {
   @action
   toggleReviewRequiredFilter() {
     this.isReviewRequiredFilterEnabled = !this.isReviewRequiredFilterEnabled;
+    this.resetPagination();
+  }
+
+  @action
+  toggleNeedsConversionFromFormalToInformalFilter() {
+    this.needsConversionFromFormalToInformalFilterEnabled = !this.needsConversionFromFormalToInformalFilterEnabled;
     this.resetPagination();
   }
 

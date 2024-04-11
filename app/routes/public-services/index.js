@@ -24,6 +24,9 @@ export default class PublicServicesIndexRoute extends Route {
     isReviewRequiredFilterEnabled: {
       refreshModel: true,
     },
+    needsConversionFromFormalToInformalFilterEnabled: {
+      refreshModel: true,
+    }
   };
 
   async beforeModel() {
@@ -40,10 +43,12 @@ export default class PublicServicesIndexRoute extends Route {
         },
       });
     }
+
   }
 
   async model(params) {
     return {
+      formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadPublicServices: this.loadPublicServicesTask.perform(params),
       loadedPublicServices: this.loadPublicServicesTask.lastSuccessful?.value,
     };
@@ -55,6 +60,7 @@ export default class PublicServicesIndexRoute extends Route {
     page,
     sort,
     isReviewRequiredFilterEnabled,
+    needsConversionFromFormalToInformalFilterEnabled
   }) {
     const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
@@ -75,6 +81,9 @@ export default class PublicServicesIndexRoute extends Route {
 
     if (isReviewRequiredFilterEnabled) {
       query['filter[:has:review-status]'] = true;
+    }
+    if (needsConversionFromFormalToInformalFilterEnabled) {
+      query['filter[needs-conversion-from-formal-to-informal]'] = true;
     }
 
     return yield this.store.query('public-service', query);

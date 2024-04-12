@@ -1,12 +1,9 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { dropTask } from 'ember-concurrency';
-import {
-  hasConcept,
-  isConceptUpdated,
-} from 'frontend-lpdc/models/public-service';
-import { inject as service } from '@ember/service';
+import {action} from '@ember/object';
+import {tracked} from '@glimmer/tracking';
+import {dropTask} from 'ember-concurrency';
+import {hasConcept, isConceptUpdated,} from 'frontend-lpdc/models/public-service';
+import {inject as service} from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
 
 export default class PublicServicesDetailsController extends Controller {
@@ -32,13 +29,18 @@ export default class PublicServicesDetailsController extends Controller {
       !this.shouldShowUnlinkWarning
     );
   }
-
+  //TODO: LPDC-1086 check if published
   get shouldShowConversionAlert() {
     const { publicService, formalInformalChoice } = this.model;
     return (
       publicService.needsConversionFromFormalToInformal &&
       formalInformalChoice.chosenForm === 'informal'
     );
+  }
+
+  get ipdcInformalLink() {
+    const id = this.model.publicService.id;
+    return `${ENV.ipdcUrl}/nl/informeel/instantie/${id}`;
   }
 
   get publicServiceDutchLanguageVariant() {

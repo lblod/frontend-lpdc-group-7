@@ -210,7 +210,7 @@
         </div>
       </AuAlert>
     {{/if}}
-    {{#if this.shouldShowConversionAlert }}
+    {{#if this.shouldShowConversionAlertPublishedInstance }}
       <AuAlert
         @title="Omzetting naar de je-vorm"
         @skin="info"
@@ -245,6 +245,19 @@
             </AuButton>
           </AuButtonGroup>
         </div>
+      </AuAlert>
+    {{/if}}
+    {{#if this.shouldShowConversionAlertDraftInstance }}
+      <AuAlert
+        @title=""
+        @skin="info"
+        @icon="message"
+        @size="small"
+        class="au-u-margin-bottom-none au-u-1-2"
+      >
+        <p>
+          Deze instantie is nog gebaseerd op een concept in de u-vorm, maar het omzetten naar de je-vorm kan pas plaatsvinden na verzenden naar de vlaamse overheid.
+        </p>
       </AuAlert>
     {{/if}}
   </Group>

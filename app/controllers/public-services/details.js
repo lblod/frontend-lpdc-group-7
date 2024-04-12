@@ -29,11 +29,20 @@ export default class PublicServicesDetailsController extends Controller {
       !this.shouldShowUnlinkWarning
     );
   }
-  //TODO: LPDC-1086 check if published
-  get shouldShowConversionAlert() {
+
+  get shouldShowConversionAlertPublishedInstance() {
     const { publicService, formalInformalChoice } = this.model;
     return (
       publicService.needsConversionFromFormalToInformal &&
+      publicService.isSent &&
+      formalInformalChoice.chosenForm === 'informal'
+    );
+  }
+  get shouldShowConversionAlertDraftInstance() {
+    const { publicService, formalInformalChoice } = this.model;
+    return (
+      publicService.needsConversionFromFormalToInformal &&
+      !publicService.isSent &&
       formalInformalChoice.chosenForm === 'informal'
     );
   }

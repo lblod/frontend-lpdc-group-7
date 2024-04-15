@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
-import {action} from '@ember/object';
-import {tracked} from '@glimmer/tracking';
-import {dropTask} from 'ember-concurrency';
-import {hasConcept, isConceptUpdated,} from 'frontend-lpdc/models/public-service';
-import {inject as service} from '@ember/service';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { dropTask } from 'ember-concurrency';
+import {
+  hasConcept,
+  isConceptUpdated,
+} from 'frontend-lpdc/models/public-service';
+import { inject as service } from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
 
 export default class PublicServicesDetailsController extends Controller {
@@ -11,6 +14,7 @@ export default class PublicServicesDetailsController extends Controller {
   @service('public-service') publicServiceService;
 
   @tracked shouldShowUnlinkWarning = false;
+
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.model.publicService.reviewStatus);
   }
@@ -38,6 +42,7 @@ export default class PublicServicesDetailsController extends Controller {
       formalInformalChoice.chosenForm === 'informal'
     );
   }
+
   get shouldShowConversionAlertDraftInstance() {
     const { publicService, formalInformalChoice } = this.model;
     return (
@@ -128,6 +133,12 @@ export default class PublicServicesDetailsController extends Controller {
     const { publicService } = this.model;
     yield this.publicServiceService.unlinkConcept(publicService);
     this.hideUnlinkWarning();
+  }
+
+  @dropTask()
+  *confirmInstanceAlreadyFormal() {
+    const { publicService } = this.model;
+    yield this.publicServiceService.confirmInstanceAlreadyFormal(publicService);
   }
 
   getUuidFromUri(uri) {

@@ -240,6 +240,7 @@
             <AuButton
               @skin="secondary"
               @icon="check"
+              {{on "click" (perform this.confirmInstanceAlreadyFormal)}}
             >
               Inhoud is al in de je-vorm
             </AuButton>

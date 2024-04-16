@@ -60,10 +60,23 @@ export default class PublicServiceModel extends Model {
   })
   reviewStatus;
 
+  @belongsTo('concept', {
+    async: false,
+    inverse: null,
+  })
+  publicationStatus;
+
   get isSent() {
     return (
       this.status?.uri ===
       'http://lblod.data.gift/concepts/instance-status/verstuurd'
+    );
+  }
+
+  get isPublished() {
+    return (
+      this.publicationStatus?.uri ===
+      'http://lblod.data.gift/concepts/publication-status/gepubliceerd'
     );
   }
 

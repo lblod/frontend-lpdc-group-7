@@ -38,7 +38,7 @@ export default class PublicServicesDetailsController extends Controller {
     const { publicService, formalInformalChoice } = this.model;
     return (
       publicService.needsConversionFromFormalToInformal &&
-      publicService.isSent &&
+      publicService.isPublished &&
       formalInformalChoice.chosenForm === 'informal'
     );
   }

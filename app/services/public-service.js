@@ -86,7 +86,7 @@ export default class PublicServiceService extends Service {
     await this.loadPublicServiceDetails(publicService.id);
   }
 
-  async confirmInstanceAlreadyFormal(publicService) {
+  async confirmInstanceAlreadyInformal(publicService) {
     await this.httpRequest.post(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri

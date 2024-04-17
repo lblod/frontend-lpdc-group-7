@@ -136,9 +136,11 @@ export default class PublicServicesDetailsController extends Controller {
   }
 
   @dropTask()
-  *confirmInstanceAlreadyFormal() {
+  *confirmInstanceAlreadyInformal() {
     const { publicService } = this.model;
-    yield this.publicServiceService.confirmInstanceAlreadyFormal(publicService);
+    yield this.publicServiceService.confirmInstanceAlreadyInformal(
+      publicService
+    );
   }
 
   getUuidFromUri(uri) {

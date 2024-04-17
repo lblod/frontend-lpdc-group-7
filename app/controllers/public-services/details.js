@@ -64,7 +64,7 @@ export default class PublicServicesDetailsController extends Controller {
       case 'nl-be-x-formal':
         return 'u-versie';
       default:
-        return 'onbekend';
+        return 'u/je onbepaald';
     }
   }
 

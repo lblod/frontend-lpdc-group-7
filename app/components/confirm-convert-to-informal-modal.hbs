@@ -1,0 +1,34 @@
+<AuModal
+  @modalOpen={{true}}
+  @closeModal={{this.close}}
+  data-test-confirm-deletion-modal="modal"
+>
+  <:title>Instantie automatisch omzetten naar de je-vorm?</:title>
+  <:body>
+    De instantie wordt automatisch omgezet naar de je-vorm en in status "Ontwerp" klaargezet.
+    Kijk de inhoud na, en verzend de instantie dan opnieuw naar de Vlaamse overheid.
+  </:body>
+  <:footer>
+    <AuButtonGroup>
+      <AuButton
+        @icon="pencil"
+        @iconAlignment="left"
+        @disabled={{this.delete.isRunning}}
+        @loading={{this.delete.isRunning}}
+        @loadingMessage="Aan het converteren"
+        {{on "click" (perform this.convert)}}
+        data-test-confirm-convertion-modal="convert-button"
+      >
+        Doorgaan
+      </AuButton>
+      <AuButton
+        @skin="secondary"
+        @disabled={{this.delete.isRunning}}
+        {{on "click" this.close}}
+        data-test-confirm-convertion-modal="cancel-button"
+      >
+        Annuleer
+      </AuButton>
+    </AuButtonGroup>
+  </:footer>
+</AuModal>

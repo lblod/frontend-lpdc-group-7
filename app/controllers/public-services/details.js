@@ -8,9 +8,11 @@ import {
 } from 'frontend-lpdc/models/public-service';
 import { inject as service } from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
+import ConfirmConvertToInformalModalComponent from 'frontend-lpdc/components/confirm-convert-to-informal-modal';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
+  @service modals;
   @service('public-service') publicServiceService;
 
   @tracked shouldShowUnlinkWarning = false;
@@ -146,5 +148,10 @@ export default class PublicServicesDetailsController extends Controller {
   getUuidFromUri(uri) {
     const segmentedUri = uri.split('/');
     return segmentedUri[segmentedUri.length - 1];
+  }
+
+  @action
+  convertToInformal() {
+    this.modals.open(ConfirmConvertToInformalModalComponent, {});
   }
 }

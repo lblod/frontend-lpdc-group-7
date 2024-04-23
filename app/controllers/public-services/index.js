@@ -29,7 +29,7 @@ export default class PublicServicesIndexController extends Controller {
   }
 
   get isChosenFormInformal() {
-    return this.model.formalInformalChoice?.chosenForm;
+    return this.model.formalInformalChoice?.chosenForm === 'informal';
   }
 
   get isFiltering() {

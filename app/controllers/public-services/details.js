@@ -53,8 +53,8 @@ export default class PublicServicesDetailsController extends Controller {
   }
 
   get ipdcInformalLink() {
-    const id = this.model.publicService.id;
-    return `${ENV.ipdcUrl}/nl/informeel/instantie/${id}`;
+    const instanceId = this.getUuidFromUri(this.model.publicService.uri);
+    return `${ENV.ipdcUrl}/nl/informeel/instantie/${instanceId}`;
   }
 
   get publicServiceDutchLanguageVariant() {

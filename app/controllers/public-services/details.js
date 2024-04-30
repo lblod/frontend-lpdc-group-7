@@ -14,6 +14,7 @@ export default class PublicServicesDetailsController extends Controller {
   @service store;
   @service modals;
   @service('public-service') publicServiceService;
+  @service router;
 
   @tracked shouldShowUnlinkWarning = false;
 
@@ -152,6 +153,14 @@ export default class PublicServicesDetailsController extends Controller {
 
   @action
   convertToInformal() {
-    this.modals.open(ConfirmConvertToInformalModalComponent, {});
+    this.modals.open(ConfirmConvertToInformalModalComponent, {
+      convertToInformalHandler: async () => {
+        let { publicService } = this.model;
+        await this.publicServiceService.convertInstanceToInformal(
+          publicService
+        );
+        this.router.refresh('public-services.details');
+      },
+    });
   }
 }

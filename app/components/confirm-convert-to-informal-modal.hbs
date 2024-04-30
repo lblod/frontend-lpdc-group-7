@@ -1,7 +1,7 @@
 <AuModal
   @modalOpen={{true}}
   @closeModal={{this.close}}
-  data-test-confirm-deletion-modal="modal"
+  data-test-confirm-convert-to-informal-modal="modal"
 >
   <:title>Instantie automatisch omzetten naar de je-vorm?</:title>
   <:body>
@@ -13,19 +13,19 @@
       <AuButton
         @icon="pencil"
         @iconAlignment="left"
-        @disabled={{this.delete.isRunning}}
-        @loading={{this.delete.isRunning}}
+        @disabled={{this.convertToInformal.isRunning}}
+        @loading={{this.convertToInformal.isRunning}}
         @loadingMessage="Aan het converteren"
-        {{on "click" (perform this.convert)}}
-        data-test-confirm-convertion-modal="convert-button"
+        {{on "click" (perform this.convertToInformal)}}
+        data-test-confirm-convert-to-informal-modal="convert-button"
       >
         Doorgaan
       </AuButton>
       <AuButton
         @skin="secondary"
-        @disabled={{this.delete.isRunning}}
+        @disabled={{this.convertToInformal.isRunning}}
         {{on "click" this.close}}
-        data-test-confirm-convertion-modal="cancel-button"
+        data-test-confirm-convert-to-informal-modal="cancel-button"
       >
         Annuleer
       </AuButton>

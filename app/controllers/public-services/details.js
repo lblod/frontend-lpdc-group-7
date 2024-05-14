@@ -21,6 +21,9 @@ export default class PublicServicesDetailsController extends Controller {
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.model.publicService.reviewStatus);
   }
+  get functionallyChangedFields() {
+    return this.model.functionallyChangedFields.join(', ');
+  }
 
   get canLinkConcept() {
     const { publicService } = this.model;

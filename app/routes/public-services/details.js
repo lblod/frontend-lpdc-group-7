@@ -5,6 +5,7 @@ export default class PublicServicesDetailsRoute extends Route {
   @service('public-service') publicServiceService;
   @service('concept') conceptService;
   @service('formal-informal-choice') formalInformalChoiceService;
+  @service('concept-snapshot') conceptSnapshotService;
 
   async model({ serviceId }) {
     const publicService =
@@ -26,11 +27,16 @@ export default class PublicServicesDetailsRoute extends Route {
     const formalInformalChoice =
       await this.formalInformalChoiceService.getChoice();
 
+    const functionallyChangedFields =
+      await this.conceptSnapshotService.getFunctionallyChangedFields(
+        publicService.versionedSource
+      );
     return {
       publicService,
       readOnly,
       languageVersionOfConcept,
       formalInformalChoice,
+      functionallyChangedFields,
     };
   }
 

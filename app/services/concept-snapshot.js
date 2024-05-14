@@ -7,11 +7,16 @@ export default class ConceptSnapshotService extends Service {
 
   httpRequest = new HttpRequest(this.toaster);
 
-  async getFunctionallyChangedFields(conceptSnapshot) {
-    return this.httpRequest.get(
-      `/lpdc-management/concept-snapshot/compare-with-latest/${encodeURIComponent(
-        conceptSnapshot
-      )}`
-    );
+  async getFunctionallyChangedFields(
+    currentConceptSnapshot,
+    latestConceptSnapshot
+  ) {
+    if (currentConceptSnapshot && latestConceptSnapshot) {
+      return this.httpRequest.get(
+        `/lpdc-management/concept-snapshot/compare?snapshot1=${encodeURIComponent(
+          currentConceptSnapshot
+        )}&snapshot2=${encodeURIComponent(latestConceptSnapshot)}`
+      );
+    }
   }
 }

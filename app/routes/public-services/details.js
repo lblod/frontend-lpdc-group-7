@@ -27,10 +27,14 @@ export default class PublicServicesDetailsRoute extends Route {
     const formalInformalChoice =
       await this.formalInformalChoiceService.getChoice();
 
-    const functionallyChangedFields =
-      await this.conceptSnapshotService.getFunctionallyChangedFields(
-        publicService.versionedSource
-      );
+    let functionallyChangedFields = [];
+    if (publicService.versionedSource) {
+      functionallyChangedFields =
+        await this.conceptSnapshotService.getFunctionallyChangedFields(
+          publicService.versionedSource
+        );
+    }
+
     return {
       publicService,
       readOnly,

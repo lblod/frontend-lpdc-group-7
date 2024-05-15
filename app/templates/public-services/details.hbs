@@ -194,6 +194,16 @@
               >
                 Concept bekijken
               </AuLinkExternal>
+
+              <AuButton
+                @skin="primary"
+                @icon="copy"
+                {{on "click" this.fullyTakeConceptSnapshotOver}}
+              >
+                Concept volledig overnemen
+              </AuButton>
+
+
             {{/if}}
             <AuButton
               @skin="secondary"

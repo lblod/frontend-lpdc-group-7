@@ -9,7 +9,7 @@ import {
 import { inject as service } from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
 import ConfirmConvertToInformalModalComponent from 'frontend-lpdc/components/confirm-convert-to-informal-modal';
-import FullyTakeConceptSnapshotOverModalComponent from "frontend-lpdc/components/fully-take-concept-snapshot-over";
+import FullyTakeConceptSnapshotOverModalComponent from 'frontend-lpdc/components/fully-take-concept-snapshot-over';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
@@ -170,9 +170,9 @@ export default class PublicServicesDetailsController extends Controller {
   @action
   fullyTakeConceptSnapshotOver() {
     this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
-      convertToInformalHandler: async () => {
+      fullyTakeConceptSnapshotOverHandler: async () => {
         let { publicService } = this.model;
-        await this.publicServiceService.convertInstanceToInformal(
+        await this.publicServiceService.fullyTakeConceptSnapshotOver(
           publicService
         );
         this.router.refresh('public-services.details');

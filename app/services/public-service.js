@@ -116,6 +116,24 @@ export default class PublicServiceService extends Service {
     await this.loadPublicServiceDetails(publicService.id);
   }
 
+  async fullyTakeConceptSnapshotOver(publicService) {
+    await this.httpRequest.post(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/fully-take-concept-snapshot-over`,
+      {
+        conceptSnapshotId: publicService.concept.get(
+          'hasLatestFunctionalChange'
+        ),
+      },
+      {
+        'instance-version': moment(publicService.dateModified).toISOString(),
+      }
+    );
+
+    await this.loadPublicServiceDetails(publicService.id);
+  }
+
   async createPublicService(conceptId) {
     const responseBody = await this.httpRequest.post(
       '/lpdc-management/public-services',

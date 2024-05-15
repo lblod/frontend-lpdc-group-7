@@ -5,13 +5,12 @@ import { dropTask } from 'ember-concurrency';
 export default class FullyTakeConceptSnapshotOverModalComponent extends Component {
   @dropTask
   *fullyTakeConceptSnapshotOver() {
+    yield this.args.data.fullyTakeConceptSnapshotOverHandler();
     this.args.close();
   }
 
   @action
   close() {
-    if (this.fullyTakeConceptSnapshotOver.isIdle) {
-      this.args.close();
-    }
+    this.args.close();
   }
 }

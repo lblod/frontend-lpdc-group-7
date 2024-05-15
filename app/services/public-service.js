@@ -76,7 +76,9 @@ export default class PublicServiceService extends Service {
         publicService.uri
       )}/confirm-up-to-date-till`,
       {
-        upToDateTillConceptSnapshot: publicService.concept.get('hasLatestFunctionalChange'),
+        upToDateTillConceptSnapshot: publicService.concept.get(
+          'hasLatestFunctionalChange'
+        ),
       },
       {
         'instance-version': moment(publicService.dateModified).toISOString(),

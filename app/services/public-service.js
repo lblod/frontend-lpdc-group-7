@@ -70,13 +70,13 @@ export default class PublicServiceService extends Service {
     await this.loadPublicServiceDetails(publicService.id);
   }
 
-  async confirmBijgewerktTotLatestFunctionalChange(publicService) {
+  async confirmUpToDateTillLatestFunctionalChange(publicService) {
     await this.httpRequest.post(
       `/lpdc-management/public-services/${encodeURIComponent(
         publicService.uri
-      )}/confirm-bijgewerkt-tot`,
+      )}/confirm-up-to-date-till`,
       {
-        bijgewerktTot: publicService.concept.get('hasLatestFunctionalChange'),
+        upToDateTillConceptSnapshot: publicService.concept.get('hasLatestFunctionalChange'),
       },
       {
         'instance-version': moment(publicService.dateModified).toISOString(),

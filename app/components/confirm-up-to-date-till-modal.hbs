@@ -1,7 +1,7 @@
 <AuModal
   @modalOpen={{true}}
   @closeModal={{this.close}}
-  data-test-confirm-bijgewerkt-tot-modal="modal"
+  data-test-confirm-up-to-date-till-modal="modal"
 >
   <:title>Is deze herziening klaar?</:title>
   <:body>
@@ -11,19 +11,19 @@
   <:footer>
     <AuButtonGroup>
       <AuButton
-        @disabled={{this.confirmBijgewerktTot.isRunning}}
-        @loading={{this.confirmBijgewerktTot.isRunning}}
+        @disabled={{this.confirmUpToDateTill.isRunning}}
+        @loading={{this.confirmUpToDateTill.isRunning}}
         @loadingMessage="Aan het verwijderen"
-        {{on "click" (perform this.confirmBijgewerktTot)}}
-        data-test-confirm-bijgewerkt-tot-modal="delete-button"
+        {{on "click" (perform this.confirmUpToDateTill)}}
+        data-test-confirm-confirm-up-to-date-modal="delete-button"
       >
         Ja, verwijder het label “herziening nodig”
       </AuButton>
       <AuButton
         @skin="secondary"
-        @disabled={{this.confirmBijgewerktTot.isRunning}}
+        @disabled={{this.confirmUpToDateTill.isRunning}}
         {{on "click" this.close}}
-        data-test-confirm-bijgewerkt-tot-modal="cancel-button"
+        data-test-confirm-confirm-up-to-date-modal="cancel-button"
       >
         Nee, ik werk hier later aan verder
       </AuButton>

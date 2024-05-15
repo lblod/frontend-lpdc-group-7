@@ -14,7 +14,7 @@ import ConfirmReopeningModal from 'frontend-lpdc/components/confirm-reopening-mo
 import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
 import UnsavedChangesModal from 'frontend-lpdc/components/unsaved-changes-modal';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
-import ConfirmBijgewerktTotModal from 'frontend-lpdc/components/confirm-bijgewerkt-tot-modal';
+import ConfirmUpToDateTillModal from 'frontend-lpdc/components/confirm-up-to-date-till-modal';
 
 const FORM_GRAPHS = {
   formGraph: new NamedNode('http://data.lblod.info/form'),
@@ -127,9 +127,9 @@ export default class DetailsPageComponent extends Component {
     yield this.saveSemanticForm.unlinked().perform();
 
     if (this.args.publicService.reviewStatus) {
-      yield this.modals.open(ConfirmBijgewerktTotModal, {
-        confirmBijgewerktTotHandler: async () => {
-          await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+      yield this.modals.open(ConfirmUpToDateTillModal, {
+        confirmUpToDateTillHandler: async () => {
+          await this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
             this.args.publicService
           );
         },
@@ -168,9 +168,9 @@ export default class DetailsPageComponent extends Component {
 
     if (isValidForm) {
       if (this.args.publicService.reviewStatus) {
-        yield this.modals.open(ConfirmBijgewerktTotModal, {
-          confirmBijgewerktTotHandler: async () => {
-            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+        yield this.modals.open(ConfirmUpToDateTillModal, {
+          confirmUpToDateTillHandler: async () => {
+            await this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
               this.args.publicService
             );
           },
@@ -230,9 +230,9 @@ export default class DetailsPageComponent extends Component {
       );
 
       if (this.args.publicService.reviewStatus && saved) {
-        await this.modals.open(ConfirmBijgewerktTotModal, {
-          confirmBijgewerktTotHandler: async () => {
-            await this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+        await this.modals.open(ConfirmUpToDateTillModal, {
+          confirmUpToDateTillHandler: async () => {
+            await this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
               this.args.publicService
             );
           },

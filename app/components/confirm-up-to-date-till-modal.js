@@ -2,16 +2,16 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { dropTask } from 'ember-concurrency';
 
-export default class ConfirmBijgewerktTotModal extends Component {
+export default class ConfirmUpToDateTillModal extends Component {
   @dropTask
-  *confirmBijgewerktTot() {
-    yield this.args.data.confirmBijgewerktTotHandler();
+  *confirmUpToDateTill() {
+    yield this.args.data.confirmUpToDateTillHandler();
     this.args.close();
   }
 
   @action
   close() {
-    if (this.confirmBijgewerktTot.isIdle) {
+    if (this.confirmUpToDateTill.isIdle) {
       this.args.close();
     }
   }

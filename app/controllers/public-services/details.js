@@ -129,7 +129,7 @@ export default class PublicServicesDetailsController extends Controller {
 
   @dropTask
   *markAsReviewed() {
-    yield this.publicServiceService.confirmBijgewerktTotLatestFunctionalChange(
+    yield this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
       this.model.publicService
     );
   }

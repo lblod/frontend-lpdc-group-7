@@ -168,7 +168,6 @@
   <Group class="w-100">
     {{#if @model.publicService.reviewStatus}}
       <AuAlert
-        @title={{if this.isConceptUpdatedStatus "Herziening nodig" "Concept gearchiveerd"}}
         @skin={{if this.isConceptUpdatedStatus "warning" "error"}}
         @icon="alert-triangle"
         @size="small"

@@ -173,15 +173,22 @@
         @size="small"
         class="au-u-margin-bottom-none au-u-1-2"
       >
-        <p>
-          {{#if this.isConceptUpdatedStatus}}
-            Het concept waarop dit product is gebaseerd, werd aangepast voor de volgende velden: {{this.functionallyChangedFields}}
-          {{else}}
+        {{#if this.isConceptUpdatedStatus}}
+          <p>
+            In het concept waarop dit product is gebaseerd, zijn de volgende velden
+            aangepast: <strong>{{this.functionallyChangedFields}}</strong>.
+          </p>
+          <br>
+          <p>
+            Je kan ervoor kiezen om elk veld afzonderlijk over te nemen of het concept als geheel.
+          </p>
+        {{else}}
+          <p>
             Het concept waarop dit product is gebaseerd, werd gearchiveerd.
             Gelieve na te kijken of je deze versie wil behouden, aanpassen of
             verwijderen.
-          {{/if}}
-        </p>
+          </p>
+        {{/if}}
         <div class="au-u-margin-top-small">
           <AuButtonGroup>
             {{#if @model.publicService.concept}}
@@ -266,7 +273,8 @@
         class="au-u-margin-bottom-none au-u-1-2"
       >
         <p>
-          Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm (de publicatie duurt enkele minuten).
+          Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm (de
+          publicatie duurt enkele minuten).
         </p>
       </AuAlert>
     {{/if}}

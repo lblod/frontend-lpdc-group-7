@@ -70,7 +70,7 @@ export default class DetailsPageComponent extends Component {
       meta: metaTtl,
       source: sourceTtl,
     } = yield this.publicServiceService.getPublicServiceForm(
-      this.args.publicService.uri,
+      this.args.publicService,
       this.args.formId
     );
 

@@ -35,11 +35,21 @@ export default class PublicServiceService extends Service {
     );
   }
 
-  async getPublicServiceForm(serviceId, formId) {
+  async getPublicServiceForm(publicService, formId) {
+    let latestSnapshotQueryParams = '';
+    if (publicService.reviewStatus) {
+      const latestSnapshot = publicService.concept.get(
+        'hasLatestFunctionalChange'
+      );
+      latestSnapshotQueryParams = `?latestConceptSnapshotId=${encodeURIComponent(
+        latestSnapshot
+      )}`;
+    }
+
     return this.httpRequest.get(
       `/lpdc-management/public-services/${encodeURIComponent(
-        serviceId
-      )}/form/${formId}`
+        publicService.uri
+      )}/form/${formId}${latestSnapshotQueryParams}`
     );
   }
 
@@ -180,7 +190,6 @@ export default class PublicServiceService extends Service {
       )}/publish`,
       {},
       {
-        test: 'test',
         'instance-version': moment(publicService.dateModified).toISOString(),
       }
     );

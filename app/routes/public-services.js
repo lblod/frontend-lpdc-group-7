@@ -7,6 +7,7 @@ import RichTextEditor from 'frontend-lpdc/components/rdf-form-fields/rich-text-e
 import TagSelector from 'frontend-lpdc/components/rdf-form-fields/tag-selector';
 import SelectWithCreate from 'frontend-lpdc/components/rdf-form-fields/select-with-create';
 import AddressSelector from 'frontend-lpdc/components/rdf-form-fields/address-selector';
+import LpdcInputComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-input';
 
 export default class PublicServicesRoute extends Route {
   @service currentSession;
@@ -55,6 +56,10 @@ export default class PublicServicesRoute extends Route {
       {
         displayType: 'http://lblod.data.gift/display-types/addressSelector',
         edit: AddressSelector,
+      },
+      {
+        displayType: 'http://lblod.data.gift/display-types/lpdcInput',
+        edit: LpdcInputComponent,
       },
     ]);
   }

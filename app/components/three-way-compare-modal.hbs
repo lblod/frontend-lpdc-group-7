@@ -10,6 +10,29 @@
         @groupClass="au-o-grid__item"
         @form={{@data.form}}
         @graphs={{@data.graphs}}
+        @sourceNode={{@data.sourceCurrent}}
+        @formStore={{@data.formStore}}
+        @show={{true}}
+      />
+    </form>
+
+    <form class="au-c-rdf-form">
+      <RdfForm
+        @groupClass="au-o-grid__item"
+        @form={{@data.form}}
+        @graphs={{@data.graphs}}
+        @sourceNode={{@data.sourceLatest}}
+        @formStore={{@data.formStore}}
+        @show={{true}}
+      />
+    </form>
+
+
+    <form class="au-c-rdf-form">
+      <RdfForm
+        @groupClass="au-o-grid__item"
+        @form={{@data.form}}
+        @graphs={{@data.graphs}}
         @sourceNode={{@data.sourceNode}}
         @formStore={{@data.formStore}}
         @show={{false}}

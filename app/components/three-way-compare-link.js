@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ThreeWayCompareModal from 'frontend-lpdc/components/three-way-compare-modal';
 import { NamedNode, Statement } from 'rdflib';
-import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
+import { EXT, FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 import { ForkingStore } from '@lblod/ember-submission-form-fields';
 
 export default class ThreeWayCompareLinkComponent extends Component {
@@ -25,10 +25,23 @@ export default class ThreeWayCompareLinkComponent extends Component {
         metaGraph: this.args.originalStoreOptions.metaGraph,
       },
       sourceNode: this.args.originalStoreOptions.sourceNode,
+      sourceCurrent: this.getSourceNode('current'),
+      sourceLatest: this.getSourceNode('latest'),
       saveHandler: (valueLiteral) => {
         this.args.updateValue(valueLiteral.value);
       },
     });
+  }
+
+  getSourceNode(type) {
+    return this.args.originalStoreOptions.store.any(
+      this.args.originalStoreOptions.sourceNode,
+      type === 'current'
+        ? EXT('comparisonSourceCurrent')
+        : EXT('comparisonSourceLatest'),
+      undefined,
+      this.args.originalStoreOptions.metaGraph
+    );
   }
 
   loadForm() {
@@ -94,6 +107,23 @@ export default class ThreeWayCompareLinkComponent extends Component {
       )
     );
 
+    const meta = this.args.originalStoreOptions.store
+      .match(
+        undefined,
+        undefined,
+        undefined,
+        this.args.originalStoreOptions.metaGraph
+      )
+      .map(
+        (t) =>
+          new Statement(
+            t.subject,
+            t.predicate,
+            t.object,
+            this.args.originalStoreOptions.sourceGraph
+          )
+      );
+
     const formDefinition = [
       ...formDef,
       formFieldLinkToForm,
@@ -103,7 +133,7 @@ export default class ThreeWayCompareLinkComponent extends Component {
     ];
 
     this.formStore = new ForkingStore();
-    const allTriples = [...formDefinition, ...source];
+    const allTriples = [...formDefinition, ...source, ...meta];
     this.formStore.addAll(allTriples);
   }
 }

@@ -1,0 +1,34 @@
+<AuModal
+  @modalOpen={{true}}
+  @closeModal={{this.close}}
+  data-test-confirm-up-to-date-till-modal="modal"
+>
+  <:title>Concept overnemen</:title>
+  <:body>
+    <form class="au-c-rdf-form">
+      <RdfForm
+        @groupClass="au-o-grid__item"
+        @form={{this.args.data.form}}
+        @graphs={{this.args.data.graphs}}
+        @sourceNode={{this.args.data.sourceNode}}
+        @formStore={{this.args.data.formStore}}
+        @show={{false}}
+      />
+    </form>
+  </:body>
+  <:footer>
+    <AuButtonGroup>
+      <AuButton
+        {{on "click" this.save}}
+      >
+        bewaar
+      </AuButton>
+      <AuButton
+        @skin="secondary"
+        {{on "click" this.close}}
+      >
+        Annuleer
+      </AuButton>
+    </AuButtonGroup>
+  </:footer>
+</AuModal>

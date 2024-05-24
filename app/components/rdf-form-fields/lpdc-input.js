@@ -8,7 +8,12 @@ export default class LpdcInputComponent extends SimpleInputFieldComponent {
   @action
   updateValue(e) {
     if (e && typeof e.preventDefault === 'function') e.preventDefault();
-    this.value = e.target.value.trim();
+    this.updateValueInStore(e.target.value.trim());
+  }
+
+  @action
+  updateValueInStore(value) {
+    this.value = value;
     super.updateValue(this.value);
   }
 }

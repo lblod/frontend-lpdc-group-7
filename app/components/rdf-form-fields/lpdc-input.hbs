@@ -1,17 +1,25 @@
 {{#unless @inTable}}
-  <AuLabel
-    @error={{this.hasErrors}}
-    @required={{this.isRequired}}
-    for={{this.inputId}}
-  >
-    {{@field.label}}
-    {{#if this.maxLength}}
-      <AuPill @skin={{unless this.hasRemainingCharacters "error"}}>
-        Resterende karakters:
-        {{this.remainingCharacters}}
-      </AuPill>
-    {{/if}}
-  </AuLabel>
+  <div class="au-u-flex">
+    <AuLabel
+      @error={{this.hasErrors}}
+      @required={{this.isRequired}}
+      for={{this.inputId}}
+    >
+      {{@field.label}}
+      {{#if this.maxLength}}
+        <AuPill @skin={{unless this.hasRemainingCharacters "error"}}>
+          Resterende karakters:
+          {{this.remainingCharacters}}
+        </AuPill>
+      {{/if}}
+    </AuLabel>
+    <ThreeWayCompareLink
+      @visible={{not @show}}
+      @originalStoreOptions={{this.storeOptions}}
+      @field={{@field}}
+      @updateValue={{this.updateValueInStore}}
+    />
+  </div>
 {{/unless}}
 
 <AuInput

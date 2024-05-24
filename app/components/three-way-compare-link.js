@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ThreeWayCompareModal from 'frontend-lpdc/components/three-way-compare-modal';
-import { NamedNode } from 'rdflib';
+import { NamedNode, Statement } from 'rdflib';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 import { ForkingStore } from '@lblod/ember-submission-form-fields';
 
@@ -46,11 +46,11 @@ export default class ThreeWayCompareLinkComponent extends Component {
       undefined
     );
 
-    const formFieldLinkToForm = this.args.originalStoreOptions.store.match(
+    const formFieldLinkToForm = new Statement(
       new NamedNode('http://mu.semte.ch/vocabularies/ext/form'),
       new NamedNode('http://lblod.data.gift/vocabularies/forms/includes'),
       this.args.field.uri,
-      undefined
+      this.args.originalStoreOptions.formGraph
     );
 
     const groupIri = formField.filter(
@@ -68,33 +68,35 @@ export default class ThreeWayCompareLinkComponent extends Component {
       undefined,
       RDF('type'),
       FORM('Form'),
-      new NamedNode('http://data.lblod.info/form')
+      this.args.originalStoreOptions.formGraph
     );
 
     const source = this.args.originalStoreOptions.store.match(
       undefined,
       undefined,
       undefined,
-      new NamedNode(`http://data.lblod.info/sourcegraph`)
+      this.args.originalStoreOptions.sourceGraph
     );
 
-    const validationId = this.args.originalStoreOptions.store.any(
+    const validationIds = this.args.originalStoreOptions.store.match(
       this.args.field.uri,
       new NamedNode('http://lblod.data.gift/vocabularies/forms/validations'),
       undefined,
-      undefined
+      this.args.originalStoreOptions.formGraph
     );
 
-    const validations = this.args.originalStoreOptions.store.match(
-      validationId,
-      undefined,
-      undefined,
-      undefined
+    const validations = validationIds.flatMap((v) =>
+      this.args.originalStoreOptions.store.match(
+        v.object,
+        undefined,
+        undefined,
+        undefined
+      )
     );
 
     const formDefinition = [
       ...formDef,
-      ...formFieldLinkToForm,
+      formFieldLinkToForm,
       ...group,
       ...formField,
       ...validations,

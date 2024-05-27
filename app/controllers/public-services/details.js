@@ -177,6 +177,13 @@ export default class PublicServicesDetailsController extends Controller {
         );
         this.router.refresh('public-services.details');
       },
+      updateConceptSnapshotByFieldHandler: async () => {
+        let { readOnly, publicService } = this.model;
+        if (readOnly) {
+          await this.publicServiceService.reopenPublicService(publicService);
+          this.router.refresh('public-services.details');
+        }
+      },
     });
   }
 }

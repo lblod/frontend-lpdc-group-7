@@ -32,8 +32,8 @@
         @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
         @loading={{this.fullyTakeConceptSnapshot.isRunning}}
         @loadingMessage="Aan het overnemen"
-        {{on "click" this.close}}
-        data-test-fully-take-concept-snapshot-modal="view-button"
+        {{on "click" (perform this.updateConceptSnapshotByField)}}
+        data-test-fully-take-concept-snapshot-modal="update-concept-snapshot-by-field-button"
       >
         Wijzigingen per veld bekijken
       </AuButton>

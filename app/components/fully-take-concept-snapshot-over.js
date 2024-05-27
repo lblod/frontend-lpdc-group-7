@@ -9,6 +9,12 @@ export default class FullyTakeConceptSnapshotOverModalComponent extends Componen
     this.args.close();
   }
 
+  @dropTask
+  *updateConceptSnapshotByField() {
+    yield this.args.data.updateConceptSnapshotByFieldHandler();
+    this.args.close();
+  }
+
   @action
   close() {
     this.args.close();

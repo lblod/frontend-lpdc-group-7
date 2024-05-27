@@ -49,6 +49,17 @@ export default class ThreeWayComparisonFormGenerator {
     };
   }
 
+  getSortedLiteralValuesForPath(
+    sourceNode,
+    path,
+    graph = this.getGraphs().metaGraph
+  ) {
+    return this.storeOptions.store
+      .match(sourceNode, path, undefined, graph)
+      .map((triple) => triple.object.value)
+      .sort();
+  }
+
   getFormNode() {
     return this.storeOptions.store.any(
       undefined,

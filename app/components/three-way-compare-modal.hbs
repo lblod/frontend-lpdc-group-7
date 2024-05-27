@@ -5,13 +5,16 @@
 >
   <:title>Concept overnemen</:title>
   <:body>
+
+    <h1>{{@data.fieldName}}</h1>
+
     <form class="au-c-rdf-form" aria-label="Concept meest recente revisie">
       <RdfForm
         @groupClass="au-o-grid__item"
-        @form={{@data.form}}
-        @graphs={{@data.graphs}}
-        @sourceNode={{@data.sourceLatest}}
-        @formStore={{@data.formStore}}
+        @form={{@data.conceptSnapshotLatestForm.form}}
+        @graphs={{@data.conceptSnapshotLatestForm.graphs}}
+        @sourceNode={{@data.conceptSnapshotLatestForm.sourceNode}}
+        @formStore={{@data.conceptSnapshotLatestForm.formStore}}
         @show={{true}}
       />
     </form>
@@ -19,10 +22,10 @@
     <form class="au-c-rdf-form" aria-label="Concept waarop instantie gebaseerd is">
       <RdfForm
         @groupClass="au-o-grid__item"
-        @form={{@data.form}}
-        @graphs={{@data.graphs}}
-        @sourceNode={{@data.sourceCurrent}}
-        @formStore={{@data.formStore}}
+        @form={{@data.conceptSnapshotCurrentForm.form}}
+        @graphs={{@data.conceptSnapshotCurrentForm.graphs}}
+        @sourceNode={{@data.conceptSnapshotCurrentForm.sourceNode}}
+        @formStore={{@data.conceptSnapshotCurrentForm.formStore}}
         @show={{true}}
       />
     </form>
@@ -30,10 +33,10 @@
     <form class="au-c-rdf-form" aria-label="Instantie">
       <RdfForm
         @groupClass="au-o-grid__item"
-        @form={{@data.form}}
-        @graphs={{@data.graphs}}
-        @sourceNode={{@data.sourceNode}}
-        @formStore={{@data.formStore}}
+        @form={{@data.instanceForm.form}}
+        @graphs={{@data.instanceForm.graphs}}
+        @sourceNode={{@data.instanceForm.sourceNode}}
+        @formStore={{@data.instanceForm.formStore}}
         @show={{false}}
       />
     </form>

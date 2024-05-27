@@ -5,18 +5,7 @@
 >
   <:title>Concept overnemen</:title>
   <:body>
-    <form class="au-c-rdf-form">
-      <RdfForm
-        @groupClass="au-o-grid__item"
-        @form={{@data.form}}
-        @graphs={{@data.graphs}}
-        @sourceNode={{@data.sourceCurrent}}
-        @formStore={{@data.formStore}}
-        @show={{true}}
-      />
-    </form>
-
-    <form class="au-c-rdf-form">
+    <form class="au-c-rdf-form" aria-label="Concept meest recente revisie">
       <RdfForm
         @groupClass="au-o-grid__item"
         @form={{@data.form}}
@@ -27,8 +16,18 @@
       />
     </form>
 
+    <form class="au-c-rdf-form" aria-label="Concept waarop instantie gebaseerd is">
+      <RdfForm
+        @groupClass="au-o-grid__item"
+        @form={{@data.form}}
+        @graphs={{@data.graphs}}
+        @sourceNode={{@data.sourceCurrent}}
+        @formStore={{@data.formStore}}
+        @show={{true}}
+      />
+    </form>
 
-    <form class="au-c-rdf-form">
+    <form class="au-c-rdf-form" aria-label="Instantie">
       <RdfForm
         @groupClass="au-o-grid__item"
         @form={{@data.form}}

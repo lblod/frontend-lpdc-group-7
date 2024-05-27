@@ -33,6 +33,14 @@ export default class ThreeWayCompareLinkComponent extends Component {
     });
   }
 
+  get visible() {
+    return (
+      this.args.visible &&
+      this.getSourceNode('current') &&
+      this.getSourceNode('latest')
+    );
+  }
+
   getSourceNode(type) {
     return this.args.originalStoreOptions.store.any(
       this.args.originalStoreOptions.sourceNode,

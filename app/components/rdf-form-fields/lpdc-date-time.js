@@ -34,12 +34,12 @@ export default class RdfInputFieldsDateTimeComponent extends SimpleInputFieldCom
     updatedValue = this.value.toISOString();
     } */
     const newValue = date ? literal(date.toISOString(), XSD('dateTime')) : null;
-    this.updateValueInStore(newValue);
+    this.updateValueInStore([newValue]);
   }
 
   @action
-  updateValueInStore(value) {
-    super.updateValue(value);
+  updateValueInStore(values) {
+    super.updateValue(values[0]);
     this.loadProvidedValue();
   }
 }

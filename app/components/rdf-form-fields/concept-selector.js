@@ -95,7 +95,23 @@ export default class RdfFormFieldsConceptSchemeSelectorComponent extends InputFi
   }
 
   @action
-  updateSelection(newSelection) {
+  updateSelection(newValues) {
+    if (this.isMultiSelect) {
+      this.updateSelectionInStore(
+        newValues.map((newValue) => ({ uri: newValue }))
+      );
+    } else {
+      this.updateSelectionInStore({ uri: newValues[0] });
+    }
+  }
+
+  @action
+  updateSelections(newValues) {
+    this.updateSelectionInStore(newValues.map((value) => ({ uri: value })));
+  }
+
+  @action
+  updateSelectionInStore(newSelection) {
     this.selected = newSelection;
 
     // Cleanup old value(s) in the store
@@ -119,6 +135,7 @@ export default class RdfFormFieldsConceptSchemeSelectorComponent extends InputFi
       }
     }
 
+    this.loadPersistedValues();
     this.hasBeenFocused = true;
     super.updateValidations();
   }

@@ -27,8 +27,8 @@ export default class ThreeWayCompareLinkComponent extends Component {
       conceptSnapshotCurrentForm: conceptSnapshotCurrent,
       conceptSnapshotLatestForm: conceptSnapshotLatest,
       fieldName: instance.originalFormFieldTitle,
-      saveHandler: (valueLiteral) => {
-        this.args.updateValue(valueLiteral.value);
+      saveHandler: (values) => {
+        this.args.updateValues(values);
         this.isConceptTakenOver = true;
       },
     });

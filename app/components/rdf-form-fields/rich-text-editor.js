@@ -116,9 +116,15 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
       // Only trigger an update if the value actually changed.
       // This prevents that the form observer is triggered even though no editor content was changed.
       if (this.value !== editorValue) {
-        super.updateValue(editorValue);
+        this.updateValueInStore(editorValue);
       }
     }
+  }
+
+  @action
+  updateValueInStore(value) {
+    super.updateValue(value);
+    this.setInitialValue();
   }
 
   loadProvidedValue() {

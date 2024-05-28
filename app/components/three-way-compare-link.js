@@ -46,7 +46,7 @@ export default class ThreeWayCompareLinkComponent extends Component {
       this.formGenerator.getFormNode().value === EXT('form').value &&
       this.formGenerator.getSourceNode('current') &&
       this.formGenerator.getSourceNode('latest') &&
-      !isEqual(currentSnapshotValues, latestSnapshotValues.sort())
+      !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort())
     );
   }
 }

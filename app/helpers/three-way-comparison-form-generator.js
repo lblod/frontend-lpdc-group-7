@@ -1,6 +1,7 @@
-import { EXT, FORM, RDF, SHACL } from 'frontend-lpdc/rdf/namespaces';
+import { EXT, FORM, PROV, RDF, SHACL } from 'frontend-lpdc/rdf/namespaces';
 import { ForkingStore } from '@lblod/ember-submission-form-fields';
 import { Literal, Statement } from 'rdflib';
+import moment from 'moment';
 
 export default class ThreeWayComparisonFormGenerator {
   storeOptions;
@@ -16,12 +17,16 @@ export default class ThreeWayComparisonFormGenerator {
     );
     const conceptSnapshotCurrent = this.createFormStoreForField(
       originalFormFieldUri,
-      'Concept waarop instantie is gebaseerd '
+      `Concept waarop instantie is gebaseerd (${this.findGeneratedAtDateOfConceptSnapshot(
+        'current'
+      )})`
     );
 
     const conceptSnapshotLatest = this.createFormStoreForField(
       originalFormFieldUri,
-      `Meest recente concept`
+      `Meest recente concept (${this.findGeneratedAtDateOfConceptSnapshot(
+        'latest'
+      )})`
     );
 
     return {
@@ -202,5 +207,18 @@ export default class ThreeWayComparisonFormGenerator {
       undefined,
       this.storeOptions.metaGraph
     );
+  }
+
+  findGeneratedAtDateOfConceptSnapshot(type) {
+    const sourceNode = this.getSourceNode(type);
+
+    const dateValue = this.storeOptions.store.any(
+      sourceNode,
+      PROV('generatedAtTime'),
+      undefined,
+      this.storeOptions.metaGraph
+    )?.value;
+
+    return moment.utc(dateValue).format('YYYY-MM-DD HH:mm');
   }
 }

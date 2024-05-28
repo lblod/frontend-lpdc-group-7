@@ -9,6 +9,7 @@ import SelectWithCreate from 'frontend-lpdc/components/rdf-form-fields/select-wi
 import AddressSelector from 'frontend-lpdc/components/rdf-form-fields/address-selector';
 import LpdcInputComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-input';
 import LpdcDateTimeComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-date-time';
+import LpdcRdfInputFieldsConceptSchemeMultiSelectorComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-concept-scheme-multi-selector';
 
 export default class PublicServicesRoute extends Route {
   @service currentSession;
@@ -65,6 +66,11 @@ export default class PublicServicesRoute extends Route {
       {
         displayType: 'http://lblod.data.gift/display-types/lpdcDateTime',
         edit: LpdcDateTimeComponent,
+      },
+      {
+        displayType:
+          'http://lblod.data.gift/display-types/lpdcConceptSchemeMultiSelector',
+        edit: LpdcRdfInputFieldsConceptSchemeMultiSelectorComponent,
       },
     ]);
   }

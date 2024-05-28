@@ -10,16 +10,9 @@ export default class ThreeWayCompareModalComponent extends Component {
 
   @action
   save() {
-    const path = this.args.data.instanceForm.formStore.any(
-      this.args.data.field.uri,
-      new NamedNode('http://www.w3.org/ns/shacl#path'),
-      undefined,
-      this.args.data.instanceForm.graphs.formGraph
-    );
-
     const valueLiteral = this.args.data.instanceForm.formStore.any(
       this.args.data.instanceForm.sourceNode,
-      path,
+      new NamedNode(this.args.data.field.path),
       undefined,
       this.args.data.instanceForm.graphs.sourceGraph
     );

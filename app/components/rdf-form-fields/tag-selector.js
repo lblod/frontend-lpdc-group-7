@@ -61,6 +61,13 @@ export default class TagSelectorComponent extends InputFieldComponent {
     this.selectedTags = triplesForPath(this.storeOptions).values;
   }
 
+  @action
+  updateSelection(newSelectionValues) {
+    this.updateStore(
+      newSelectionValues.map((value) => new Literal(value, 'nl'))
+    );
+  }
+
   updateStore(newSelection) {
     // Cleanup old value(s) in the store
     const matches = triplesForPath(this.storeOptions, true).values;
@@ -76,5 +83,6 @@ export default class TagSelectorComponent extends InputFieldComponent {
 
     this.hasBeenFocused = true;
     super.updateValidations();
+    this.loadPersistedTags();
   }
 }

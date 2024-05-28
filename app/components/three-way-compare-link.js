@@ -6,9 +6,13 @@ import ThreeWayComparisonFormGenerator from 'frontend-lpdc/helpers/three-way-com
 import { EXT } from 'frontend-lpdc/rdf/namespaces';
 import { NamedNode } from 'rdflib';
 import { isEqual } from 'lodash';
+import { tracked } from '@glimmer/tracking';
 
 export default class ThreeWayCompareLinkComponent extends Component {
   @service modals;
+
+  @tracked isConceptTakenOver = false;
+
   formGenerator = new ThreeWayComparisonFormGenerator(
     this.args.originalStoreOptions
   );
@@ -25,6 +29,7 @@ export default class ThreeWayCompareLinkComponent extends Component {
       fieldName: instance.originalFormFieldTitle,
       saveHandler: (valueLiteral) => {
         this.args.updateValue(valueLiteral.value);
+        this.isConceptTakenOver = true;
       },
     });
   }

@@ -3,6 +3,12 @@
     class="au-u-margin-tiny"
     {{on "click" this.openModal}}
   >
+    {{#if this.isConceptTakenOver}}
+      <AuIcon
+        @alignment="right"
+        @size="large"
+        @icon="check" />
+    {{/if}}
     Conceptwijzigingen overnemen
   </AuLink>
 {{/if}}

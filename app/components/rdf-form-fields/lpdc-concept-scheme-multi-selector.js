@@ -8,7 +8,7 @@ import {
 } from '@lblod/submission-form-helpers';
 import InputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/input-field';
 import { restartableTask, timeout } from 'ember-concurrency';
-import { namedNode } from 'rdflib';
+import { NamedNode, namedNode } from 'rdflib';
 
 function byLabel(a, b) {
   const textA = a.label.toUpperCase();
@@ -69,6 +69,15 @@ export default class LpdcRdfInputFieldsConceptSchemeMultiSelectorComponent exten
   }
 
   @action
+  handleUpdateSelectionFromThreeWayCompare(optionValues) {
+    this.updateSelection(
+      optionValues.map((value) => ({
+        subject: new NamedNode(value),
+      }))
+    );
+  }
+
+  @action
   updateSelection(options) {
     this.selected = options;
 
@@ -92,6 +101,7 @@ export default class LpdcRdfInputFieldsConceptSchemeMultiSelectorComponent exten
 
     this.hasBeenFocused = true;
     super.updateValidations();
+    this.loadProvidedValue();
   }
 
   search = restartableTask(async (term) => {

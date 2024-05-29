@@ -210,14 +210,24 @@ export default class ThreeWayComparisonFormGenerator {
   }
 
   findGeneratedAtDateOfConceptSnapshot(type) {
-    const sourceNode = this.getSourceNode(type);
-
-    const dateValue = this.storeOptions.store.any(
-      sourceNode,
-      PROV('generatedAtTime'),
-      undefined,
-      this.storeOptions.metaGraph
-    )?.value;
+    const dateValue = this.storeOptions.store
+      .match(
+        undefined,
+        type === 'current'
+          ? EXT('comparisonSourceCurrent')
+          : EXT('comparisonSourceLatest'),
+        undefined,
+        this.storeOptions.metaGraph
+      )
+      .map((t) =>
+        this.storeOptions.store.any(
+          t.object,
+          PROV('generatedAtTime'),
+          undefined,
+          this.storeOptions.metaGraph
+        )
+      )
+      .filter((it) => !!it)[0].value;
 
     return moment.utc(dateValue).format('YYYY-MM-DD HH:mm');
   }

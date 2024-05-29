@@ -1,11 +1,39 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { NamedNode } from 'rdflib';
+import { inject as service } from '@ember/service';
 
 export default class ThreeWayCompareModalComponent extends Component {
+  @service contextService;
+  instanceFormSaveMethod;
+
+  constructor() {
+    super(...arguments);
+    this.contextService.setParentContext(this);
+  }
+
   @action
   close() {
     this.args.close();
+  }
+
+  registerInstanceFormSaveMethod(fn) {
+    console.log(fn);
+    this.instanceFormSaveMethod = fn;
+  }
+
+  @action
+  takeOver() {
+    const valueLiterals = this.args.data.conceptSnapshotLatestForm.formStore
+      .match(
+        this.args.data.conceptSnapshotLatestForm.sourceNode,
+        new NamedNode(this.args.data.field.path),
+        undefined,
+        this.args.data.conceptSnapshotLatestForm.graphs.sourceGraph
+      )
+      .map((t) => t.object.value);
+
+    this.instanceFormSaveMethod(valueLiterals);
   }
 
   @action

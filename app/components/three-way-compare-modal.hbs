@@ -19,6 +19,11 @@
       />
     </form>
 
+    <AuLink
+      {{on "click" this.takeOver}}>
+      Overnemen
+    </AuLink>
+
     <form class="au-c-rdf-form" aria-label="Concept waarop instantie gebaseerd is">
       <RdfForm
         @groupClass="au-o-grid__item"
@@ -46,7 +51,7 @@
       <AuButton
         {{on "click" this.save}}
       >
-        bewaar
+        Bewaar
       </AuButton>
       <AuButton
         @skin="secondary"

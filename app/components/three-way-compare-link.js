@@ -10,12 +10,25 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ThreeWayCompareLinkComponent extends Component {
   @service modals;
-
+  @service contextService;
   @tracked isConceptTakenOver = false;
 
   formGenerator = new ThreeWayComparisonFormGenerator(
     this.args.originalStoreOptions
   );
+
+  constructor() {
+    super(...arguments);
+    if (
+      this.contextService.getParentContext()?.registerInstanceFormSaveMethod
+    ) {
+      this.contextService
+        .getParentContext()
+        .registerInstanceFormSaveMethod((values) => {
+          this.args.updateValues(values);
+        });
+    }
+  }
 
   @action
   openModal() {
@@ -54,4 +67,5 @@ export default class ThreeWayCompareLinkComponent extends Component {
       !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort())
     );
   }
+
 }

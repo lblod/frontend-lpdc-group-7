@@ -1,13 +1,13 @@
 {{#if this.visible }}
   <AuLink
     class="au-u-margin-tiny"
-    {{on "click" this.openModal}}
-  >
+    {{on "click" this.openModal}}>
     {{#if this.isConceptTakenOver}}
       <AuIcon
         @alignment="right"
         @size="large"
-        @icon="check" />
+        @icon="check">
+      </AuIcon>
     {{/if}}
     Conceptwijzigingen overnemen
   </AuLink>

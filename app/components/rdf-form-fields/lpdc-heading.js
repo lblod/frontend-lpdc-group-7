@@ -1,6 +1,9 @@
 import Component from '@glimmer/component';
 import { NamedNode } from 'rdflib';
 import ThreeWayComparisonFormGenerator from 'frontend-lpdc/helpers/three-way-comparison-form-generator';
+import { EXT, RDF } from 'frontend-lpdc/rdf/namespaces';
+import getUUIDFromUri from 'frontend-lpdc/helpers/get-uuid-from-uri';
+import ENV from 'frontend-lpdc/config/environment';
 
 export default class LpdcRdfHeadingComponent extends Component {
   get skin() {
@@ -37,5 +40,57 @@ export default class LpdcRdfHeadingComponent extends Component {
     ).length;
 
     return countConceptSnapshotLatest !== countConceptSnapshotCurrent;
+  }
+
+  get ipdcConceptCompareLink() {
+    const dutchLanguageVariant = this.args.formStore.match(
+      undefined,
+      new NamedNode(
+        'https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#dutchLanguageVariant'
+      ),
+      undefined,
+      this.args.formStore.sourceGraph
+    )[0].object.value;
+    const languageVersion =
+      dutchLanguageVariant === 'nl-be-x-informal' ? 'nl/informeel' : 'nl';
+    const productId = this.args.formStore.match(
+      undefined,
+      new NamedNode('http://schema.org/productID'),
+      undefined,
+      this.args.formStore.sourceGraph
+    )[0].object.value;
+
+    const currentConceptSnapshot = getUUIDFromUri(
+      this.getConceptSnapshotIri('current')
+    );
+    const latestConceptSnapshot = getUUIDFromUri(
+      this.getConceptSnapshotIri('latest')
+    );
+
+    return `${ENV.ipdcUrl}/${languageVersion}/concept/${productId}/revisie/vergelijk?revisie1=${currentConceptSnapshot}&revisie2=${latestConceptSnapshot}`;
+  }
+
+  getConceptSnapshotIri(type) {
+    return this.args.formStore
+      .match(
+        undefined,
+        type === 'current'
+          ? EXT('comparisonSourceCurrent')
+          : EXT('comparisonSourceLatest'),
+        undefined,
+        this.args.formStore.metaGraph
+      )
+      .map(
+        (t) =>
+          this.args.formStore.match(
+            t.object,
+            RDF('type'),
+            new NamedNode(
+              'https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#ConceptualPublicServiceSnapshot'
+            ),
+            this.args.formStore.metaGraph
+          )[0]
+      )
+      .filter((it) => !!it)[0].subject.value;
   }
 }

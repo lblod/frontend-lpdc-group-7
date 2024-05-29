@@ -10,6 +10,7 @@ import { inject as service } from '@ember/service';
 import ENV from 'frontend-lpdc/config/environment';
 import ConfirmConvertToInformalModalComponent from 'frontend-lpdc/components/confirm-convert-to-informal-modal';
 import FullyTakeConceptSnapshotOverModalComponent from 'frontend-lpdc/components/fully-take-concept-snapshot-over';
+import getUUIDFromUri from 'frontend-lpdc/helpers/get-uuid-from-uri';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
@@ -73,7 +74,7 @@ export default class PublicServicesDetailsController extends Controller {
   }
 
   get ipdcInformalLink() {
-    const instanceId = this.getUuidFromUri(this.model.publicService.uri);
+    const instanceId = getUUIDFromUri(this.model.publicService.uri);
     return `${ENV.ipdcUrl}/nl/informeel/instantie/${instanceId}`;
   }
 
@@ -122,10 +123,10 @@ export default class PublicServicesDetailsController extends Controller {
         ? 'nl/informeel'
         : 'nl';
 
-    const latestSnapshot = this.getUuidFromUri(
+    const latestSnapshot = getUUIDFromUri(
       this.model.publicService.concept.get('hasLatestFunctionalChange')
     );
-    const publicServiceSnapshot = this.getUuidFromUri(
+    const publicServiceSnapshot = getUUIDFromUri(
       this.model.publicService.versionedSource
     );
     return `${ENV.ipdcUrl}/${languageVersion}/concept/${productId}/revisie/vergelijk?revisie1=${publicServiceSnapshot}&revisie2=${latestSnapshot}`;
@@ -161,11 +162,6 @@ export default class PublicServicesDetailsController extends Controller {
     yield this.publicServiceService.confirmInstanceAlreadyInformal(
       publicService
     );
-  }
-
-  getUuidFromUri(uri) {
-    const segmentedUri = uri.split('/');
-    return segmentedUri[segmentedUri.length - 1];
   }
 
   @action

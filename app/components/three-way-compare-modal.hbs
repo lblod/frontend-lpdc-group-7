@@ -35,16 +35,18 @@
       />
     </form>
 
-    <form class="au-c-rdf-form" aria-label="Instantie">
-      <RdfForm
-        @groupClass="au-o-grid__item"
-        @form={{@data.instanceForm.form}}
-        @graphs={{@data.instanceForm.graphs}}
-        @sourceNode={{@data.instanceForm.sourceNode}}
-        @formStore={{@data.instanceForm.formStore}}
-        @show={{false}}
-      />
-    </form>
+    <span class="instantie-form">
+      <form class="au-c-rdf-form" aria-label="Instantie">
+        <RdfForm
+          @groupClass="au-o-grid__item"
+          @form={{@data.instanceForm.form}}
+          @graphs={{@data.instanceForm.graphs}}
+          @sourceNode={{@data.instanceForm.sourceNode}}
+          @formStore={{@data.instanceForm.formStore}}
+          @show={{false}}
+        />
+      </form>
+    </span>
   </:body>
   <:footer>
     <AuButtonGroup>

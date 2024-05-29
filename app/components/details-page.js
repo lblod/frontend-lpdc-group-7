@@ -28,6 +28,7 @@ export default class DetailsPageComponent extends Component {
   @service store;
   @service toaster;
   @service('public-service') publicServiceService;
+  @service contextService;
 
   @tracked hasUnsavedChanges = false;
   @tracked forceShowErrors = false;
@@ -92,13 +93,20 @@ export default class DetailsPageComponent extends Component {
 
     this.form = form;
     this.formStore = formStore;
-    this.hasUnsavedChanges = false;
+    this.updateHasUnsavedChanges(false);
   }
 
   @action
   updateFormDirtyState(/* delta */) {
-    // TODO: we can probably make this logic smarter so that reverting to the original saved state doesn't trigger a false positive
-    this.hasUnsavedChanges = true;
+    this.updateHasUnsavedChanges(true);
+  }
+
+  updateHasUnsavedChanges(aValue) {
+    this.hasUnsavedChanges = aValue;
+
+    this.contextService
+      .findParentContextWithContract('hasUnsavedChangesObserver')
+      ?.hasUnsavedChangesObserver(this.hasUnsavedChanges);
   }
 
   @dropTaskGroup publicServiceAction;
@@ -206,7 +214,7 @@ export default class DetailsPageComponent extends Component {
         await this.publicServiceService.deletePublicService(
           this.args.publicService.uri
         );
-        this.hasUnsavedChanges = false;
+        this.updateHasUnsavedChanges(false);
         this.router.replaceWith('public-services');
       },
     });
@@ -240,7 +248,7 @@ export default class DetailsPageComponent extends Component {
       }
 
       if (shouldTransition) {
-        this.hasUnsavedChanges = false;
+        this.updateHasUnsavedChanges(false);
         transition.retry();
       }
     }

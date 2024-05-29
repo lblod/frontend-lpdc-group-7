@@ -213,7 +213,7 @@
             <AuButton
               @skin="secondary"
               @icon="check"
-              @disabled={{this.markAsReviewed.isRunning}}
+              @disabled={{(or this.markAsReviewed.isRunning this.formHasUnsavedChanges)}}
               @loading={{this.markAsReviewed.isRunning}}
               @loadingMessage="Aan het verwerken"
               {{on "click" (perform this.markAsReviewed)}}

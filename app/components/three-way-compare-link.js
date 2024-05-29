@@ -19,15 +19,11 @@ export default class ThreeWayCompareLinkComponent extends Component {
 
   constructor() {
     super(...arguments);
-    if (
-      this.contextService.getParentContext()?.registerInstanceFormSaveMethod
-    ) {
-      this.contextService
-        .getParentContext()
-        .registerInstanceFormSaveMethod((values) => {
-          this.args.updateValues(values);
-        });
-    }
+    this.contextService
+      .findParentContextWithContract('registerInstanceFormSaveMethod')
+      ?.registerInstanceFormSaveMethod((values) => {
+        this.args.updateValues(values);
+      });
   }
 
   @action

@@ -16,12 +16,25 @@ export default class PublicServicesDetailsController extends Controller {
   @service modals;
   @service('public-service') publicServiceService;
   @service router;
+  @service contextService;
 
   @tracked shouldShowUnlinkWarning = false;
+  @tracked formHasUnsavedChanges = false;
+
+  constructor() {
+    super(...arguments);
+    this.contextService.addParentContext(this);
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    this.contextService.removeParentContext(this);
+  }
 
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.model.publicService.reviewStatus);
   }
+
   get functionallyChangedFields() {
     return this.model.functionallyChangedFields.join(', ');
   }
@@ -185,5 +198,9 @@ export default class PublicServicesDetailsController extends Controller {
         }
       },
     });
+  }
+
+  hasUnsavedChangesObserver(aValue) {
+    this.formHasUnsavedChanges = aValue;
   }
 }

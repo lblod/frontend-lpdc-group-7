@@ -9,7 +9,12 @@ export default class ThreeWayCompareModalComponent extends Component {
 
   constructor() {
     super(...arguments);
-    this.contextService.setParentContext(this);
+    this.contextService.addParentContext(this);
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    this.contextService.removeParentContext(this);
   }
 
   @action
@@ -18,7 +23,6 @@ export default class ThreeWayCompareModalComponent extends Component {
   }
 
   registerInstanceFormSaveMethod(fn) {
-    console.log(fn);
     this.instanceFormSaveMethod = fn;
   }
 

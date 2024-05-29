@@ -35,7 +35,8 @@ export default class ThreeWayCompareModalComponent extends Component {
         undefined,
         this.args.data.conceptSnapshotLatestForm.graphs.sourceGraph
       )
-      .map((t) => t.object.value);
+      .map((t) => t.object.value)
+      .filter((it) => !!it);
 
     this.instanceFormSaveMethod(valueLiterals);
   }
@@ -49,7 +50,8 @@ export default class ThreeWayCompareModalComponent extends Component {
         undefined,
         this.args.data.instanceForm.graphs.sourceGraph
       )
-      .map((t) => t.object.value);
+      .map((t) => t.object.value)
+      .filter((it) => !!it);
 
     this.args.data.saveHandler(valueLiterals);
     this.close();

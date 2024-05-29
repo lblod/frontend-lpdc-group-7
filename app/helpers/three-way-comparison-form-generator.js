@@ -1,6 +1,6 @@
 import { EXT, FORM, PROV, RDF, SHACL } from 'frontend-lpdc/rdf/namespaces';
 import { ForkingStore } from '@lblod/ember-submission-form-fields';
-import { Literal, Statement } from 'rdflib';
+import { BlankNode, Literal, Statement } from 'rdflib';
 import moment from 'moment';
 
 export default class ThreeWayComparisonFormGenerator {
@@ -39,14 +39,14 @@ export default class ThreeWayComparisonFormGenerator {
       },
       conceptSnapshotCurrent: {
         form: conceptSnapshotCurrent.form,
-        sourceNode: this.getSourceNode('current'),
+        sourceNode: this.getSourceNode('current') || new BlankNode(),
         graphs: this.getGraphs(),
         formStore: conceptSnapshotCurrent.formStore,
         originalFormFieldTitle: conceptSnapshotCurrent.originalFormFieldTitle,
       },
       conceptSnapshotLatest: {
         form: conceptSnapshotLatest.form,
-        sourceNode: this.getSourceNode('latest'),
+        sourceNode: this.getSourceNode('latest') || new BlankNode(),
         graphs: this.getGraphs(),
         formStore: conceptSnapshotLatest.formStore,
         originalFormFieldTitle: conceptSnapshotLatest.originalFormFieldTitle,

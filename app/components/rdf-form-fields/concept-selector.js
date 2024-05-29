@@ -101,13 +101,10 @@ export default class RdfFormFieldsConceptSchemeSelectorComponent extends InputFi
         newValues.map((newValue) => ({ uri: newValue }))
       );
     } else {
-      this.updateSelectionInStore({ uri: newValues[0] });
+      this.updateSelectionInStore(
+        newValues[0] ? { uri: newValues[0] } : undefined
+      );
     }
-  }
-
-  @action
-  updateSelections(newValues) {
-    this.updateSelectionInStore(newValues.map((value) => ({ uri: value })));
   }
 
   @action

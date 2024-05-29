@@ -13,7 +13,7 @@ export default class LpdcInputComponent extends SimpleInputFieldComponent {
 
   @action
   updateValueInStore(values) {
-    this.value = values[0];
+    this.value = values[0] || '';
     super.updateValue(this.value);
   }
 }

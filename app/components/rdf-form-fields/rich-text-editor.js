@@ -123,7 +123,8 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
 
   @action
   updateValueInStore(values) {
-    super.updateValue(values[0]);
+    this.value = values[0] || '';
+    super.updateValue(this.value);
     this.setInitialValue();
   }
 
@@ -137,7 +138,7 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
   }
 
   setInitialValue() {
-    if (this.value) {
+    if (this.value !== undefined && this.value !== null) {
       // We replicate the behavior of the controller.setHtmlContent method without focussing the field.
       // Since we use the `focusout` event focusing the field would trigger the `updateValue` action,
       // which in turn causes the "unsaved changes" modal to appear when it shouldn't.

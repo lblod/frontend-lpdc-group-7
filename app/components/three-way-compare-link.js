@@ -63,5 +63,4 @@ export default class ThreeWayCompareLinkComponent extends Component {
       !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort())
     );
   }
-
 }

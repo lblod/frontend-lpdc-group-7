@@ -11,22 +11,26 @@ export default class ThreeWayComparisonFormGenerator {
   }
 
   getForms(originalFormFieldUri) {
+    const metaTriples = this.createMetaTriples();
     const instanceForm = this.createFormStoreForField(
       originalFormFieldUri,
-      'Instantie'
+      'Instantie',
+      metaTriples
     );
     const conceptSnapshotCurrent = this.createFormStoreForField(
       originalFormFieldUri,
       `Concept waarop instantie is gebaseerd (${this.findGeneratedAtDateOfConceptSnapshot(
         'current'
-      )})`
+      )})`,
+      metaTriples
     );
 
     const conceptSnapshotLatest = this.createFormStoreForField(
       originalFormFieldUri,
       `Meest recente concept (${this.findGeneratedAtDateOfConceptSnapshot(
         'latest'
-      )})`
+      )})`,
+      metaTriples
     );
 
     return {
@@ -93,11 +97,10 @@ export default class ThreeWayComparisonFormGenerator {
     };
   }
 
-  createFormStoreForField(fieldIri, newFieldTitle) {
+  createFormStoreForField(fieldIri, newFieldTitle, metaTriples) {
     const { formTriples, form, originalFormFieldTitle } =
-      this.createFormTriples(fieldIri, newFieldTitle, this.storeOptions);
-    const sourceTriples = this.createSourceTriples(this.storeOptions);
-    const metaTriples = this.createMetaTriples(this.storeOptions);
+      this.createFormTriples(fieldIri, newFieldTitle);
+    const sourceTriples = this.createSourceTriples(metaTriples);
     const formStore = new ForkingStore();
     formStore.addAll([...formTriples, ...sourceTriples, ...metaTriples]);
     return {
@@ -178,7 +181,7 @@ export default class ThreeWayComparisonFormGenerator {
     };
   }
 
-  createSourceTriples() {
+  createSourceTriples(metaTriples) {
     const source = this.storeOptions.store.match(
       undefined,
       undefined,
@@ -186,17 +189,15 @@ export default class ThreeWayComparisonFormGenerator {
       this.storeOptions.sourceGraph
     );
 
-    const conceptSnapshotSource = this.storeOptions.store
-      .match(undefined, undefined, undefined, this.storeOptions.metaGraph)
-      .map(
-        (t) =>
-          new Statement(
-            t.subject,
-            t.predicate,
-            t.object,
-            this.storeOptions.sourceGraph
-          )
-      );
+    const conceptSnapshotSource = metaTriples.map(
+      (t) =>
+        new Statement(
+          t.subject,
+          t.predicate,
+          t.object,
+          this.storeOptions.sourceGraph
+        )
+    );
     return [...source, ...conceptSnapshotSource];
   }
 

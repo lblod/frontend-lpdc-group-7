@@ -28,7 +28,7 @@ export default class ThreeWayCompareLinkComponent extends Component {
 
   @action
   openModal() {
-    const {instance, conceptSnapshotCurrent, conceptSnapshotLatest} =
+    const { instance, conceptSnapshotCurrent, conceptSnapshotLatest } =
       this.formGenerator.getForms(this.args.field.uri);
     this.modals.open(ThreeWayCompareModal, {
       field: this.args.field,

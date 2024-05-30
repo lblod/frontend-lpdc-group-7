@@ -39,7 +39,10 @@ export default class LpdcRdfHeadingComponent extends Component {
       formGenerator.getGraphs().metaGraph
     ).length;
 
-    return countConceptSnapshotLatest !== countConceptSnapshotCurrent;
+    return (
+      !this.args.show &&
+      countConceptSnapshotLatest !== countConceptSnapshotCurrent
+    );
   }
 
   get ipdcConceptCompareLink() {

@@ -28,7 +28,7 @@ export default class ThreeWayCompareLinkComponent extends Component {
 
   @action
   openModal() {
-    const { instance, conceptSnapshotCurrent, conceptSnapshotLatest } =
+    const {instance, conceptSnapshotCurrent, conceptSnapshotLatest} =
       this.formGenerator.getForms(this.args.field.uri);
     this.modals.open(ThreeWayCompareModal, {
       field: this.args.field,
@@ -44,27 +44,34 @@ export default class ThreeWayCompareLinkComponent extends Component {
   }
 
   get visible() {
+    const sourceNodeCurrent = this.formGenerator.getSourceNode('current');
+    const sourceNodeLatest = this.formGenerator.getSourceNode('latest');
     const currentSnapshotValues =
       this.formGenerator.getSortedLiteralValuesForPath(
-        this.formGenerator.getSourceNode('current'),
+        sourceNodeCurrent,
         new NamedNode(this.args.field.path)
       );
     const latestSnapshotValues =
       this.formGenerator.getSortedLiteralValuesForPath(
-        this.formGenerator.getSourceNode('latest'),
+        sourceNodeLatest,
         new NamedNode(this.args.field.path)
       );
 
-    const contentIsDifferent =
-      this.formGenerator.getSourceNode('current') &&
-      this.formGenerator.getSourceNode('latest')
-        ? !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort())
-        : true;
+    const sourceAndLatestExistButContentDifferent =
+      sourceNodeCurrent &&
+      sourceNodeLatest &&
+      !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort());
+    const sourceCurrentPresentSourceLatestAbsent =
+      sourceNodeCurrent && !sourceNodeLatest;
+    const sourceCurrentAbsentSourceLatestPresent =
+      !sourceNodeCurrent && sourceNodeLatest;
 
     return (
       this.args.visible &&
       this.formGenerator.getFormNode().value === EXT('form').value &&
-      contentIsDifferent
+      (sourceAndLatestExistButContentDifferent ||
+        sourceCurrentPresentSourceLatestAbsent ||
+        sourceCurrentAbsentSourceLatestPresent)
     );
   }
 }

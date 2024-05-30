@@ -1,42 +1,50 @@
 <AuModal
+  class="modal-height-fit-content"
   @modalOpen={{true}}
   @closeModal={{this.close}}
-  data-test-confirm-up-to-date-till-modal="modal"
+  @size="large"
 >
   <:title>Concept overnemen</:title>
   <:body>
 
     <h4 class="au-u-h4 au-u-bold au-u-font">{{@data.fieldName}}</h4>
 
-    <form class="au-c-rdf-form" aria-label="Concept meest recente revisie">
-      <RdfForm
-        @groupClass="au-o-grid__item"
-        @form={{@data.conceptSnapshotLatestForm.form}}
-        @graphs={{@data.conceptSnapshotLatestForm.graphs}}
-        @sourceNode={{@data.conceptSnapshotLatestForm.sourceNode}}
-        @formStore={{@data.conceptSnapshotLatestForm.formStore}}
-        @show={{true}}
-      />
-    </form>
+    <div class="au-o-grid">
 
-    <AuLink
-      {{on "click" this.takeOver}}>
-      Overnemen
-    </AuLink>
+      <div class="au-o-grid__item au-u-1-2 au-u-padding-right-tiny">
+        <form class="au-c-rdf-form three-way-compare-form" aria-label="Concept meest recente revisie">
+          <RdfForm
+            @groupClass="au-o-grid__item"
+            @form={{@data.conceptSnapshotLatestForm.form}}
+            @graphs={{@data.conceptSnapshotLatestForm.graphs}}
+            @sourceNode={{@data.conceptSnapshotLatestForm.sourceNode}}
+            @formStore={{@data.conceptSnapshotLatestForm.formStore}}
+            @show={{true}}
+          />
+        </form>
 
-    <form class="au-c-rdf-form" aria-label="Concept waarop instantie gebaseerd is">
-      <RdfForm
-        @groupClass="au-o-grid__item"
-        @form={{@data.conceptSnapshotCurrentForm.form}}
-        @graphs={{@data.conceptSnapshotCurrentForm.graphs}}
-        @sourceNode={{@data.conceptSnapshotCurrentForm.sourceNode}}
-        @formStore={{@data.conceptSnapshotCurrentForm.formStore}}
-        @show={{true}}
-      />
-    </form>
+        <AuLink
+          {{on "click" this.takeOver}}>
+          Overnemen
+        </AuLink>
+      </div>
+      <div class="au-o-grid__item au-u-1-2 au-u-padding-left-tiny">
+        <form class="au-c-rdf-form three-way-compare-form"
+              aria-label="Concept waarop instantie gebaseerd is">
+          <RdfForm
+            @groupClass="au-o-grid__item"
+            @form={{@data.conceptSnapshotCurrentForm.form}}
+            @graphs={{@data.conceptSnapshotCurrentForm.graphs}}
+            @sourceNode={{@data.conceptSnapshotCurrentForm.sourceNode}}
+            @formStore={{@data.conceptSnapshotCurrentForm.formStore}}
+            @show={{true}}
+          />
+        </form>
+      </div>
+    </div>
 
     <span class="instantie-form">
-      <form class="au-c-rdf-form" aria-label="Instantie">
+      <form class="au-c-rdf-form three-way-compare-form" aria-label="Instantie">
         <RdfForm
           @groupClass="au-o-grid__item"
           @form={{@data.instanceForm.form}}

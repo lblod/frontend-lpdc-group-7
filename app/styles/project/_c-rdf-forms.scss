@@ -109,17 +109,6 @@
     width: 100% !important;
   }
 
-  // inputs in listings
-  > .au-o-grid
-    > .au-o-grid__item
-    > .au-o-grid
-    > .au-u-4-5
-    > .au-o-grid
-    > .au-o-grid__item.au-u-4-5
-    .au-c-input {
-    width: 100%;
-  }
-
   // reduces spacing between listing buttons and form elements
   @include mq(medium) {
     > .au-o-grid
@@ -169,8 +158,6 @@
   }
 }
 
-.au-c-rdf-form--content {
-  > .au-o-grid > .au-o-grid__item .au-c-input {
-    width: 100%;
-  }
+.three-way-compare-form.au-c-rdf-form > .au-o-grid > .au-o-grid__item {
+  padding: 3.4rem 0 0 !important;
 }

@@ -4,13 +4,10 @@
   @closeModal={{this.close}}
   @size="large"
 >
-  <:title>Concept overnemen</:title>
+  <:title>{{@data.fieldName}}</:title>
   <:body>
 
-    <h4 class="au-u-h4 au-u-bold au-u-font">{{@data.fieldName}}</h4>
-
     <div class="au-o-grid">
-
       <div class="au-o-grid__item au-u-1-2 au-u-padding-right-tiny">
         <form class="au-c-rdf-form three-way-compare-form" aria-label="Concept meest recente revisie">
           <RdfForm
@@ -41,18 +38,21 @@
           />
         </form>
       </div>
+
+      <div class="au-o-grid__item au-u-padding-top-none">
+        <form class="au-c-rdf-form three-way-compare-form" aria-label="Instantie">
+          <RdfForm
+            @groupClass="au-o-grid__item"
+            @form={{@data.instanceForm.form}}
+            @graphs={{@data.instanceForm.graphs}}
+            @sourceNode={{@data.instanceForm.sourceNode}}
+            @formStore={{@data.instanceForm.formStore}}
+            @show={{false}}
+          />
+        </form>
+      </div>
     </div>
 
-    <form class="au-c-rdf-form three-way-compare-form" aria-label="Instantie">
-      <RdfForm
-        @groupClass="au-o-grid__item"
-        @form={{@data.instanceForm.form}}
-        @graphs={{@data.instanceForm.graphs}}
-        @sourceNode={{@data.instanceForm.sourceNode}}
-        @formStore={{@data.instanceForm.formStore}}
-        @show={{false}}
-      />
-    </form>
   </:body>
   <:footer>
     <AuButtonGroup>

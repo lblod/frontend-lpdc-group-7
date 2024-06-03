@@ -62,9 +62,9 @@ export default class ThreeWayCompareLinkComponent extends Component {
       sourceNodeLatest &&
       !isEqual(currentSnapshotValues.sort(), latestSnapshotValues.sort());
     const sourceCurrentPresentSourceLatestAbsent =
-      sourceNodeCurrent && !sourceNodeLatest;
+      sourceNodeCurrent && !sourceNodeLatest && currentSnapshotValues.length;
     const sourceCurrentAbsentSourceLatestPresent =
-      !sourceNodeCurrent && sourceNodeLatest;
+      !sourceNodeCurrent && sourceNodeLatest && latestSnapshotValues.length;
 
     return (
       this.args.visible &&

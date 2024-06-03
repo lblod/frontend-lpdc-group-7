@@ -167,7 +167,8 @@ form.three-way-compare-form:has(.say-editor) .say-editor {
   overflow-y: scroll;
 }
 
-form.three-way-compare-form:has(.rich-text-editor-content) .rich-text-editor-content {
+form.three-way-compare-form:has(.rich-text-editor-content)
+  .rich-text-editor-content {
   max-height: 21rem;
   overflow-y: scroll;
 }

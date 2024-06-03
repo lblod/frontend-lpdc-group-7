@@ -230,6 +230,6 @@ export default class ThreeWayComparisonFormGenerator {
       )
       .filter((it) => !!it)[0].value;
 
-    return moment.utc(dateValue).format('YYYY-MM-DD HH:mm');
+    return moment.utc(dateValue).local().format('YYYY-MM-DD HH:mm');
   }
 }

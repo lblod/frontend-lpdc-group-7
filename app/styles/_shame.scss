@@ -45,3 +45,7 @@ div.au-u-margin-bottom-small:has(.address-form) {
 .modal-height-fit-content {
   height: fit-content;
 }
+.limit-height{
+  height: calc(100% - 18rem);
+  flex-grow: unset;
+}

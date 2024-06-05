@@ -24,3 +24,17 @@
     flex-grow: 1;
   }
 }
+
+.au-c-sidebar__content {
+  overflow-x: hidden !important;
+
+}
+
+.au-c-main-container__sidebar .au-c-alert {
+  flex-wrap: wrap;
+}
+
+
+.au-c-main-container__content .au-c-body-container  {
+ margin-bottom: 1.2rem ;
+}

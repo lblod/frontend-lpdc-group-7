@@ -1,295 +1,313 @@
 {{page-title @model.publicService.name}}
 
-<AuToolbar @size="large" as |Group|>
-  <Group>
-    <AuHeading @skin="2">
-      {{! template-lint-disable no-triple-curlies}}
-      {{{@model.publicService.nameNl}}}
-    </AuHeading>
-  </Group>
-</AuToolbar>
-
-<AuToolbar
-  @border="bottom"
-  @size="medium"
-  class="au-u-flex au-u-flex--vertical-start"
-  as |Group|
->
-  <Group class="au-u-margin-bottom-small">
-    <div>
-      <DataList as |Data|>
-        <Data>
-          <:title>IPDC Concept ID</:title>
-          <:content>
-            {{#if @model.publicService.concept.id}}
-              <AuLink
-                @route="public-services.concept-details"
-                @model={{@model.publicService.concept.id}}
-                target="blank"
-              >
-                {{@model.publicService.concept.productId}}
-              </AuLink>
-            {{else if this.canLinkConcept}}
-              <AuLink
-                @icon="link"
-                @route="public-services.link-concept"
-                @model={{@model.publicService.id}}
-              >
-                Koppelen
-              </AuLink>
-            {{else}}
-              <ValueWithPlaceholder @value={{false}} />
-            {{/if}}
-            {{#if this.canUnlinkConcept}}
-              <AuButton
-                @alert={{true}}
-                @icon="link-broken"
-                @skin="link"
-                {{on "click" this.showUnlinkWarning}}
-              >
-                Loskoppelen
-              </AuButton>
-            {{/if}}
-          </:content>
-        </Data>
-        <Data>
-          <:title>Product type</:title>
-          <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.type.label}} />
-          </:content>
-        </Data>
-        <Data>
-          <:title>Aangemaakt op</:title>
-          <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.dateCreated}}>
-              <:value as |value|>
-                {{moment-format value "DD-MM-YYYY - HH:mm"}}
-              </:value>
-            </ValueWithPlaceholder>
-          </:content>
-        </Data>
-        <Data>
-          <:title>Bewerkt op</:title>
-          <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.dateModified}}>
-              <:value as |value|>
-                {{moment-format value "DD-MM-YYYY - HH:mm"}}
-              </:value>
-            </ValueWithPlaceholder>
-          </:content>
-        </Data>
-        <Data>
-          <:title>Geldig vanaf</:title>
-          <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.startDate}}>
-              <:value as |value|>
-                {{moment-format value "DD-MM-YYYY"}}
-              </:value>
-            </ValueWithPlaceholder>
-          </:content>
-        </Data>
-        <Data>
-          <:title>Geldig tot</:title>
-          <:content>
-            <ValueWithPlaceholder @value={{@model.publicService.endDate}}>
-              <:value as |value|>
-                {{moment-format value "DD-MM-YYYY"}}
-              </:value>
-            </ValueWithPlaceholder>
-          </:content>
-        </Data>
-        <Data>
-          <:title>Status document</:title>
-          <:content>
-            {{#if @model.publicService.status.label}}
-              <Status @uri={{@model.publicService.status.uri}}>
-                {{@model.publicService.status.label}}
-              </Status>
-            {{else}}
-              –
-            {{/if}}
-          </:content>
-        </Data>
-        {{#if this.shouldDisplayVersion}}
-          <Data>
-            <:title>Versie</:title>
-            <:content>
-              {{this.publicServiceDutchLanguageVariant}}
-            </:content>
-          </Data>
-        {{/if}}
-      </DataList>
-      {{#if this.shouldShowUnlinkWarning}}
-        <AuAlert
-          @title="Instantie loskoppelen van het concept"
-          @icon="circle-info"
-          @skin="error"
+<AuMainContainer as |m|>
+  <m.sidebar
+    class="au-u-background-gray-100"
+  >
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <AuToolbar
+          @border="bottom"
           @size="small"
-          @closable={{this.unlinkConcept.isIdle}}
-          @onClose={{this.hideUnlinkWarning}}
-          class="au-u-margin-top au-u-max-width-small"
+          class="au-u-flex au-u-flex--vertical-start"
+          as |Group|
         >
-          <p class="au-u-margin-top-tiny">
-            De link met het concept waarop dit product is gebaseerd, wordt
-            opgeheven. Hierdoor kan je mogelijke wijzigingen aan het concept
-            niet langer opvolgen. Je kan een instantie op elk moment opnieuw
-            koppelen aan een concept.
-          </p>
-          <AuButtonGroup class="au-u-margin-top-small">
-            <AuButton
-              @icon="link-broken"
-              @alert={{true}}
-              @loading={{this.unlinkConcept.isRunning}}
-              @loadingMessage="Aan het loskoppelen"
-              {{on "click" (perform this.unlinkConcept)}}
-            >Loskoppelen
-            </AuButton>
-            <AuButton
-              @skin="secondary"
-              @disabled={{this.unlinkConcept.isRunning}}
-              {{on "click" this.hideUnlinkWarning}}
-            >Annuleren
-            </AuButton>
-          </AuButtonGroup>
-        </AuAlert>
-      {{/if}}
-    </div>
-  </Group>
+          <Group class="au-u-margin-bottom-small">
+            <div>
+              <DataList as |Data|>
+                <Data>
+                  <:title>IPDC Concept ID</:title>
+                  <:content>
+                    {{#if @model.publicService.concept.id}}
+                      <AuLink
+                        @route="public-services.concept-details"
+                        @model={{@model.publicService.concept.id}}
+                        target="blank"
+                      >
+                        {{@model.publicService.concept.productId}}
+                      </AuLink>
+                    {{else if this.canLinkConcept}}
+                      <AuLink
+                        @icon="link"
+                        @route="public-services.link-concept"
+                        @model={{@model.publicService.id}}
+                      >
+                        Koppelen
+                      </AuLink>
+                    {{else}}
+                      <ValueWithPlaceholder @value={{false}} />
+                    {{/if}}
+                    {{#if this.canUnlinkConcept}}
+                      <AuButton
+                        @alert={{true}}
+                        @icon="link-broken"
+                        @skin="link"
+                        {{on "click" this.showUnlinkWarning}}
+                      >
+                        Loskoppelen
+                      </AuButton>
+                    {{/if}}
+                    {{#if this.shouldShowUnlinkWarning}}
+                      <AuAlert
+                        @title="Instantie loskoppelen van het concept"
+                        @icon="circle-info"
+                        @skin="error"
+                        @size="small"
+                        @closable={{this.unlinkConcept.isIdle}}
+                        @onClose={{this.hideUnlinkWarning}}
+                        class="au-u-margin-top au-u-max-width-small"
+                      >
+                        <p class="au-u-margin-top-tiny">
+                          De link met het concept waarop dit product is gebaseerd, wordt
+                          opgeheven. Hierdoor kan je mogelijke wijzigingen aan het concept
+                          niet langer opvolgen. Je kan een instantie op elk moment opnieuw
+                          koppelen aan een concept.
+                        </p>
+                        <AuButtonGroup class="au-u-margin-top-small">
+                          <AuButton
+                            @icon="link-broken"
+                            @alert={{true}}
+                            @loading={{this.unlinkConcept.isRunning}}
+                            @loadingMessage="Aan het loskoppelen"
+                            {{on "click" (perform this.unlinkConcept)}}
+                          >Loskoppelen
+                          </AuButton>
+                          <AuButton
+                            @skin="secondary"
+                            @disabled={{this.unlinkConcept.isRunning}}
+                            {{on "click" this.hideUnlinkWarning}}
+                          >Annuleren
+                          </AuButton>
+                        </AuButtonGroup>
+                      </AuAlert>
+                    {{/if}}
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Product type</:title>
+                  <:content>
+                    <ValueWithPlaceholder @value={{@model.publicService.type.label}} />
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Aangemaakt op</:title>
+                  <:content>
+                    <ValueWithPlaceholder @value={{@model.publicService.dateCreated}}>
+                      <:value as |value|>
+                        {{moment-format value "DD-MM-YYYY - HH:mm"}}
+                      </:value>
+                    </ValueWithPlaceholder>
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Bewerkt op</:title>
+                  <:content>
+                    <ValueWithPlaceholder @value={{@model.publicService.dateModified}}>
+                      <:value as |value|>
+                        {{moment-format value "DD-MM-YYYY - HH:mm"}}
+                      </:value>
+                    </ValueWithPlaceholder>
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Geldig vanaf</:title>
+                  <:content>
+                    <ValueWithPlaceholder @value={{@model.publicService.startDate}}>
+                      <:value as |value|>
+                        {{moment-format value "DD-MM-YYYY"}}
+                      </:value>
+                    </ValueWithPlaceholder>
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Geldig tot</:title>
+                  <:content>
+                    <ValueWithPlaceholder @value={{@model.publicService.endDate}}>
+                      <:value as |value|>
+                        {{moment-format value "DD-MM-YYYY"}}
+                      </:value>
+                    </ValueWithPlaceholder>
+                  </:content>
+                </Data>
+                <Data class="w-100">
+                  <:title>Status document</:title>
+                  <:content>
+                    {{#if @model.publicService.status.label}}
+                      <Status @uri={{@model.publicService.status.uri}}>
+                        {{@model.publicService.status.label}}
+                      </Status>
+                    {{else}}
+                      –
+                    {{/if}}
+                  </:content>
+                </Data>
+                {{#if this.shouldDisplayVersion}}
+                  <Data class="w-100">
+                    <:title>Versie</:title>
+                    <:content>
+                      {{this.publicServiceDutchLanguageVariant}}
+                    </:content>
+                  </Data>
+                {{/if}}
+              </DataList>
+            </div>
+          </Group>
 
-  {{#if this.shouldShowContentGeneratedWarning}}
-    <Group>
-      <GeneratedContentWarning
-        @languageVersion={{@model.languageVersionOfConcept}}
-        @conceptName={{@model.publicService.concept.nameNl}}
-        @conceptProductId={{@model.publicService.concept.productId}}/>
-    </Group>
-  {{/if}}
+          {{#if this.shouldShowContentGeneratedWarning}}
+            <Group>
+              <GeneratedContentWarning
+                @languageVersion={{@model.languageVersionOfConcept}}
+                @conceptName={{@model.publicService.concept.nameNl}}
+                @conceptProductId={{@model.publicService.concept.productId}}/>
+            </Group>
+          {{/if}}
 
-  <Group class="w-100">
-    {{#if @model.publicService.reviewStatus}}
-      <AuAlert
-        @skin={{if this.isConceptUpdatedStatus "warning" "error"}}
-        @icon="alert-triangle"
-        @size="small"
-        class="au-u-margin-bottom-none au-u-1-2"
-      >
-        {{#if this.isConceptUpdatedStatus}}
-          <p>
-            In het concept waarop dit product is gebaseerd, zijn de volgende velden
-            aangepast: <strong>{{this.functionallyChangedFields}}</strong>.
-          </p>
-          <p>
-            Je kan ervoor kiezen om elk veld afzonderlijk over te nemen of het concept als geheel.
-          </p>
-        {{else}}
-          <p>
-            Het concept waarop dit product is gebaseerd, werd gearchiveerd.
-            Gelieve na te kijken of je deze versie wil behouden, aanpassen of
-            verwijderen.
-          </p>
-        {{/if}}
-        <div class="au-u-margin-top-small">
-          <AuButtonGroup>
-            {{#if @model.publicService.concept}}
-              <AuLinkExternal
-                href={{this.ipdcConceptCompareLink}}
-                @skin="button"
-                @icon="eye"
-                target="blank"
+          {{#if @model.publicService.reviewStatus}}
+            <Group>
+              <AuAlert
+                @skin={{if this.isConceptUpdatedStatus "warning" "error"}}
+                @icon="alert-triangle"
+                @size="small"
+                class="au-u-margin-bottom-none"
               >
-                Concept bekijken
-              </AuLinkExternal>
+                {{#if this.isConceptUpdatedStatus}}
+                  <p>
+                    In het concept waarop dit product is gebaseerd, zijn de volgende velden
+                    aangepast: <strong>{{this.functionallyChangedFields}}</strong>.
+                  </p>
+                  <p>
+                    Je kan ervoor kiezen om elk veld afzonderlijk over te nemen of het concept als geheel.
+                  </p>
+                {{else}}
+                  <p>
+                    Het concept waarop dit product is gebaseerd, werd gearchiveerd.
+                    Gelieve na te kijken of je deze versie wil behouden, aanpassen of
+                    verwijderen.
+                  </p>
+                {{/if}}
+                <div class="au-u-margin-top-small">
+                  <AuButtonGroup>
+                    {{#if @model.publicService.concept}}
+                      <AuLinkExternal
+                        href={{this.ipdcConceptCompareLink}}
+                        @skin="button"
+                        @icon="eye"
+                        @width="block"
+                        target="blank"
+                      >
+                        Concept bekijken
+                      </AuLinkExternal>
 
-              <AuButton
-                @skin="primary"
-                @icon="copy"
-                {{on "click" this.fullyTakeConceptSnapshotOver}}
+                      <AuButton
+                        @skin="primary"
+                        @icon="copy"
+                        @width="block"
+                        {{on "click" this.fullyTakeConceptSnapshotOver}}
+                      >
+                        Wijzigingen overnemen
+                      </AuButton>
+
+
+                    {{/if}}
+                    <AuButton
+                      @skin="secondary"
+                      @icon="check"
+                      @width="block"
+                      @disabled={{(or this.markAsReviewed.isRunning this.formHasUnsavedChanges)}}
+                      @loading={{this.markAsReviewed.isRunning}}
+                      @loadingMessage="Aan het verwerken"
+                      {{on "click" (perform this.markAsReviewed)}}
+                    >
+                      Geen aanpassingen nodig
+                    </AuButton>
+                  </AuButtonGroup>
+                </div>
+              </AuAlert>
+            </Group>
+          {{/if}}
+          {{#if this.shouldShowConversionAlertPublishedInstance }}
+            <Group>
+              <AuAlert
+                @title="Omzetting naar de je-vorm"
+                @skin="info"
+                @icon="message"
+                @size="small"
+                class="au-u-margin-bottom-none"
               >
-                Wijzigingen overnemen
-              </AuButton>
-
-
+                <p>
+                  Indien gewenst kan de inhoud van deze instantie automatisch worden omgezet naar de je-vorm.
+                </p>
+                <div class="au-u-margin-top-small">
+                  <AuButtonGroup>
+                    <AuLinkExternal
+                      href={{this.ipdcInformalLink}}
+                      @skin="button"
+                      @icon="eye"
+                      target="blank"
+                    >
+                      Instantie in je-vorm bekijken
+                    </AuLinkExternal>
+                    <AuButton
+                      @skin="primary"
+                      @icon="pencil"
+                      {{on "click" this.convertToInformal}}
+                    >
+                      Omzetten naar de je-vorm
+                    </AuButton>
+                    <AuButton
+                      @skin="secondary"
+                      @icon="check"
+                      {{on "click" (perform this.confirmInstanceAlreadyInformal)}}
+                    >
+                      Inhoud is al in de je-vorm
+                    </AuButton>
+                  </AuButtonGroup>
+                </div>
+              </AuAlert>
+            </Group>
+          {{/if}}
+          <Group >
+            {{#if this.shouldShowConversionAlertDraftInstance }}
+              <AuAlert
+                @title=""
+                @skin="info"
+                @icon="message"
+                @size="small"
+                class="au-u-margin-bottom-none"
+              >
+                <p>
+                  Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm (de
+                  publicatie duurt enkele minuten).
+                </p>
+              </AuAlert>
             {{/if}}
-            <AuButton
-              @skin="secondary"
-              @icon="check"
-              @disabled={{(or this.markAsReviewed.isRunning this.formHasUnsavedChanges)}}
-              @loading={{this.markAsReviewed.isRunning}}
-              @loadingMessage="Aan het verwerken"
-              {{on "click" (perform this.markAsReviewed)}}
-            >
-              Geen aanpassingen nodig
-            </AuButton>
-          </AuButtonGroup>
-        </div>
-      </AuAlert>
-    {{/if}}
-    {{#if this.shouldShowConversionAlertPublishedInstance }}
-      <AuAlert
-        @title="Omzetting naar de je-vorm"
-        @skin="info"
-        @icon="message"
-        @size="small"
-        class="au-u-margin-bottom-none au-u-1-2"
-      >
-        <p>
-          Indien gewenst kan de inhoud van deze instantie automatisch worden omgezet naar de je-vorm.
-        </p>
-        <div class="au-u-margin-top-small">
-          <AuButtonGroup>
-            <AuLinkExternal
-              href={{this.ipdcInformalLink}}
-              @skin="button"
-              @icon="eye"
-              target="blank"
-            >
-              Instantie in je-vorm bekijken
-            </AuLinkExternal>
-            <AuButton
-              @skin="primary"
-              @icon="pencil"
-              {{on "click" this.convertToInformal}}
-            >
-              Omzetten naar de je-vorm
-            </AuButton>
-            <AuButton
-              @skin="secondary"
-              @icon="check"
-              {{on "click" (perform this.confirmInstanceAlreadyInformal)}}
-            >
-              Inhoud is al in de je-vorm
-            </AuButton>
-          </AuButtonGroup>
-        </div>
-      </AuAlert>
-    {{/if}}
-    {{#if this.shouldShowConversionAlertDraftInstance }}
-      <AuAlert
-        @title=""
-        @skin="info"
-        @icon="message"
-        @size="small"
-        class="au-u-margin-bottom-none au-u-1-2"
-      >
-        <p>
-          Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm (de
-          publicatie duurt enkele minuten).
-        </p>
-      </AuAlert>
-    {{/if}}
-  </Group>
+          </Group>
+        </AuToolbar>
+      </div>
+    </div>
+  </m.sidebar>
 
-</AuToolbar>
+  <m.content>
+    <AuToolbar as |Group|>
+      <Group>
+        <AuHeading @skin="2" class="au-u-margin-left">
+          {{! template-lint-disable no-triple-curlies}}
+          {{{@model.publicService.nameNl}}}
+        </AuHeading>
+      </Group>
+    </AuToolbar>
 
-<AuTabs as |Tab|>
-  <Tab>
-    <AuLink @route="public-services.details.content">Inhoud</AuLink>
-  </Tab>
-  <Tab>
-    <AuLink @route="public-services.details.properties">Eigenschappen</AuLink>
-  </Tab>
-</AuTabs>
+    <AuTabs as |Tab|>
+      <Tab>
+        <AuLink @route="public-services.details.content">Inhoud</AuLink>
+      </Tab>
+      <Tab>
+        <AuLink @route="public-services.details.properties">Eigenschappen</AuLink>
+      </Tab>
+    </AuTabs>
 
-<AuBodyContainer>
-  {{outlet}}
-</AuBodyContainer>
+    <AuBodyContainer>
+      {{outlet}}
+    </AuBodyContainer>
+  </m.content>
+</AuMainContainer>

@@ -89,17 +89,13 @@
     >
       <Table.content as |Content|>
         <Content.header>
-          <AuDataTableThSortable
-            @field="name"
-            @currentSorting={{this.sort}}
-            @label="Productnaam"
-          />
+          <th>
+            Productnaam
+          </th>
           <th>IPDC Concept ID</th>
-          <AuDataTableThSortable
-            @field="type"
-            @currentSorting={{this.sort}}
-            @label="Product type"
-          />
+          <th>
+            Product type
+          </th>
           <th>
             Doelgroepen
           </th>

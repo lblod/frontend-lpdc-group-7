@@ -66,11 +66,9 @@
       <th>
         IPDC Concept ID
       </th>
-      <AuDataTableThSortable
-        @field="type"
-        @currentSorting={{this.sort}}
-        @label="Product type"
-      />
+      <th>
+        Product type
+      </th>
       <th>
         Doelgroepen
       </th>
@@ -80,7 +78,7 @@
       <th>
         Publicatiekanaal
       </th>
-      <AuDataTableThSortable
+      <LpdcThSortable
         @field="dateModified"
         @currentSorting={{this.sort}}
         @label="Laatst bewerkt"

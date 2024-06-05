@@ -109,9 +109,6 @@
           <th>
             Concept tags
           </th>
-          <th class="u-table-cell-shrink-content">
-            <span class="au-u-hidden-visually">voeg product of dienst toe</span>
-          </th>
         </Content.header>
 
         {{#if this.showTableLoader}}
@@ -130,8 +127,8 @@
                 @icon="info-circle"
                 @skin="error"
                 @size="small"
-                class="au-u-margin-bottom-none"
-              />
+                class="au-u-margin-bottom-none">
+              </AuAlert>
             </td>
           </tr>
         {{else if this.hasResults}}
@@ -180,15 +177,6 @@
                   {{tag.label}}
                 </AuPill>
               </PillList>
-            </td>
-            <td class="u-table-cell-fit-content">
-              <AuLink
-                @icon="add"
-                @skin="button-secondary"
-                {{on 'click' (perform this.createPublicService concept.id)}}
-              >
-                Voeg toe
-              </AuLink>
             </td>
           </Content.body>
         {{else}}

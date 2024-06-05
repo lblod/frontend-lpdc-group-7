@@ -92,9 +92,6 @@
         @currentSorting={{this.sort}}
         @label="Status Document"
       />
-      <th class="u-table-cell-shrink-content">
-        <span class="au-u-hidden-visually">Product of dienst bewerken</span>
-      </th>
     </Content.header>
 
     {{#if this.showTableLoader}}
@@ -121,7 +118,13 @@
       <Content.body as |publicService|>
         <td>
           {{! template-lint-disable no-triple-curlies~}}
-          {{{publicService.nameNl}}}
+          <AuLink
+            @skin="primary"
+            @route="public-services.details"
+            @model={{publicService.id}}
+          >
+            {{publicService.nameNl}}
+          </AuLink>
           {{#if (this.serviceNeedsReview publicService)}}
             <AuPill @skin="warning" @size="small" @icon="alert-triangle">
               Herziening nodig
@@ -172,17 +175,6 @@
           {{else}}
             –
           {{/if}}
-        </td>
-        <td class="u-table-cell-fit-content">
-          <AuLink
-            @icon={{if publicService.isSent "eye" "pencil"}}
-            @iconAlignment="left"
-            @skin="primary"
-            @route="public-services.details"
-            @model={{publicService.id}}
-          >
-            {{if publicService.isSent "Bekijk" "Bewerk"}}
-          </AuLink>
         </td>
       </Content.body>
     {{else}}

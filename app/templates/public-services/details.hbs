@@ -81,12 +81,6 @@
                             {{on "click" (perform this.unlinkConcept)}}
                           >Loskoppelen
                           </AuButton>
-                          <AuButton
-                            @skin="secondary"
-                            @disabled={{this.unlinkConcept.isRunning}}
-                            {{on "click" this.hideUnlinkWarning}}
-                          >Annuleren
-                          </AuButton>
                         </AuButtonGroup>
                       </AuAlert>
                     {{/if}}

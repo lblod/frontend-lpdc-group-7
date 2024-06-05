@@ -58,7 +58,6 @@
                     {{/if}}
                     {{#if this.shouldShowUnlinkWarning}}
                       <AuAlert
-                        @title="Instantie loskoppelen van het concept"
                         @icon="circle-info"
                         @skin="error"
                         @size="small"
@@ -72,7 +71,6 @@
                           niet langer opvolgen. Je kan een instantie op elk moment opnieuw
                           koppelen aan een concept.
                         </p>
-                        <AuButtonGroup class="au-u-margin-top-small">
                           <AuButton
                             @icon="link-broken"
                             @alert={{true}}
@@ -81,7 +79,6 @@
                             {{on "click" (perform this.unlinkConcept)}}
                           >Loskoppelen
                           </AuButton>
-                        </AuButtonGroup>
                       </AuAlert>
                     {{/if}}
                   </:content>

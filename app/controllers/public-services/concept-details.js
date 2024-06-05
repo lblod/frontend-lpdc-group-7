@@ -46,4 +46,15 @@ export default class PublicServicesConceptDetailsController extends Controller {
 
     this.router.transitionTo('public-services.details', publicServiceUuid);
   }
+
+  @dropTask
+  *linkConcept() {
+    const { concept } = this.model;
+    const publicService =
+      yield this.publicServiceService.loadPublicServiceDetails(
+        this.publicServiceId
+      );
+    yield this.publicServiceService.linkConcept(publicService, concept);
+    this.router.replaceWith('public-services.details', publicService.id);
+  }
 }

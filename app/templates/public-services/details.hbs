@@ -65,16 +65,18 @@
                         class="au-u-margin-top au-u-max-width-small"
                       >
                         <p class="au-u-margin-top-tiny">
-                          Wil je de instantie loskoppelen van het concept? Je krijgt dan niet langer meldingen over wijzigingen aan het concept. Je kan een instantie op elk moment opnieuw koppelen aan een concept.
+                          Wil je de instantie loskoppelen van het concept? Je krijgt dan niet langer meldingen over
+                          wijzigingen aan het concept. Je kan een instantie op elk moment opnieuw koppelen aan een
+                          concept.
                         </p>
-                          <AuButton
-                            @icon="link-broken"
-                            @alert={{true}}
-                            @loading={{this.unlinkConcept.isRunning}}
-                            @loadingMessage="Aan het loskoppelen"
-                            {{on "click" (perform this.unlinkConcept)}}
-                          >Loskoppelen
-                          </AuButton>
+                        <AuButton
+                          @icon="link-broken"
+                          @alert={{true}}
+                          @loading={{this.unlinkConcept.isRunning}}
+                          @loadingMessage="Aan het loskoppelen"
+                          {{on "click" (perform this.unlinkConcept)}}
+                        >Loskoppelen
+                        </AuButton>
                       </AuAlert>
                     {{/if}}
                   </:content>
@@ -248,7 +250,7 @@
               </AuAlert>
             </Group>
           {{/if}}
-          <Group >
+          <Group>
             {{#if this.shouldShowConversionAlertDraftInstance }}
               <AuAlert
                 @skin="info"
@@ -256,7 +258,8 @@
                 class="au-u-margin-bottom-none"
               >
                 <p>
-                  Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm (de
+                  Deze instantie kan na verzending naar de Vlaamse overheid automatisch worden omgezet naar de je-vorm
+                  (de
                   publicatie duurt enkele minuten).
                 </p>
               </AuAlert>
@@ -268,12 +271,69 @@
   </m.sidebar>
 
   <m.content>
-    <AuToolbar as |Group|>
+    <AuToolbar class="au-u-flex--no-wrap" as |Group|>
       <Group>
         <AuHeading @skin="2" class="au-u-margin-left">
           {{! template-lint-disable no-triple-curlies}}
           {{{@model.publicService.nameNl}}}
         </AuHeading>
+      </Group>
+      <Group>
+        <AuButtonGroup class="au-u-flex--no-wrap">
+          {{#if @readOnly}}
+            <AuButton {{on "click" this.requestReopeningConfirmation}}>
+              Product opnieuw bewerken
+            </AuButton>
+          {{else}}
+            <AuButton
+              @disabled={{not this.canSubmit}}
+              {{on "click" (perform this.requestSubmitConfirmation)}}
+            >
+              Verzend naar Vlaamse overheid
+            </AuButton>
+
+            <AuButton
+              @skin="secondary"
+              @disabled={{not this.canSave}}
+              @loading={{this.handleFormSubmit.isRunning}}
+              form={{this.id}}
+              type="submit"
+            >
+              Wijzigingen bewaren
+            </AuButton>
+          {{/if}}
+        </AuButtonGroup>
+
+        <AuDropdown
+          @title="Acties"
+          @skin="naked"
+          @alignment="right"
+          @icon="chevron-down"
+          @iconAlignment="right"
+          role="menu"
+        >
+          {{#unless @readOnly}}
+            <AuButton
+              @skin="link"
+              @icon="bin"
+              role="menuitem"
+              @alert={{true}}
+              @disabled={{this.publicServiceAction.isRunning}}
+              {{on "click" this.removePublicService}}
+            >
+              Product verwijderen
+            </AuButton>
+          {{/unless}}
+          <AuButton @skin="link" @icon="switch" role="menuitem">
+            Switch profile
+          </AuButton>
+          <AuButton @skin="link" @icon="switch" role="menuitem">
+            Switch profile
+          </AuButton>
+          <AuButton @skin="link" @icon="switch" role="menuitem">
+            Switch profile
+          </AuButton>
+        </AuDropdown>
       </Group>
     </AuToolbar>
 

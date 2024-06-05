@@ -46,7 +46,12 @@ div.au-u-margin-bottom-small:has(.address-form) {
   height: fit-content;
 }
 
-.limit-height {
-  height: calc(100% - 18rem);
-  flex-grow: unset;
+.au-c-dropdown__floater {
+  position: absolute;
+  right: 0;
+
+  .au-c-dropdown__arrow {
+    right: min(15%, 12px);
+    top: 0px;
+  }
 }

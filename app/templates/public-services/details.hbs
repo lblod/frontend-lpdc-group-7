@@ -12,6 +12,15 @@
           class="au-u-flex au-u-flex--vertical-start"
           as |Group|
         >
+          {{#if this.shouldShowContentGeneratedWarning}}
+            <Group>
+              <GeneratedContentWarning
+                @languageVersion={{@model.languageVersionOfConcept}}
+                @conceptName={{@model.publicService.concept.nameNl}}
+                @conceptProductId={{@model.publicService.concept.productId}}/>
+            </Group>
+          {{/if}}
+
           <Group class="au-u-margin-bottom-small">
             <div>
               <DataList as |Data|>
@@ -152,15 +161,6 @@
               </DataList>
             </div>
           </Group>
-
-          {{#if this.shouldShowContentGeneratedWarning}}
-            <Group>
-              <GeneratedContentWarning
-                @languageVersion={{@model.languageVersionOfConcept}}
-                @conceptName={{@model.publicService.concept.nameNl}}
-                @conceptProductId={{@model.publicService.concept.productId}}/>
-            </Group>
-          {{/if}}
 
           {{#if @model.publicService.reviewStatus}}
             <Group>

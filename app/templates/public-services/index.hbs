@@ -69,28 +69,26 @@
       <AuDataTableThSortable
         @field="type"
         @currentSorting={{this.sort}}
-        @label="Producttype"
+        @label="Product type"
       />
       <th>
         Doelgroepen
       </th>
       <th>
-        Uitvoerende bestuursniveaus
+        Thema's
+      </th>
+      <th>
+        Publicatiekanaal
       </th>
       <AuDataTableThSortable
         @field="dateModified"
         @currentSorting={{this.sort}}
         @label="Laatst bewerkt"
       />
-      {{!-- <AuDataTableThSortable
-        @field=""
-        @currentSorting={{this.sort}}
-        @label="Vertalingen"
-      /> --}}
       <AuDataTableThSortable
         @field="status.label"
         @currentSorting={{this.sort}}
-        @label="Status Document"
+        @label="Status"
       />
     </Content.header>
 
@@ -148,25 +146,22 @@
           </PillList>
         </td>
         <td>
-          <PillList
-            @list={{await publicService.executingAuthorityLevels}}
-            as |executingAuthorityLevel|
-          >
+          <PillList @list={{await publicService.thematicAreas}} as |thematicArea|>
             <AuPill>
-              {{executingAuthorityLevel.label}}
+              {{thematicArea.label}}
+            </AuPill>
+          </PillList>
+        </td>
+        <td>
+          <PillList @list={{await publicService.publicationMedia}} as |publicationMedium|>
+            <AuPill>
+              {{publicationMedium.label}}
             </AuPill>
           </PillList>
         </td>
         <td>
           {{moment-format publicService.dateModified "DD-MM-YYYY - HH:mm"}}
         </td>
-        {{!-- <td>
-             <TranslationStatus
-             @id={{publicService.translationStatus.id}}
-             >
-             {{publicService.translationStatus.label}}
-             </TranslationStatus>
-             </td> --}}
         <td>
           {{#if publicService.status.uri}}
             <Status @uri={{publicService.status.uri}}>

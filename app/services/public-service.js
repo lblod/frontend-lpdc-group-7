@@ -19,7 +19,7 @@ export default class PublicServiceService extends Service {
     return this.store.findRecord('public-service', publicServiceId, {
       reload: true,
       include:
-        'type,status,concept-tags,target-audiences,competent-authority-levels,executing-authority-levels,concept,review-status,publication-status',
+        'type,status,target-audiences,concept,review-status,publication-status',
     });
   }
 

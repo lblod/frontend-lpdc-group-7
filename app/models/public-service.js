@@ -28,25 +28,19 @@ export default class PublicServiceModel extends Model {
     async: false,
     inverse: null,
   })
-  conceptTags;
-
-  @hasMany('concept', {
-    async: false,
-    inverse: null,
-  })
   targetAudiences;
 
   @hasMany('concept', {
     async: false,
     inverse: null,
   })
-  competentAuthorityLevels;
+  thematicAreas;
 
   @hasMany('concept', {
     async: false,
     inverse: null,
   })
-  executingAuthorityLevels;
+  publicationMedia;
 
   @belongsTo('conceptual-public-service', {
     async: true,

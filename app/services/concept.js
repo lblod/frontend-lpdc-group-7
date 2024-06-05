@@ -10,8 +10,7 @@ export default class ConceptService extends Service {
   async loadConceptDetails(conceptId) {
     return this.store.findRecord('conceptual-public-service', conceptId, {
       reload: true,
-      include:
-        'type,status,display-configuration,concept-tags,target-audiences,competent-authority-levels,executing-authority-levels',
+      include: 'type,status,display-configuration,target-audiences',
     });
   }
 
@@ -37,9 +36,9 @@ export default class ConceptService extends Service {
       'filter[:has-no:status]': 'yes',
       'page[number]': page,
       'fields[conceptual-public-services]':
-        'name,display-configuration,product-id,type,target-audiences,competent-authority-levels,concept-tags',
+        'name,display-configuration,product-id,type,target-audiences,thematic-areas,publication-media',
       include:
-        'display-configuration,target-audiences,concept-tags,competent-authority-levels,type',
+        'display-configuration,type,target-audiences,thematic-areas,publication-media',
     };
 
     if (search) {

@@ -65,9 +65,8 @@ export default class PublicServicesIndexRoute extends Route {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
       'page[number]': page,
       'fields[public-services]':
-        'name,product-id,review-status,type,target-audiences,executing-authority-levels,date-created,date-modified,status,needs-conversion-from-formal-to-informal',
-      include:
-        'target-audiences,type,executing-authority-levels,status,review-status',
+        'name,product-id,type,target-audiences,thematic-areas,publication-media,date-created,date-modified,status,needs-conversion-from-formal-to-informal,review-status',
+      include: 'type,target-audiences,thematic-areas,publication-media,status,review-status',
     };
 
     if (search) {

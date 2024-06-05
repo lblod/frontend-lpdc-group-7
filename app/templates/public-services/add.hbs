@@ -98,16 +98,16 @@
           <AuDataTableThSortable
             @field="type"
             @currentSorting={{this.sort}}
-            @label="ProductType"
+            @label="Product type"
           />
           <th>
             Doelgroepen
           </th>
           <th>
-            Bevoegde bestuursniveaus
+            Thema's
           </th>
           <th>
-            Concept tags
+            Publicatiekanaal
           </th>
         </Content.header>
 
@@ -162,19 +162,16 @@
               </PillList>
             </td>
             <td>
-              <PillList
-                @list={{await concept.competentAuthorityLevels}}
-                as |level|
-              >
+              <PillList @list={{await concept.thematicAreas}} as |thematicArea|>
                 <AuPill>
-                  {{level.label}}
+                  {{thematicArea.label}}
                 </AuPill>
               </PillList>
             </td>
             <td>
-              <PillList @list={{await concept.conceptTags}} as |tag|>
+              <PillList @list={{await concept.publicationMedia}} as |publicationMedium|>
                 <AuPill>
-                  {{tag.label}}
+                  {{publicationMedium.label}}
                 </AuPill>
               </PillList>
             </td>

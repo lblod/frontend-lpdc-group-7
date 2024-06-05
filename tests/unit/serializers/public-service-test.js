@@ -23,18 +23,6 @@ module('Unit | Serializer | public service', function (hooks) {
         relationships: {
           concept: { data: { id: '1', type: 'conceptual-public-service' } },
           status: { data: { id: '1', type: 'concept' } },
-          conceptTags: {
-            data: [
-              {
-                id: '2',
-                type: 'concept',
-              },
-              {
-                id: '3',
-                type: 'concept',
-              },
-            ],
-          },
         },
       },
     });

@@ -58,7 +58,6 @@
                     {{/if}}
                     {{#if this.shouldShowUnlinkWarning}}
                       <AuAlert
-                        @icon="circle-info"
                         @skin="error"
                         @size="small"
                         @closable={{this.unlinkConcept.isIdle}}
@@ -157,7 +156,6 @@
             <Group>
               <AuAlert
                 @skin={{if this.isConceptUpdatedStatus "warning" "error"}}
-                @icon="alert-triangle"
                 @size="small"
                 class="au-u-margin-bottom-none"
               >
@@ -183,7 +181,6 @@
                         href={{this.ipdcConceptCompareLink}}
                         @skin="button"
                         @icon="eye"
-                        @width="block"
                         target="blank"
                       >
                         Concept bekijken
@@ -192,7 +189,6 @@
                       <AuButton
                         @skin="primary"
                         @icon="copy"
-                        @width="block"
                         {{on "click" this.fullyTakeConceptSnapshotOver}}
                       >
                         Wijzigingen overnemen
@@ -203,7 +199,6 @@
                     <AuButton
                       @skin="secondary"
                       @icon="check"
-                      @width="block"
                       @disabled={{(or this.markAsReviewed.isRunning this.formHasUnsavedChanges)}}
                       @loading={{this.markAsReviewed.isRunning}}
                       @loadingMessage="Aan het verwerken"
@@ -221,7 +216,6 @@
               <AuAlert
                 @title="Omzetting naar de je-vorm"
                 @skin="info"
-                @icon="message"
                 @size="small"
                 class="au-u-margin-bottom-none"
               >
@@ -260,9 +254,7 @@
           <Group >
             {{#if this.shouldShowConversionAlertDraftInstance }}
               <AuAlert
-                @title=""
                 @skin="info"
-                @icon="message"
                 @size="small"
                 class="au-u-margin-bottom-none"
               >

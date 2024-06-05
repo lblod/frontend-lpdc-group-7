@@ -74,6 +74,18 @@ export default class PublicServiceModel extends Model {
     );
   }
 
+  get isYourEurope() {
+    for (let medium of this.publicationMedia) {
+      if (
+        medium.uri ===
+        'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope'
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   get nameNl() {
     if (!this.name?.length) {
       return null;

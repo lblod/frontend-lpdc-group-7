@@ -39,6 +39,25 @@
       @iconAlignment="right"
       role="menu"
     >
+      {{#if this.shouldDisplayEnLinkToIpdc }}
+        <AuLinkExternal
+          href={{this.ipdcEnLink}}
+          @skin="button"
+          @icon="eye"
+          target="blank"
+        >
+          Bekijk Engelse vertaling
+        </AuLinkExternal>
+      {{/if}}
+      {{#if this.shouldDisplayReadonlyEnLinkToIpdc }}
+        <AuButton
+          @icon="eye"
+          @disabled ={{true}}
+          target="blank"
+        >
+          Engelse vertaling na publicatie
+        </AuButton>
+      {{/if}}
       {{#unless @readOnly}}
         <AuButton
           @skin="link"

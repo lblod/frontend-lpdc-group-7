@@ -15,6 +15,8 @@ import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
 import UnsavedChangesModal from 'frontend-lpdc/components/unsaved-changes-modal';
 import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 import ConfirmUpToDateTillModal from 'frontend-lpdc/components/confirm-up-to-date-till-modal';
+import getUUIDFromUri from 'frontend-lpdc/helpers/get-uuid-from-uri';
+import ENV from 'frontend-lpdc/config/environment';
 
 const FORM_GRAPHS = {
   formGraph: new NamedNode('http://data.lblod.info/form'),
@@ -61,6 +63,25 @@ export default class DetailsPageComponent extends Component {
       this.isInitialized &&
       this.hasUnsavedChanges &&
       this.publicServiceAction.isIdle
+    );
+  }
+
+  get ipdcEnLink() {
+    const instanceId = getUUIDFromUri(this.args.publicService.uri);
+    return `${ENV.ipdcUrl}/en/instantie/${instanceId}`;
+  }
+
+  get shouldDisplayEnLinkToIpdc() {
+    return (
+      this.args.publicService.isYourEurope &&
+      this.args.publicService.isPublished
+    );
+  }
+
+  get shouldDisplayReadonlyEnLinkToIpdc() {
+    return (
+      this.args.publicService.isYourEurope &&
+      !this.args.publicService.isPublished
     );
   }
 

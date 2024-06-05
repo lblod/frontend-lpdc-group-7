@@ -1,9 +1,12 @@
+{{! copied from 2.6.0 version of ember-appuniversum, and switched the nav-down, and nav-up icons }}
+
 <span
   class="au-c-data-table__header-title au-c-data-table__header-title--sortable
     {{if this.isSorted ' is-active'}}"
 >
   {{this.label}}
   {{#if (eq this.order "desc")}}
+    {{! template-lint-disable no-action no-redundant-role require-button-type require-presentational-children }}
     <button
       role="button"
       {{action "inverseSorting"}}

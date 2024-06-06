@@ -140,13 +140,13 @@
                 <Data class="w-100">
                   <:title>Status</:title>
                   <:content>
-                      {{#if @model.publicService.status.label}}
-                        <Status @uri={{@model.publicService.status.uri}}>
-                          {{@model.publicService.status.label}}
-                        </Status>
-                      {{else}}
-                        –
-                      {{/if}}
+                    {{#if @model.publicService.status.label}}
+                      <Status @uri={{@model.publicService.status.uri}}>
+                        {{@model.publicService.status.label}}
+                      </Status>
+                    {{else}}
+                      –
+                    {{/if}}
                   </:content>
                 </Data>
                 {{#if this.shouldDisplayVersion}}
@@ -168,6 +168,8 @@
   </m.sidebar>
 
   <m.content>
-    {{outlet}}
+    <AuBodyContainer>
+      {{outlet}}
+    </AuBodyContainer>
   </m.content>
 </AuMainContainer>

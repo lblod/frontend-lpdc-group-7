@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { isEmpty, trim } from 'lodash';
 
 export default class PublicServiceModel extends Model {
   @attr uri;
@@ -88,7 +89,7 @@ export default class PublicServiceModel extends Model {
 
   get nameNl() {
     if (!this.name?.length) {
-      return null;
+      return undefined;
     }
     const nameNl = this.name.find((name) => name.language === 'nl')?.content;
     const nl = this.name.find((name) =>
@@ -96,6 +97,12 @@ export default class PublicServiceModel extends Model {
     )?.content;
     const fallBack = this.name[0].content;
     return nameNl ?? nl ?? fallBack;
+  }
+
+  get nameNlOrGeenTitel() {
+    const result = this.nameNl;
+
+    return isEmpty(trim(result)) ? '(geen titel)' : result;
   }
 }
 

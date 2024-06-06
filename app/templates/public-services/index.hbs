@@ -119,7 +119,7 @@
             @route="public-services.details"
             @model={{publicService.id}}
           >
-            {{publicService.nameNl}}
+            {{publicService.nameNlOrGeenTitel}}
           </AuLink>
           {{#if (this.serviceNeedsReview publicService)}}
             <AuPill @skin="warning" @size="small" @icon="alert-triangle">

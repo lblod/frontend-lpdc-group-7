@@ -77,5 +77,4 @@ export default class ConceptualPublicServiceModel extends Model {
       return c.label;
     });
   }
-
 }

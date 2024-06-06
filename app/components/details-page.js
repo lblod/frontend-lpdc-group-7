@@ -85,6 +85,10 @@ export default class DetailsPageComponent extends Component {
     );
   }
 
+  get shouldDisplayProductVerwijderenButton() {
+    return this.publicServiceAction.isRunning || this.args.readOnly;
+  }
+
   @task
   *loadForm() {
     const {

@@ -45,3 +45,16 @@ div.au-u-margin-bottom-small:has(.address-form) {
 .modal-height-fit-content {
   height: fit-content;
 }
+
+.au-c-dropdown__floater {
+  position: absolute !important;
+  right: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+
+  .au-c-dropdown__arrow {
+    right: min(15%, 12px);
+    top: 0;
+  }
+}

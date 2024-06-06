@@ -137,21 +137,21 @@
         </td>
         <td>{{publicService.type.label}}</td>
         <td>
-          <PillList @list={{await publicService.targetAudiences}} as |targetAudience|>
+          <PillList @list={{await publicService.targetAudiencesOrderedOnLabel}} as |targetAudience|>
             <AuPill>
               {{targetAudience.label}}
             </AuPill>
           </PillList>
         </td>
         <td>
-          <PillList @list={{await publicService.thematicAreas}} as |thematicArea|>
+          <PillList @list={{await publicService.thematicAreasOrderedOnLabel}} as |thematicArea|>
             <AuPill>
               {{thematicArea.label}}
             </AuPill>
           </PillList>
         </td>
         <td>
-          <PillList @list={{await publicService.publicationMedia}} as |publicationMedium|>
+          <PillList @list={{await publicService.publicationMediaOrderedOnLabel}} as |publicationMedium|>
             <AuPill>
               {{publicationMedium.label}}
             </AuPill>

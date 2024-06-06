@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { sortBy } from 'lodash';
 
 export default class ConceptualPublicServiceModel extends Model {
   @attr uri;
@@ -58,4 +59,23 @@ export default class ConceptualPublicServiceModel extends Model {
     const fallBack = this.name[0].content;
     return nameNl ?? nl ?? fallBack;
   }
+
+  get targetAudiencesOrderedOnLabel() {
+    return sortBy([...this.targetAudiences], (c) => {
+      return c.label;
+    });
+  }
+
+  get thematicAreasOrderedOnLabel() {
+    return sortBy([...this.thematicAreas], (c) => {
+      return c.label;
+    });
+  }
+
+  get publicationMediaOrderedOnLabel() {
+    return sortBy([...this.publicationMedia], (c) => {
+      return c.label;
+    });
+  }
+
 }

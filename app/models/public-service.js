@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { isEmpty, trim } from 'lodash';
+import { isEmpty, trim, sortBy } from 'lodash';
 
 export default class PublicServiceModel extends Model {
   @attr uri;
@@ -103,6 +103,24 @@ export default class PublicServiceModel extends Model {
     const result = this.nameNl;
 
     return isEmpty(trim(result)) ? '(geen titel)' : result;
+  }
+
+  get targetAudiencesOrderedOnLabel() {
+    return sortBy([...this.targetAudiences], (c) => {
+      return c.label;
+    });
+  }
+
+  get thematicAreasOrderedOnLabel() {
+    return sortBy([...this.thematicAreas], (c) => {
+      return c.label;
+    });
+  }
+
+  get publicationMediaOrderedOnLabel() {
+    return sortBy([...this.publicationMedia], (c) => {
+      return c.label;
+    });
   }
 }
 

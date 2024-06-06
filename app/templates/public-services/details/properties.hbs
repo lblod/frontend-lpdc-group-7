@@ -5,6 +5,8 @@
   {{! We use `this.model` here since the value is used in the willDestroy method, and the `@model` version is undefined at that point.
       More information: https://github.com/emberjs/ember.js/issues/18987
   }}
+  @functionallyChangedFields={{@model.functionallyChangedFields}}
+  @formalInformalChoice={{@model.formalInformalChoice}}
   @readOnly={{this.model.readOnly}}
   @formId="eigenschappen"
   @tabName="au-c-rdf-form--properties"

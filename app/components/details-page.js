@@ -17,6 +17,9 @@ import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 import ConfirmUpToDateTillModal from 'frontend-lpdc/components/confirm-up-to-date-till-modal';
 import getUUIDFromUri from 'frontend-lpdc/helpers/get-uuid-from-uri';
 import ENV from 'frontend-lpdc/config/environment';
+import { isConceptUpdated } from 'frontend-lpdc/models/public-service';
+import FullyTakeConceptSnapshotOverModalComponent from 'frontend-lpdc/components/fully-take-concept-snapshot-over';
+import ConfirmConvertToInformalModalComponent from 'frontend-lpdc/components/confirm-convert-to-informal-modal';
 
 const FORM_GRAPHS = {
   formGraph: new NamedNode('http://data.lblod.info/form'),
@@ -50,6 +53,12 @@ export default class DetailsPageComponent extends Component {
     }
   }
 
+  get isConceptUpdatedStatus() {
+    return isConceptUpdated(this.args.publicService.reviewStatus);
+  }
+  get functionallyChangedFields() {
+    return this.args.functionallyChangedFields.join(', ');
+  }
   get isInitialized() {
     return this.loadForm.last.isSuccessful;
   }
@@ -84,11 +93,49 @@ export default class DetailsPageComponent extends Component {
       !this.args.publicService.isPublished
     );
   }
+  get ipdcConceptCompareLink() {
+    const productId = this.args.publicService.concept.get('productId');
+    const languageVersion =
+      this.args.publicService.dutchLanguageVariant.toLowerCase() ===
+      'nl-be-x-informal'
+        ? 'nl/informeel'
+        : 'nl';
+
+    const latestSnapshot = getUUIDFromUri(
+      this.args.publicService.concept.get('hasLatestFunctionalChange')
+    );
+    const publicServiceSnapshot = getUUIDFromUri(
+      this.args.publicService.versionedSource
+    );
+    return `${ENV.ipdcUrl}/${languageVersion}/concept/${productId}/revisie/vergelijk?revisie1=${publicServiceSnapshot}&revisie2=${latestSnapshot}`;
+  }
 
   get shouldDisplayProductVerwijderenButton() {
     return this.publicServiceAction.isRunning || this.args.readOnly;
   }
 
+  get shouldShowConversionAlertPublishedInstance() {
+    const { publicService, formalInformalChoice } = this.args;
+    return (
+      publicService.needsConversionFromFormalToInformal &&
+      publicService.isPublished &&
+      formalInformalChoice.chosenForm === 'informal'
+    );
+  }
+
+  get ipdcInformalLink() {
+    const instanceId = getUUIDFromUri(this.args.publicService.uri);
+    return `${ENV.ipdcUrl}/nl/informeel/instantie/${instanceId}`;
+  }
+
+  get shouldShowConversionAlertDraftInstance() {
+    const { publicService, formalInformalChoice } = this.args;
+    return (
+      publicService.needsConversionFromFormalToInformal &&
+      !publicService.isPublished &&
+      formalInformalChoice.chosenForm === 'informal'
+    );
+  }
   @task
   *loadForm() {
     const {
@@ -220,6 +267,14 @@ export default class DetailsPageComponent extends Component {
     }
   }
 
+  @dropTask()
+  *confirmInstanceAlreadyInformal() {
+    const { publicService } = this.args;
+    yield this.publicServiceService.confirmInstanceAlreadyInformal(
+      publicService
+    );
+  }
+
   @action
   requestReopeningConfirmation() {
     this.modals.open(ConfirmReopeningModal, {
@@ -241,6 +296,38 @@ export default class DetailsPageComponent extends Component {
         );
         this.updateHasUnsavedChanges(false);
         this.router.replaceWith('public-services');
+      },
+    });
+  }
+  @action
+  fullyTakeConceptSnapshotOver() {
+    this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
+      fullyTakeConceptSnapshotOverHandler: async () => {
+        let { publicService } = this.args;
+        await this.publicServiceService.fullyTakeConceptSnapshotOver(
+          publicService
+        );
+        this.router.refresh('public-services.details');
+      },
+      updateConceptSnapshotByFieldHandler: async () => {
+        let { readOnly, publicService } = this.args;
+        if (readOnly) {
+          await this.publicServiceService.reopenPublicService(publicService);
+          this.router.refresh('public-services.details');
+        }
+      },
+    });
+  }
+
+  @action
+  convertToInformal() {
+    this.modals.open(ConfirmConvertToInformalModalComponent, {
+      convertToInformalHandler: async () => {
+        let { publicService } = this.args;
+        await this.publicServiceService.convertInstanceToInformal(
+          publicService
+        );
+        this.router.refresh('public-services.details');
       },
     });
   }

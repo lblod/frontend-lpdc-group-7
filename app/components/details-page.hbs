@@ -42,8 +42,9 @@
       {{#if this.shouldDisplayEnLinkToIpdc }}
         <AuLinkExternal
           href={{this.ipdcEnLink}}
-          @skin="button"
+          @skin="link"
           @icon="eye"
+          role="menuitem"
           target="blank"
         >
           Bekijk Engelse vertaling
@@ -52,6 +53,8 @@
       {{#if this.shouldDisplayReadonlyEnLinkToIpdc }}
         <AuButton
           @icon="eye"
+          @skin="link"
+          role="menuitem"
           @disabled ={{true}}
           target="blank"
         >

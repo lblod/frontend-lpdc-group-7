@@ -86,13 +86,6 @@ export default class PublicServicesDetailsController extends Controller {
     this.shouldShowUnlinkWarning = false;
   }
 
-  @dropTask
-  *markAsReviewed() {
-    yield this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
-      this.model.publicService
-    );
-  }
-
   @dropTask()
   *unlinkConcept() {
     const { publicService } = this.model;

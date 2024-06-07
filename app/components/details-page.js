@@ -299,6 +299,7 @@ export default class DetailsPageComponent extends Component {
       },
     });
   }
+
   @action
   fullyTakeConceptSnapshotOver() {
     this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
@@ -330,6 +331,14 @@ export default class DetailsPageComponent extends Component {
         this.router.refresh('public-services.details');
       },
     });
+  }
+
+  @dropTask
+  *markAsReviewed() {
+    let { publicService } = this.args;
+    yield this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
+      publicService
+    );
   }
 
   async showUnsavedChangesModal(transition) {

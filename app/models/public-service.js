@@ -76,15 +76,11 @@ export default class PublicServiceModel extends Model {
   }
 
   get isYourEurope() {
-    for (let medium of this.publicationMedia) {
-      if (
+    return this.publicationMedia.some(
+      (medium) =>
         medium.uri ===
         'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope'
-      ) {
-        return true;
-      }
-    }
-    return false;
+    );
   }
 
   get nameNl() {

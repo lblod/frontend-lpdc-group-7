@@ -40,6 +40,15 @@
 
       <div>
         <AuLabel>Filter op eigenschappen</AuLabel>
+        Producttype
+        <PowerSelectMultiple
+          @options={{this.producttypesOptions}}
+          @selected={{this.producttypes}}
+          @onChange={{this.handleProducttypesConceptFilterChange}}
+          as |doelgroep|
+        >
+          {{doelgroep.label}}
+        </PowerSelectMultiple>
         Doelgroepen
         <PowerSelectMultiple
           @options={{this.doelgroepenOptions}}

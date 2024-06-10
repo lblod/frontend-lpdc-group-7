@@ -11,22 +11,6 @@ export default class PublicServicesAddController extends Controller {
   @service('public-service') publicServiceService;
   @service('concept') conceptService;
   @service('formal-informal-choice') formalInformalChoiceService;
-  queryParams = [
-    'search',
-    'sort',
-    'page',
-    {
-      isNewConcept: {
-        type: 'boolean',
-      },
-      isNotInstantiated: {
-        type: 'boolean',
-      },
-      isYourEurope: {
-        type: 'boolean',
-      },
-    },
-  ];
   @tracked search = '';
   @tracked sort = 'name';
   @tracked page = 0;
@@ -35,22 +19,28 @@ export default class PublicServicesAddController extends Controller {
   @tracked isYourEurope = false;
   @tracked doelgroepen = [];
   @tracked doelgroepenIds = [];
+  @tracked producttypes = [];
+  @tracked producttypesIds = [];
   @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
-    if (this.model.loadConceptualPublicServices.isFinished) {
-      return this.model.loadConceptualPublicServices.value;
-    }
-
-    return this.model.loadedConceptualPublicServices || [];
+    return this.getValueFromTask('loadConceptualPublicServices');
   }
 
   get doelgroepenOptions() {
-    if (this.model.loadDoelgroepenOptions.isFinished) {
-      return this.model.loadDoelgroepenOptions.value;
+    return this.getValueFromTask('loadDoelgroepenOptions');
+  }
+
+  get producttypesOptions() {
+    return this.getValueFromTask('loadProducttypesOptions');
+  }
+
+  getValueFromTask(aTask) {
+    if (this.model[aTask].isFinished) {
+      return this.model[aTask].value;
     }
 
-    return this.model.loadDoelgroepenOptions || [];
+    return this.model[aTask] || [];
   }
 
   get isLoading() {
@@ -84,7 +74,8 @@ export default class PublicServicesAddController extends Controller {
       this.isNewConcept === true ||
       this.isNotInstantiated === true ||
       this.isYourEurope === true ||
-      this.doelgroepen.length > 0
+      this.doelgroepen.length > 0 ||
+      this.producttypes.length > 0
     );
   }
 
@@ -108,9 +99,15 @@ export default class PublicServicesAddController extends Controller {
 
   @action
   handleDoelgroepenConceptFilterChange(values) {
-    console.log(values);
     this.doelgroepen = values;
-    this.doelgroepenIds = this.doelgroepen.map(dg => dg.id);
+    this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
+    this.page = 0;
+  }
+
+  @action
+  handleProducttypesConceptFilterChange(values) {
+    this.producttypes = values;
+    this.producttypesIds = this.producttypes.map((pt) => pt.id);
     this.page = 0;
   }
 
@@ -123,6 +120,8 @@ export default class PublicServicesAddController extends Controller {
     this.isYourEurope = false;
     this.doelgroepen = [];
     this.doelgroepenIds = [];
+    this.producttypes = [];
+    this.producttypesIds = [];
   }
 
   @restartableTask

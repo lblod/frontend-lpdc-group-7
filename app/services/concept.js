@@ -40,6 +40,7 @@ export default class ConceptService extends Service {
     isInstantiated,
     isYourEurope,
     doelgroepenIds,
+    producttypesIds,
   }) {
     let query = {
       'filter[:has-no:status]': 'yes',
@@ -73,7 +74,11 @@ export default class ConceptService extends Service {
         'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
     }
 
-    if (doelgroepenIds.length > 0) {
+    if (producttypesIds?.length > 0) {
+      query['filter[type][:id:]'] = producttypesIds.join(',');
+    }
+
+    if (doelgroepenIds?.length > 0) {
       query['filter[target-audiences][:id:]'] = doelgroepenIds.join(',');
     }
 

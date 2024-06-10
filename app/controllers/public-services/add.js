@@ -33,6 +33,8 @@ export default class PublicServicesAddController extends Controller {
   @tracked isNewConcept = false;
   @tracked isNotInstantiated = false;
   @tracked isYourEurope = false;
+  @tracked doelgroepen = [];
+  @tracked doelgroepenIds = [];
   @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
@@ -41,6 +43,14 @@ export default class PublicServicesAddController extends Controller {
     }
 
     return this.model.loadedConceptualPublicServices || [];
+  }
+
+  get doelgroepenOptions() {
+    if (this.model.loadDoelgroepenOptions.isFinished) {
+      return this.model.loadDoelgroepenOptions.value;
+    }
+
+    return this.model.loadDoelgroepenOptions || [];
   }
 
   get isLoading() {
@@ -73,7 +83,8 @@ export default class PublicServicesAddController extends Controller {
       Boolean(this.search) ||
       this.isNewConcept === true ||
       this.isNotInstantiated === true ||
-      this.isYourEurope === true
+      this.isYourEurope === true ||
+      this.doelgroepen.length > 0
     );
   }
 
@@ -96,12 +107,22 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @action
+  handleDoelgroepenConceptFilterChange(values) {
+    console.log(values);
+    this.doelgroepen = values;
+    this.doelgroepenIds = this.doelgroepen.map(dg => dg.id);
+    this.page = 0;
+  }
+
+  @action
   resetFilters() {
     this.search = '';
     this.page = 0;
     this.isNewConcept = false;
     this.isNotInstantiated = false;
     this.isYourEurope = false;
+    this.doelgroepen = [];
+    this.doelgroepenIds = [];
   }
 
   @restartableTask

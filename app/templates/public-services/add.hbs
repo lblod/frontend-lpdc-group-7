@@ -38,6 +38,19 @@
         </AuCheckbox>
       </div>
 
+      <div>
+        <AuLabel>Filter op eigenschappen</AuLabel>
+        Doelgroepen
+        <PowerSelectMultiple
+          @options={{this.doelgroepenOptions}}
+          @selected={{this.doelgroepen}}
+          @onChange={{this.handleDoelgroepenConceptFilterChange}}
+          as |doelgroep|
+        >
+          {{doelgroep.label}}
+        </PowerSelectMultiple>
+      </div>
+
       {{#if this.hasActiveFilters}}
         <div class="au-u-text-right@medium">
           <AuButton @icon="cross" @skin="naked" {{on "click" this.resetFilters}}>

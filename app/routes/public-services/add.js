@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { restartableTask } from 'ember-concurrency';
+import { restartableTask, task } from 'ember-concurrency';
 
 export default class PublicServicesAddRoute extends Route {
   @service store;
@@ -27,6 +27,9 @@ export default class PublicServicesAddRoute extends Route {
     sort: {
       refreshModel: true,
     },
+    doelgroepenIds: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
@@ -36,6 +39,7 @@ export default class PublicServicesAddRoute extends Route {
       loadedConceptualPublicServices:
         this.loadConceptualPublicServicesTask.lastSuccessful?.value,
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
+      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
     };
   }
 
@@ -47,6 +51,7 @@ export default class PublicServicesAddRoute extends Route {
     isNewConcept,
     isNotInstantiated,
     isYourEurope,
+    doelgroepenIds,
   }) {
     return yield this.conceptService.loadAllConcepts({
       search,
@@ -55,6 +60,16 @@ export default class PublicServicesAddRoute extends Route {
       isNewConcept,
       isNotInstantiated,
       isYourEurope,
+      doelgroepenIds,
+    });
+  }
+
+  @task
+  *loadDoelgroepenConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
+      sort: 'label',
     });
   }
 }

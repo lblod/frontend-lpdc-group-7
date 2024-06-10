@@ -54,7 +54,7 @@ export default class PublicServicesIndexController extends Controller {
   }
 
   get hasResults() {
-    return this.publicServices.length > 0;
+    return this.publicServices?.length > 0;
   }
 
   get hasErrored() {

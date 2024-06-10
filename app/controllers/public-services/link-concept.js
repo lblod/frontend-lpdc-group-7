@@ -53,7 +53,7 @@ export default class PublicServicesLinkConceptIndexController extends Controller
   }
 
   get hasResults() {
-    return this.concepts.length > 0;
+    return this.concepts?.length > 0;
   }
 
   get hasErrored() {

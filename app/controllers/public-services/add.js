@@ -67,7 +67,7 @@ export default class PublicServicesAddController extends Controller {
   }
 
   get hasResults() {
-    return this.publicServices.length > 0;
+    return this.publicServices?.length > 0;
   }
 
   get hasErrored() {

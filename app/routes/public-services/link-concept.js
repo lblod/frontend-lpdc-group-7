@@ -55,6 +55,7 @@ export default class PublicServicesLinkConceptRoute extends Route {
       page,
       sort,
       isNewConcept,
+      undefined,
       isInstantiated,
     });
   }

@@ -11,47 +11,27 @@
       </div>
       <div>
         <AuLabel for="search">Zoeken</AuLabel>
-        {{! TODO: Replace this with `AuInput` once we get rid of 2-way-binding }}
         <input
           value={{this.search}}
           id="search"
           class="au-c-input au-c-input--block"
-          placeholder="Vul uw zoekterm in"
           {{on "input" (perform this.searchTask value="target.value")}}
         />
       </div>
 
-      <AuFieldset as |f|>
-        <f.legend>
-          Toon enkel
-        </f.legend>
-        <f.content>
-          <AuRadioGroup
-            @selected={{this.isNewConcept}}
-            @onChange={{this.handleNewConceptFilterChange}}
-            as |Group|
-          >
-            <Group.Radio @value={{true}}>Nieuwe producten</Group.Radio>
-            <Group.Radio @value={{false}}>Gekende producten</Group.Radio>
-          </AuRadioGroup>
-        </f.content>
-      </AuFieldset>
-
-      <AuFieldset as |f|>
-        <f.legend>
-          Toon enkel
-        </f.legend>
-        <f.content>
-          <AuRadioGroup
-            @selected={{this.isInstantiated}}
-            @onChange={{this.handleInstantiatedConceptFilterChange}}
-            as |Group|
-          >
-            <Group.Radio @value={{true}}>Toegevoegde producten</Group.Radio>
-            <Group.Radio @value={{false}}>Niet toegevoegde producten</Group.Radio>
-          </AuRadioGroup>
-        </f.content>
-      </AuFieldset>
+      <div>
+        <AuLabel>Toon enkel</AuLabel>
+        <AuCheckbox
+          @checked={{this.isNewConcept}}
+          @onChange={{this.handleNewConceptFilterChange}}>
+           Nieuwe producten
+          </AuCheckbox>
+        <AuCheckbox
+          @checked={{this.isNotInstantiated}}
+          @onChange={{this.handleNotInstantiatedConceptFilterChange}}>
+          Niet toegevoegde producten
+        </AuCheckbox>
+      </div>
 
       {{#if this.hasActiveFilters}}
         <div class="au-u-text-right@medium">

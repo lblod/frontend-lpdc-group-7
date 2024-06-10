@@ -19,7 +19,7 @@ export default class PublicServicesAddController extends Controller {
       isNewConcept: {
         type: 'boolean',
       },
-      isInstantiated: {
+      isNotInstantiated: {
         type: 'boolean',
       },
     },
@@ -27,8 +27,8 @@ export default class PublicServicesAddController extends Controller {
   @tracked search = '';
   @tracked sort = 'name';
   @tracked page = 0;
-  @tracked isNewConcept;
-  @tracked isInstantiated;
+  @tracked isNewConcept = false;
+  @tracked isNotInstantiated = false;
   @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
@@ -67,8 +67,8 @@ export default class PublicServicesAddController extends Controller {
   get hasActiveFilters() {
     return (
       Boolean(this.search) ||
-      typeof this.isNewConcept === 'boolean' ||
-      typeof this.isInstantiated === 'boolean'
+      this.isNewConcept === true ||
+      this.isNotInstantiated === true
     );
   }
 
@@ -79,8 +79,8 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @action
-  handleInstantiatedConceptFilterChange(value) {
-    this.isInstantiated = value;
+  handleNotInstantiatedConceptFilterChange(value) {
+    this.isNotInstantiated = value;
     this.page = 0;
   }
 
@@ -88,8 +88,8 @@ export default class PublicServicesAddController extends Controller {
   resetFilters() {
     this.search = '';
     this.page = 0;
-    this.isNewConcept = undefined;
-    this.isInstantiated = undefined;
+    this.isNewConcept = false;
+    this.isNotInstantiated = false;
   }
 
   @restartableTask

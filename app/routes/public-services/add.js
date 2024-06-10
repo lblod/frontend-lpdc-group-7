@@ -18,6 +18,9 @@ export default class PublicServicesAddRoute extends Route {
     isNotInstantiated: {
       refreshModel: true,
     },
+    isYourEurope: {
+      refreshModel: true,
+    },
     page: {
       refreshModel: true,
     },
@@ -43,6 +46,7 @@ export default class PublicServicesAddRoute extends Route {
     sort,
     isNewConcept,
     isNotInstantiated,
+    isYourEurope,
   }) {
     return yield this.conceptService.loadAllConcepts({
       search,
@@ -50,6 +54,7 @@ export default class PublicServicesAddRoute extends Route {
       sort,
       isNewConcept,
       isNotInstantiated,
+      isYourEurope,
     });
   }
 }

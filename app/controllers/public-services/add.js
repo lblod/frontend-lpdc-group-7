@@ -22,6 +22,9 @@ export default class PublicServicesAddController extends Controller {
       isNotInstantiated: {
         type: 'boolean',
       },
+      isYourEurope: {
+        type: 'boolean',
+      },
     },
   ];
   @tracked search = '';
@@ -29,6 +32,7 @@ export default class PublicServicesAddController extends Controller {
   @tracked page = 0;
   @tracked isNewConcept = false;
   @tracked isNotInstantiated = false;
+  @tracked isYourEurope = false;
   @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
@@ -68,7 +72,8 @@ export default class PublicServicesAddController extends Controller {
     return (
       Boolean(this.search) ||
       this.isNewConcept === true ||
-      this.isNotInstantiated === true
+      this.isNotInstantiated === true ||
+      this.isYourEurope === true
     );
   }
 
@@ -85,11 +90,18 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @action
+  handleYourEuropeConceptFilterChange(value) {
+    this.isYourEurope = value;
+    this.page = 0;
+  }
+
+  @action
   resetFilters() {
     this.search = '';
     this.page = 0;
     this.isNewConcept = false;
     this.isNotInstantiated = false;
+    this.isYourEurope = false;
   }
 
   @restartableTask

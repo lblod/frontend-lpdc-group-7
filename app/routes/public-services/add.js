@@ -15,7 +15,7 @@ export default class PublicServicesAddRoute extends Route {
     isNewConcept: {
       refreshModel: true,
     },
-    isInstantiated: {
+    isNotInstantiated: {
       refreshModel: true,
     },
     page: {
@@ -42,14 +42,14 @@ export default class PublicServicesAddRoute extends Route {
     page,
     sort,
     isNewConcept,
-    isInstantiated,
+    isNotInstantiated,
   }) {
     return yield this.conceptService.loadAllConcepts({
       search,
       page,
       sort,
       isNewConcept,
-      isInstantiated,
+      isNotInstantiated,
     });
   }
 }

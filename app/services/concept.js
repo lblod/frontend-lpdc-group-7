@@ -31,7 +31,14 @@ export default class ConceptService extends Service {
     return responseBody.languageVersion;
   }
 
-  async loadAllConcepts({ search, page, sort, isNewConcept, isInstantiated }) {
+  async loadAllConcepts({
+    search,
+    page,
+    sort,
+    isNewConcept,
+    isNotInstantiated,
+    isInstantiated,
+  }) {
     let query = {
       'filter[:has-no:status]': 'yes',
       'page[number]': page,
@@ -45,10 +52,16 @@ export default class ConceptService extends Service {
       query['filter'] = search.trim();
     }
 
-    if (typeof isNewConcept === 'boolean') {
+    if (isNewConcept) {
       query['filter[display-configuration][is-new-concept]'] = isNewConcept;
     }
 
+    if (isNotInstantiated === true) {
+      query['filter[display-configuration][is-instantiated]'] =
+        !isNotInstantiated;
+    }
+
+    //TODO LPDC-1186: remove ...
     if (typeof isInstantiated === 'boolean') {
       query['filter[display-configuration][is-instantiated]'] = isInstantiated;
     }

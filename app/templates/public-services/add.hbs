@@ -45,6 +45,7 @@
           @options={{this.producttypesOptions}}
           @selected={{this.producttypes}}
           @onChange={{this.handleProducttypesConceptFilterChange}}
+          @searchField="label"
           as |producttype|>
           {{producttype.label}}
         </PowerSelectMultiple>
@@ -53,6 +54,7 @@
           @options={{this.doelgroepenOptions}}
           @selected={{this.doelgroepen}}
           @onChange={{this.handleDoelgroepenConceptFilterChange}}
+          @searchField="label"
           as |doelgroep|>
           {{doelgroep.label}}
         </PowerSelectMultiple>
@@ -61,14 +63,15 @@
           @options={{this.themasOptions}}
           @selected={{this.themas}}
           @onChange={{this.handleThemasConceptFilterChange}}
+          @searchField="label"
           as |thema|>
           {{thema.label}}
         </PowerSelectMultiple>
       </div>
 
       {{#if this.hasActiveFilters}}
-        <div class="au-u-text-right@medium">
-          <AuButton @icon="cross" @skin="naked" {{on "click" this.resetFilters}}>
+        <div class="au-u-text-left@medium">
+          <AuButton @icon="cross" @skin="secondary" {{on "click" this.resetFilters}}>
             Herstel alle filters
           </AuButton>
         </div>

@@ -85,21 +85,21 @@ export default class AbstractConceptOverviewController extends Controller {
 
   @action
   handleDoelgroepenConceptFilterChange(values) {
-    this.doelgroepen = values;
+    this.doelgroepen = sortByLabel(values);
     this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
     this.page = 0;
   }
 
   @action
   handleProducttypesConceptFilterChange(values) {
-    this.producttypes = values;
+    this.producttypes = sortByLabel(values);
     this.producttypesIds = this.producttypes.map((pt) => pt.id);
     this.page = 0;
   }
 
   @action
   handleThemasConceptFilterChange(values) {
-    this.themas = values;
+    this.themas = sortByLabel(values);
     this.themaIds = this.themas.map((pt) => pt.id);
     this.page = 0;
   }
@@ -126,4 +126,10 @@ export default class AbstractConceptOverviewController extends Controller {
     this.search = searchValue;
     this.page = 0;
   }
+}
+
+function sortByLabel(concepts = []) {
+  return [...concepts].sort((a, b) => {
+    return a.label.localeCompare(b.label);
+  });
 }

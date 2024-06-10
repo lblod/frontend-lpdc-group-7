@@ -45,18 +45,24 @@
           @options={{this.producttypesOptions}}
           @selected={{this.producttypes}}
           @onChange={{this.handleProducttypesConceptFilterChange}}
-          as |doelgroep|
-        >
-          {{doelgroep.label}}
+          as |producttype|>
+          {{producttype.label}}
         </PowerSelectMultiple>
         Doelgroepen
         <PowerSelectMultiple
           @options={{this.doelgroepenOptions}}
           @selected={{this.doelgroepen}}
           @onChange={{this.handleDoelgroepenConceptFilterChange}}
-          as |doelgroep|
-        >
+          as |doelgroep|>
           {{doelgroep.label}}
+        </PowerSelectMultiple>
+        Thema's
+        <PowerSelectMultiple
+          @options={{this.themasOptions}}
+          @selected={{this.themas}}
+          @onChange={{this.handleThemasConceptFilterChange}}
+          as |thema|>
+          {{thema.label}}
         </PowerSelectMultiple>
       </div>
 

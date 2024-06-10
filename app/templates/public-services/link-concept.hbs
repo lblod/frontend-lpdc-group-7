@@ -5,55 +5,67 @@
     <div class="au-o-box au-o-box--small au-o-flow">
       <div>
         <AuLabel for="search">Zoeken</AuLabel>
-        {{! TODO: Replace this with `AuInput` once we get rid of 2-way-binding }}
         <input
           value={{this.search}}
           id="search"
           class="au-c-input au-c-input--block"
-          placeholder="Vul uw zoekterm in"
           {{on "input" (perform this.searchTask value="target.value")}}
         />
       </div>
 
-      <AuFieldset as |f|>
-        <f.legend>
-          Toon enkel
-        </f.legend>
-        <f.content>
-          <AuRadioGroup
-            @selected={{this.isNewConcept}}
-            @onChange={{this.handleNewConceptFilterChange}}
-            as |Group|
-          >
-            <Group.Radio @value={{true}}>Nieuwe producten</Group.Radio>
-            <Group.Radio @value={{false}}>Gekende producten</Group.Radio>
-          </AuRadioGroup>
-        </f.content>
-      </AuFieldset>
+      <div>
+        <AuLabel>Toon enkel</AuLabel>
+        <AuCheckbox
+          @checked={{this.isNewConcept}}
+          @onChange={{this.handleNewConceptFilterChange}}>
+          Nieuwe producten
+        </AuCheckbox>
+        <AuCheckbox
+          @checked={{this.isNotInstantiated}}
+          @onChange={{this.handleNotInstantiatedConceptFilterChange}}>
+          Niet toegevoegde producten
+        </AuCheckbox>
+        <AuCheckbox
+          @checked={{this.isYourEurope}}
+          @onChange={{this.handleYourEuropeConceptFilterChange}}>
+          Your Europe
+        </AuCheckbox>
+      </div>
 
-      <AuFieldset as |f|>
-        <f.legend>
-          Toon enkel
-        </f.legend>
-        <f.content>
-          <AuRadioGroup
-            @selected={{this.isInstantiated}}
-            @onChange={{this.handleInstantiatedConceptFilterChange}}
-            as |Group|
-          >
-            <Group.Radio @value={{true}}>Toegevoegde producten</Group.Radio>
-            <Group.Radio @value={{false}}>Niet toegevoegde producten</Group.Radio>
-          </AuRadioGroup>
-        </f.content>
-      </AuFieldset>
+      <div>
+        <AuLabel>Filter op eigenschappen</AuLabel>
+        Producttype
+        <PowerSelectMultiple
+          @options={{this.producttypesOptions}}
+          @selected={{this.producttypes}}
+          @onChange={{this.handleProducttypesConceptFilterChange}}
+          @searchField="label"
+          as |producttype|>
+          {{producttype.label}}
+        </PowerSelectMultiple>
+        Doelgroepen
+        <PowerSelectMultiple
+          @options={{this.doelgroepenOptions}}
+          @selected={{this.doelgroepen}}
+          @onChange={{this.handleDoelgroepenConceptFilterChange}}
+          @searchField="label"
+          as |doelgroep|>
+          {{doelgroep.label}}
+        </PowerSelectMultiple>
+        Thema's
+        <PowerSelectMultiple
+          @options={{this.themasOptions}}
+          @selected={{this.themas}}
+          @onChange={{this.handleThemasConceptFilterChange}}
+          @searchField="label"
+          as |thema|>
+          {{thema.label}}
+        </PowerSelectMultiple>
+      </div>
 
       {{#if this.hasActiveFilters}}
-        <div class="au-u-text-right@medium">
-          <AuButton
-            @icon="cross"
-            @skin="naked"
-            {{on "click" this.resetFilters}}
-          >
+        <div class="au-u-text-left@medium">
+          <AuButton @icon="cross" @skin="secondary" {{on "click" this.resetFilters}}>
             Herstel alle filters
           </AuButton>
         </div>
@@ -95,7 +107,7 @@
     </AuToolbar>
 
     <AuDataTable
-      @content={{this.concepts}}
+      @content={{this.publicServices}}
       @sort={{this.sort}}
       @page={{this.page}}
       @size={{20}}
@@ -140,8 +152,9 @@
                 @icon="info-circle"
                 @skin="error"
                 @size="small"
-                class="au-u-margin-bottom-none"
-              />
+                class="au-u-margin-bottom-none">
+
+              </AuAlert>
             </td>
           </tr>
         {{else if this.hasResults}}
@@ -203,8 +216,9 @@
                 @icon="info-circle"
                 @skin="info"
                 @size="small"
-                class="au-u-margin-bottom-none"
-              />
+                class="au-u-margin-bottom-none">
+
+              </AuAlert>
             </td>
           </tr>
         {{/if}}

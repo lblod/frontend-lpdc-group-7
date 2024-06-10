@@ -31,6 +31,11 @@
           @onChange={{this.handleNotInstantiatedConceptFilterChange}}>
           Niet toegevoegde producten
         </AuCheckbox>
+        <AuCheckbox
+          @checked={{this.isYourEurope}}
+          @onChange={{this.handleYourEuropeConceptFilterChange}}>
+          Your Europe
+        </AuCheckbox>
       </div>
 
       {{#if this.hasActiveFilters}}

@@ -38,6 +38,7 @@ export default class ConceptService extends Service {
     isNewConcept,
     isNotInstantiated,
     isInstantiated,
+    isYourEurope,
   }) {
     let query = {
       'filter[:has-no:status]': 'yes',
@@ -64,6 +65,11 @@ export default class ConceptService extends Service {
     //TODO LPDC-1186: remove ...
     if (typeof isInstantiated === 'boolean') {
       query['filter[display-configuration][is-instantiated]'] = isInstantiated;
+    }
+
+    if (isYourEurope) {
+      query['filter[publication-media][:uri:]'] =
+        'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
     }
 
     if (sort) {

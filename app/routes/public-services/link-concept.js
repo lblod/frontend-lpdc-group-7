@@ -1,32 +1,12 @@
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { hasConcept } from 'frontend-lpdc/models/public-service';
-import { restartableTask } from 'ember-concurrency';
+import AbstractConceptOverviewRoute from 'frontend-lpdc/routes/public-services/abstract-concept-overview-route';
 
-export default class PublicServicesLinkConceptRoute extends Route {
+export default class PublicServicesLinkConceptRoute extends AbstractConceptOverviewRoute {
   @service store;
   @service router;
   @service('public-service') publicServiceService;
   @service('concept') conceptService;
-
-  queryParams = {
-    search: {
-      refreshModel: true,
-      replace: true,
-    },
-    isNewConcept: {
-      refreshModel: true,
-    },
-    isInstantiated: {
-      refreshModel: true,
-    },
-    page: {
-      refreshModel: true,
-    },
-    sort: {
-      refreshModel: true,
-    },
-  };
 
   async model(params) {
     const publicService =
@@ -43,20 +23,11 @@ export default class PublicServicesLinkConceptRoute extends Route {
 
     return {
       publicService,
-      loadConcepts: this.loadConcepts.perform(params),
-      loadedConcepts: this.loadConcepts.lastSuccessful?.value,
+      loadConceptualPublicServices:
+        this.loadConceptualPublicServicesTask.perform(params),
+      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
+      loadProducttypesOptions: await this.producttypesConcepts.perform(),
+      loadThemasOptions: await this.themasConcepts.perform(),
     };
-  }
-
-  @restartableTask
-  *loadConcepts({ search, page, sort, isNewConcept, isInstantiated }) {
-    return yield this.conceptService.loadAllConcepts({
-      search,
-      page,
-      sort,
-      isNewConcept,
-      undefined,
-      isInstantiated,
-    });
   }
 }

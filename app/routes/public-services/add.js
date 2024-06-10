@@ -33,6 +33,9 @@ export default class PublicServicesAddRoute extends Route {
     producttypesIds: {
       refreshModel: true,
     },
+    themaIds: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
@@ -44,6 +47,7 @@ export default class PublicServicesAddRoute extends Route {
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
       loadProducttypesOptions: await this.producttypesConcepts.perform(),
+      loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
 
@@ -57,6 +61,7 @@ export default class PublicServicesAddRoute extends Route {
     isYourEurope,
     doelgroepenIds,
     producttypesIds,
+    themaIds,
   }) {
     return yield this.conceptService.loadAllConcepts({
       search,
@@ -67,6 +72,7 @@ export default class PublicServicesAddRoute extends Route {
       isYourEurope,
       doelgroepenIds,
       producttypesIds,
+      themaIds,
     });
   }
 
@@ -84,6 +90,15 @@ export default class PublicServicesAddRoute extends Route {
     return yield this.store.query('concept', {
       'filter[concept-schemes][:uri:]':
         'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Type',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *themasConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Thema',
       sort: 'label',
     });
   }

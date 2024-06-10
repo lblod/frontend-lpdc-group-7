@@ -17,22 +17,28 @@ export default class PublicServicesAddController extends Controller {
   @tracked isNewConcept = false;
   @tracked isNotInstantiated = false;
   @tracked isYourEurope = false;
-  @tracked doelgroepen = [];
-  @tracked doelgroepenIds = [];
   @tracked producttypes = [];
   @tracked producttypesIds = [];
+  @tracked doelgroepen = [];
+  @tracked doelgroepenIds = [];
+  @tracked themas = [];
+  @tracked themaIds = [];
   @tracked formalInformalChoice = this.model.formalInformalChoice;
 
   get publicServices() {
     return this.getValueFromTask('loadConceptualPublicServices');
   }
 
+  get producttypesOptions() {
+    return this.getValueFromTask('loadProducttypesOptions');
+  }
+
   get doelgroepenOptions() {
     return this.getValueFromTask('loadDoelgroepenOptions');
   }
 
-  get producttypesOptions() {
-    return this.getValueFromTask('loadProducttypesOptions');
+  get themasOptions() {
+    return this.getValueFromTask('loadThemasOptions');
   }
 
   getValueFromTask(aTask) {
@@ -74,8 +80,9 @@ export default class PublicServicesAddController extends Controller {
       this.isNewConcept === true ||
       this.isNotInstantiated === true ||
       this.isYourEurope === true ||
+      this.producttypes.length > 0 ||
       this.doelgroepen.length > 0 ||
-      this.producttypes.length > 0
+      this.themas.length > 0
     );
   }
 
@@ -112,16 +119,25 @@ export default class PublicServicesAddController extends Controller {
   }
 
   @action
+  handleThemasConceptFilterChange(values) {
+    this.themas = values;
+    this.themaIds = this.themas.map((pt) => pt.id);
+    this.page = 0;
+  }
+
+  @action
   resetFilters() {
     this.search = '';
     this.page = 0;
     this.isNewConcept = false;
     this.isNotInstantiated = false;
     this.isYourEurope = false;
-    this.doelgroepen = [];
-    this.doelgroepenIds = [];
     this.producttypes = [];
     this.producttypesIds = [];
+    this.doelgroepen = [];
+    this.doelgroepenIds = [];
+    this.themas = [];
+    this.themaIds = [];
   }
 
   @restartableTask

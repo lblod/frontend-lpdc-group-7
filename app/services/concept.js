@@ -39,8 +39,9 @@ export default class ConceptService extends Service {
     isNotInstantiated,
     isInstantiated,
     isYourEurope,
-    doelgroepenIds,
     producttypesIds,
+    doelgroepenIds,
+    themaIds,
   }) {
     let query = {
       'filter[:has-no:status]': 'yes',
@@ -80,6 +81,10 @@ export default class ConceptService extends Service {
 
     if (doelgroepenIds?.length > 0) {
       query['filter[target-audiences][:id:]'] = doelgroepenIds.join(',');
+    }
+
+    if (themaIds?.length > 0) {
+      query['filter[thematic-areas][:id:]'] = themaIds.join(',');
     }
 
     if (sort) {

@@ -1,191 +1,187 @@
-<AuToolbar @size="medium" as |Group|>
-  <Group>
-    <AuHeading @skin="2">
-      Lokale Producten- en Dienstencatalogus
-    </AuHeading>
-  </Group>
-  <Group class="au-u-flex au-u-flex--vertical-center">
-    <div>
-      <label for="search" class="au-u-hidden-visually">Vul uw zoekterm in</label>
-
-      {{! TODO: Replace this with `AuInput` once we get rid of 2-way-binding }}
-      <span class="au-c-input-wrapper au-c-input-wrapper--left">
-        <AuIcon @icon="search" />
+<SidebarContainer @scroll={{true}}>
+  <:sidebar>
+    <div class="au-o-box au-o-box--small au-o-flow">
+      <div>
+        <AuLabel for="search">Zoeken</AuLabel>
         <input
           value={{this.search}}
           id="search"
-          class="au-c-input"
-          placeholder="Vul uw zoekterm in"
+          class="au-c-input au-c-input--block"
           {{on "input" (perform this.searchTask value="target.value")}}
         />
-      </span>
+      </div>
+      <div>
+        <AuLabel>Toon enkel</AuLabel>
+        <AuCheckbox
+          @checked={{this.isReviewRequiredFilterEnabled}}
+          @onChange={{this.toggleReviewRequiredFilter}}>
+          Herziening nodig
+        </AuCheckbox>
+        {{#if this.isChosenFormInformal}}
+            <AuCheckbox
+            @checked={{this.needsConversionFromFormalToInformalFilterEnabled}}
+            @onChange={{this.toggleNeedsConversionFromFormalToInformalFilter}}>
+            u→je omzetting nodig
+          </AuCheckbox>
+        {{/if}}
+      </div>
     </div>
-    <AuLink
-      @route="public-services.add"
-      @icon="add"
-      @iconAlignment="left"
-      @skin="button"
+  </:sidebar>
+  <:content>
+    <AuToolbar @size="medium" as |Group|>
+      <Group>
+        <AuHeading @skin="2">
+          Lokale Producten- en Dienstencatalogus
+        </AuHeading>
+      </Group>
+      <Group class="au-u-flex au-u-flex--vertical-center">
+        <AuLink
+          @route="public-services.add"
+          @icon="add"
+          @iconAlignment="left"
+          @skin="button"
+        >
+          Product of dienst toevoegen
+        </AuLink>
+      </Group>
+    </AuToolbar>
+    <AuDataTable
+      @content={{this.publicServices}}
+      @sort={{this.sort}}
+      @page={{this.page}}
+      @size={{20}}
+      as |Table|
     >
-      Product of dienst toevoegen
-    </AuLink>
-  </Group>
-</AuToolbar>
-
-<AuToolbar @border="bottom" @size="medium" as |Group|>
-  <Group class="au-u-flex au-u-flex--vertical-center">
-    <AuToggleSwitch
-      @checked={{this.isReviewRequiredFilterEnabled}}
-      @onChange={{this.toggleReviewRequiredFilter}}
-    >
-      Herziening nodig
-    </AuToggleSwitch>
-    {{#if this.isChosenFormInformal}}
-      <AuToggleSwitch
-        @checked={{this.needsConversionFromFormalToInformalFilterEnabled}}
-        @onChange={{this.toggleNeedsConversionFromFormalToInformalFilter}}
-      >
-        u→je omzetting nodig
-      </AuToggleSwitch>
-    {{/if}}
-
-  </Group>
-</AuToolbar>
-
-<AuDataTable
-  @content={{this.publicServices}}
-  @sort={{this.sort}}
-  @page={{this.page}}
-  @size={{20}}
-  as |Table|
->
-  <Table.content as |Content|>
-    <Content.header>
-      <th>
-        Productnaam
-      </th>
-      <th>
-        IPDC Concept ID
-      </th>
-      <th>
-        Producttype
-      </th>
-      <th>
-        Doelgroepen
-      </th>
-      <th>
-        Thema's
-      </th>
-      <th>
-        Publicatiekanaal
-      </th>
-      <AuDataTableThSortableReverseSortIndicated
-        @field="dateModified"
-        @currentSorting={{this.sort}}
-        @label="Laatst bewerkt"
-      />
-      <AuDataTableThSortable
-        @field="status.label"
-        @currentSorting={{this.sort}}
-        @label="Status"
-      />
-    </Content.header>
-
-    {{#if this.showTableLoader}}
-      <tbody>
-      <tr>
-        <td colspan="100%" class="au-c-data-table__message">
-          <AuLoader @size="small" />
-        </td>
-      </tr>
-      </tbody>
-    {{else if this.hasErrored}}
-      <tr>
-        <td colspan="100%" class="au-c-data-table__message">
-          <AuAlert
-            @title="Er ging iets fout bij het opvragen van de producten en diensten."
-            @icon="info-circle"
-            @skin="error"
-            @size="small"
-            class="au-u-margin-bottom-none"
+      <Table.content as |Content|>
+        <Content.header>
+          <th>
+            Productnaam
+          </th>
+          <th>
+            IPDC Concept ID
+          </th>
+          <th>
+            Producttype
+          </th>
+          <th>
+            Doelgroepen
+          </th>
+          <th>
+            Thema's
+          </th>
+          <th>
+            Publicatiekanaal
+          </th>
+          <AuDataTableThSortableReverseSortIndicated
+            @field="dateModified"
+            @currentSorting={{this.sort}}
+            @label="Laatst bewerkt"
           />
-        </td>
-      </tr>
-    {{else if this.hasResults}}
-      <Content.body as |publicService|>
-        <td>
-          {{! template-lint-disable no-triple-curlies~}}
-          <AuLink
-            @skin="primary"
-            @route="public-services.details"
-            @model={{publicService.id}}
-          >
-            {{publicService.nameNlOrGeenTitel}}
-          </AuLink>
-          {{#if (this.serviceNeedsReview publicService)}}
-            <AuPill @skin="warning" @size="small" @icon="alert-triangle">
-              Herziening nodig
-            </AuPill>
-          {{/if}}
-          {{#if publicService.needsConversionFromFormalToInformal}}
-            <AuPill @skin="default" @size="small" @icon="message">
-              u→je
-            </AuPill>
-          {{/if}}
-        </td>
-        <td>
-          {{publicService.productId}}
-        </td>
-        <td>{{publicService.type.label}}</td>
-        <td>
-          <PillList @list={{await publicService.targetAudiencesOrderedOnLabel}} as |targetAudience|>
-            <AuPill>
-              {{targetAudience.label}}
-            </AuPill>
-          </PillList>
-        </td>
-        <td>
-          <PillList @list={{await publicService.thematicAreasOrderedOnLabel}} as |thematicArea|>
-            <AuPill>
-              {{thematicArea.label}}
-            </AuPill>
-          </PillList>
-        </td>
-        <td>
-          <PillList @list={{await publicService.publicationMediaOrderedOnLabel}} as |publicationMedium|>
-            <AuPill>
-              {{publicationMedium.label}}
-            </AuPill>
-          </PillList>
-        </td>
-        <td>
-          {{moment-format publicService.dateModified "DD-MM-YYYY - HH:mm"}}
-        </td>
-        <td>
-          {{#if publicService.status.uri}}
-            <Status @uri={{publicService.status.uri}}>
-              {{publicService.status.label}}
-            </Status>
-          {{else}}
-            –
-          {{/if}}
-        </td>
-      </Content.body>
-    {{else}}
-      <tr>
-        <td colspan="100%" class="au-c-data-table__message">
-          <AuAlert
-            @title={{if
-            this.isFiltering
-            "Er werden geen producten of diensten gevonden"
-            "Er werden nog geen producten of diensten toegevoegd"
-          }}
-            @icon="info-circle"
-            @skin="info"
-            @size="small"
-            class="au-u-margin-bottom-none"
+          <AuDataTableThSortable
+            @field="status.label"
+            @currentSorting={{this.sort}}
+            @label="Status"
           />
-        </td>
-      </tr>
-    {{/if}}
-  </Table.content>
-</AuDataTable>
+        </Content.header>
+
+        {{#if this.showTableLoader}}
+          <tbody>
+          <tr>
+            <td colspan="100%" class="au-c-data-table__message">
+              <AuLoader @size="small" />
+            </td>
+          </tr>
+          </tbody>
+        {{else if this.hasErrored}}
+          <tr>
+            <td colspan="100%" class="au-c-data-table__message">
+              <AuAlert
+                @title="Er ging iets fout bij het opvragen van de producten en diensten."
+                @icon="info-circle"
+                @skin="error"
+                @size="small"
+                class="au-u-margin-bottom-none"
+              />
+            </td>
+          </tr>
+        {{else if this.hasResults}}
+          <Content.body as |publicService|>
+            <td>
+              {{! template-lint-disable no-triple-curlies~}}
+              <AuLink
+                @skin="primary"
+                @route="public-services.details"
+                @model={{publicService.id}}
+              >
+                {{publicService.nameNlOrGeenTitel}}
+              </AuLink>
+              {{#if (this.serviceNeedsReview publicService)}}
+                <AuPill @skin="warning" @size="small" @icon="alert-triangle">
+                  Herziening nodig
+                </AuPill>
+              {{/if}}
+              {{#if publicService.needsConversionFromFormalToInformal}}
+                <AuPill @skin="default" @size="small" @icon="message">
+                  u→je
+                </AuPill>
+              {{/if}}
+            </td>
+            <td>
+              {{publicService.productId}}
+            </td>
+            <td>{{publicService.type.label}}</td>
+            <td>
+              <PillList @list={{await publicService.targetAudiencesOrderedOnLabel}} as |targetAudience|>
+                <AuPill>
+                  {{targetAudience.label}}
+                </AuPill>
+              </PillList>
+            </td>
+            <td>
+              <PillList @list={{await publicService.thematicAreasOrderedOnLabel}} as |thematicArea|>
+                <AuPill>
+                  {{thematicArea.label}}
+                </AuPill>
+              </PillList>
+            </td>
+            <td>
+              <PillList @list={{await publicService.publicationMediaOrderedOnLabel}} as |publicationMedium|>
+                <AuPill>
+                  {{publicationMedium.label}}
+                </AuPill>
+              </PillList>
+            </td>
+            <td>
+              {{moment-format publicService.dateModified "DD-MM-YYYY - HH:mm"}}
+            </td>
+            <td>
+              {{#if publicService.status.uri}}
+                <Status @uri={{publicService.status.uri}}>
+                  {{publicService.status.label}}
+                </Status>
+              {{else}}
+                –
+              {{/if}}
+            </td>
+          </Content.body>
+        {{else}}
+          <tr>
+            <td colspan="100%" class="au-c-data-table__message">
+              <AuAlert
+                @title={{if
+                this.isFiltering
+                "Er werden geen producten of diensten gevonden"
+                "Er werden nog geen producten of diensten toegevoegd"
+              }}
+                @icon="info-circle"
+                @skin="info"
+                @size="small"
+                class="au-u-margin-bottom-none"
+              />
+            </td>
+          </tr>
+        {{/if}}
+      </Table.content>
+    </AuDataTable>
+  </:content>
+</SidebarContainer>

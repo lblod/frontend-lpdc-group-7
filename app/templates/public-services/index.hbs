@@ -30,6 +30,42 @@
           Your Europe
         </AuCheckbox>
       </div>
+      <div>
+        <AuLabel>Filter op eigenschappen</AuLabel>
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+          Producttype
+        </label>
+        <PowerSelectMultiple
+          @options={{this.producttypesOptions}}
+          @selected={{this.producttypes}}
+          @onChange={{this.handleProducttypesFilterChange}}
+          @searchField="label"
+          as |producttype|>
+          {{producttype.label}}
+        </PowerSelectMultiple>
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+          Doelgroepen
+        </label>
+        <PowerSelectMultiple
+          @options={{this.doelgroepenOptions}}
+          @selected={{this.doelgroepen}}
+          @onChange={{this.handleDoelgroepenFilterChange}}
+          @searchField="label"
+          as |doelgroep|>
+          {{doelgroep.label}}
+        </PowerSelectMultiple>
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+          Thema's
+        </label>
+        <PowerSelectMultiple
+          @options={{this.themasOptions}}
+          @selected={{this.themas}}
+          @onChange={{this.handleThemasFilterChange}}
+          @searchField="label"
+          as |thema|>
+          {{thema.label}}
+        </PowerSelectMultiple>
+      </div>
     </div>
   </:sidebar>
   <:content>

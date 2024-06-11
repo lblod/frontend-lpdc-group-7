@@ -11,35 +11,44 @@ export default class PublicServicesIndexController extends Controller {
   @tracked isReviewRequiredFilterEnabled = false;
   @tracked needsConversionFromFormalToInformalFilterEnabled = false;
   @tracked isYourEurope = false;
+  @tracked producttypes = [];
+  @tracked producttypesIds = [];
+  @tracked doelgroepen = [];
+  @tracked doelgroepenIds = [];
+  @tracked themas = [];
+  @tracked themaIds = [];
   serviceNeedsReview = serviceNeedsReview;
 
   get publicServices() {
-    if (this.model.loadPublicServices.isFinished) {
-      return this.model.loadPublicServices.value;
-    }
+    return this.getValueFromTask('loadPublicServices');
+  }
 
-    return this.model.loadedPublicServices || [];
+  get producttypesOptions() {
+    return this.getValueFromTask('loadProducttypesOptions');
+  }
+
+  get doelgroepenOptions() {
+    return this.getValueFromTask('loadDoelgroepenOptions');
+  }
+
+  get themasOptions() {
+    return this.getValueFromTask('loadThemasOptions');
   }
 
   get isChosenFormInformal() {
     return this.model.formalInformalChoice?.chosenForm === 'informal';
   }
 
-  get isLoading() {
+  get showTableLoader() {
     return this.model.loadPublicServices.isRunning;
   }
 
-  get hasPreviousData() {
-    return this.model.loadedPublicServices?.length > 0;
-  }
+  getValueFromTask(aTask) {
+    if (this.model[aTask].isFinished) {
+      return this.model[aTask].value;
+    }
 
-  get showTableLoader() {
-    // TODO: Add a different loading state when the table already contains data
-    // At the moment the table is cleared and the loading animation is shown.
-    // It would be better to keep showing the already loaded data with a spinner overlay.
-    // return this.isLoading && !this.hasPreviousData;
-
-    return this.isLoading;
+    return this.model[aTask] || [];
   }
 
   get hasResults() {
@@ -77,7 +86,34 @@ export default class PublicServicesIndexController extends Controller {
     this.resetPagination();
   }
 
+  @action
+  handleDoelgroepenFilterChange(values) {
+    this.doelgroepen = sortByLabel(values);
+    this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
+    this.resetPagination();
+  }
+
+  @action
+  handleProducttypesFilterChange(values) {
+    this.producttypes = sortByLabel(values);
+    this.producttypesIds = this.producttypes.map((pt) => pt.id);
+    this.resetPagination();
+  }
+
+  @action
+  handleThemasFilterChange(values) {
+    this.themas = sortByLabel(values);
+    this.themaIds = this.themas.map((pt) => pt.id);
+    this.resetPagination();
+  }
+
   resetPagination() {
     this.page = 0;
   }
+}
+
+function sortByLabel(concepts = []) {
+  return [...concepts].sort((a, b) => {
+    return a.label.localeCompare(b.label);
+  });
 }

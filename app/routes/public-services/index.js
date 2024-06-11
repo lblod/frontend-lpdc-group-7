@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { restartableTask } from 'ember-concurrency';
+import { restartableTask, task } from 'ember-concurrency';
 import SelectUOrJeModal from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesIndexRoute extends Route {
@@ -30,6 +30,15 @@ export default class PublicServicesIndexRoute extends Route {
     isYourEurope: {
       refreshModel: true,
     },
+    doelgroepenIds: {
+      refreshModel: true,
+    },
+    producttypesIds: {
+      refreshModel: true,
+    },
+    themaIds: {
+      refreshModel: true,
+    },
   };
 
   async beforeModel() {
@@ -52,7 +61,9 @@ export default class PublicServicesIndexRoute extends Route {
     return {
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadPublicServices: this.loadPublicServicesTask.perform(params),
-      loadedPublicServices: this.loadPublicServicesTask.lastSuccessful?.value,
+      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
+      loadProducttypesOptions: await this.producttypesConcepts.perform(),
+      loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
 
@@ -64,6 +75,9 @@ export default class PublicServicesIndexRoute extends Route {
     isReviewRequiredFilterEnabled,
     needsConversionFromFormalToInformalFilterEnabled,
     isYourEurope,
+    doelgroepenIds,
+    producttypesIds,
+    themaIds,
   }) {
     const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
@@ -95,6 +109,45 @@ export default class PublicServicesIndexRoute extends Route {
         'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
     }
 
+    if (producttypesIds?.length > 0) {
+      query['filter[type][:id:]'] = producttypesIds.join(',');
+    }
+
+    if (doelgroepenIds?.length > 0) {
+      query['filter[target-audiences][:id:]'] = doelgroepenIds.join(',');
+    }
+
+    if (themaIds?.length > 0) {
+      query['filter[thematic-areas][:id:]'] = themaIds.join(',');
+    }
+
     return yield this.store.query('public-service', query);
+  }
+
+  @task
+  *loadDoelgroepenConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *producttypesConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Type',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *themasConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Thema',
+      sort: 'label',
+    });
   }
 }

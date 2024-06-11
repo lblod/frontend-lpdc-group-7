@@ -168,16 +168,12 @@
           <tr>
             <td colspan="100%" class="au-c-data-table__message">
               <AuAlert
-                @title={{if
-                this.isFiltering
-                "Er werden geen producten of diensten gevonden"
-                "Er werden nog geen producten of diensten toegevoegd"
-              }}
+                @title="Er werden geen producten of diensten gevonden"
                 @icon="info-circle"
                 @skin="info"
                 @size="small"
-                class="au-u-margin-bottom-none"
-              />
+                class="au-u-margin-bottom-none">
+              </AuAlert>
             </td>
           </tr>
         {{/if}}

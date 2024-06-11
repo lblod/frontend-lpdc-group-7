@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { dropTask } from 'ember-concurrency';
 import { hasConcept } from 'frontend-lpdc/models/public-service';
 import { inject as service } from '@ember/service';
+import UnsavedChangesModalComponent from 'frontend-lpdc/components/unsaved-changes-modal';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;
@@ -14,6 +15,7 @@ export default class PublicServicesDetailsController extends Controller {
 
   @tracked shouldShowUnlinkWarning = false;
   @tracked formHasUnsavedChanges = false;
+  saveFormMethod;
 
   constructor() {
     super(...arguments);
@@ -95,11 +97,20 @@ export default class PublicServicesDetailsController extends Controller {
 
   @dropTask()
   *unlinkConcept() {
+    if (this.formHasUnsavedChanges) {
+      yield this.modals.open(UnsavedChangesModalComponent, {
+        saveHandler: async () => this.saveFormMethod(),
+      });
+    }
     const { publicService } = this.model;
     yield this.publicServiceService.unlinkConcept(publicService);
     this.hideUnlinkWarning();
   }
   hasUnsavedChangesObserver(aValue) {
     this.formHasUnsavedChanges = aValue;
+  }
+
+  registerSaveFormMethod(fn) {
+    this.saveFormMethod = fn;
   }
 }

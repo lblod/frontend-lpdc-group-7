@@ -51,6 +51,10 @@ export default class DetailsPageComponent extends Component {
     if (!this.args.readOnly) {
       this.router.on('routeWillChange', this, this.showUnsavedChangesModal);
     }
+
+    this.contextService
+      .findParentContextWithContract('registerSaveFormMethod')
+      ?.registerSaveFormMethod(() => this.saveSemanticForm.perform());
   }
 
   get isConceptUpdatedStatus() {

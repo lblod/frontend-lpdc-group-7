@@ -37,7 +37,6 @@ export default class ConceptService extends Service {
     sort,
     isNewConcept,
     isNotInstantiated,
-    isInstantiated,
     isYourEurope,
     producttypesIds,
     doelgroepenIds,
@@ -63,11 +62,6 @@ export default class ConceptService extends Service {
     if (isNotInstantiated === true) {
       query['filter[display-configuration][is-instantiated]'] =
         !isNotInstantiated;
-    }
-
-    //TODO LPDC-1186: remove ...
-    if (typeof isInstantiated === 'boolean') {
-      query['filter[display-configuration][is-instantiated]'] = isInstantiated;
     }
 
     if (isYourEurope) {

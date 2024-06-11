@@ -27,6 +27,9 @@ export default class PublicServicesIndexRoute extends Route {
     needsConversionFromFormalToInformalFilterEnabled: {
       refreshModel: true,
     },
+    isYourEurope: {
+      refreshModel: true,
+    },
   };
 
   async beforeModel() {
@@ -60,6 +63,7 @@ export default class PublicServicesIndexRoute extends Route {
     sort,
     isReviewRequiredFilterEnabled,
     needsConversionFromFormalToInformalFilterEnabled,
+    isYourEurope,
   }) {
     const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
@@ -81,8 +85,14 @@ export default class PublicServicesIndexRoute extends Route {
     if (isReviewRequiredFilterEnabled) {
       query['filter[:has:review-status]'] = true;
     }
+
     if (needsConversionFromFormalToInformalFilterEnabled) {
       query['filter[needs-conversion-from-formal-to-informal]'] = true;
+    }
+
+    if (isYourEurope) {
+      query['filter[publication-media][:uri:]'] =
+        'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
     }
 
     return yield this.store.query('public-service', query);

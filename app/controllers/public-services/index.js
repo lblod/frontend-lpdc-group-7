@@ -5,19 +5,12 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import { serviceNeedsReview } from 'frontend-lpdc/models/public-service';
 
 export default class PublicServicesIndexController extends Controller {
-  queryParams = [
-    'search',
-    'sort',
-    'page',
-    {
-      isReviewRequiredFilterEnabled: 'review',
-    },
-  ];
   @tracked search = '';
   @tracked sort = '-date-modified';
   @tracked page = 0;
   @tracked isReviewRequiredFilterEnabled = false;
   @tracked needsConversionFromFormalToInformalFilterEnabled = false;
+  @tracked isYourEurope = false;
   serviceNeedsReview = serviceNeedsReview;
 
   get publicServices() {
@@ -75,6 +68,12 @@ export default class PublicServicesIndexController extends Controller {
   toggleNeedsConversionFromFormalToInformalFilter() {
     this.needsConversionFromFormalToInformalFilterEnabled =
       !this.needsConversionFromFormalToInformalFilterEnabled;
+    this.resetPagination();
+  }
+
+  @action
+  handleYourEuropeFilterChange(value) {
+    this.isYourEurope = value;
     this.resetPagination();
   }
 

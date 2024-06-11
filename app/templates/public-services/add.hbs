@@ -40,9 +40,9 @@
 
       <div>
         <AuLabel>Filter op eigenschappen</AuLabel>
-        <p class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
           Producttype
-        </p>
+        </label>
         <PowerSelectMultiple
           @options={{this.producttypesOptions}}
           @selected={{this.producttypes}}
@@ -51,9 +51,9 @@
           as |producttype|>
           {{producttype.label}}
         </PowerSelectMultiple>
-        <p class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
           Doelgroepen
-        </p>
+        </label>
         <PowerSelectMultiple
           @options={{this.doelgroepenOptions}}
           @selected={{this.doelgroepen}}
@@ -62,9 +62,9 @@
           as |doelgroep|>
           {{doelgroep.label}}
         </PowerSelectMultiple>
-        <p class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
           Thema's
-        </p>
+        </label>
         <PowerSelectMultiple
           @options={{this.themasOptions}}
           @selected={{this.themas}}

@@ -32,10 +32,6 @@ export default class PublicServicesIndexController extends Controller {
     return this.model.formalInformalChoice?.chosenForm === 'informal';
   }
 
-  get isFiltering() {
-    return Boolean(this.search);
-  }
-
   get isLoading() {
     return this.model.loadPublicServices.isRunning;
   }

@@ -24,6 +24,11 @@
             u→je omzetting nodig
           </AuCheckbox>
         {{/if}}
+        <AuCheckbox
+          @checked={{this.isYourEurope}}
+          @onChange={{this.handleYourEuropeFilterChange}}>
+          Your Europe
+        </AuCheckbox>
       </div>
     </div>
   </:sidebar>

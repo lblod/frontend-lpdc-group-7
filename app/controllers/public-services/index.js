@@ -11,6 +11,8 @@ export default class PublicServicesIndexController extends Controller {
   @tracked isReviewRequiredFilterEnabled = false;
   @tracked needsConversionFromFormalToInformalFilterEnabled = false;
   @tracked isYourEurope = false;
+  @tracked statuses = [];
+  @tracked statusIds = [];
   @tracked producttypes = [];
   @tracked producttypesIds = [];
   @tracked doelgroepen = [];
@@ -21,6 +23,10 @@ export default class PublicServicesIndexController extends Controller {
 
   get publicServices() {
     return this.getValueFromTask('loadPublicServices');
+  }
+
+  get statusesOptions() {
+    return sortByLabel(this.getValueFromTask('loadStatusesOptions'));
   }
 
   get producttypesOptions() {
@@ -87,9 +93,9 @@ export default class PublicServicesIndexController extends Controller {
   }
 
   @action
-  handleDoelgroepenFilterChange(values) {
-    this.doelgroepen = sortByLabel(values);
-    this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
+  handleStatusesFilterChange(values) {
+    this.statuses = sortByLabel(values);
+    this.statusIds = this.statuses.map((pt) => pt.id);
     this.resetPagination();
   }
 
@@ -97,6 +103,13 @@ export default class PublicServicesIndexController extends Controller {
   handleProducttypesFilterChange(values) {
     this.producttypes = sortByLabel(values);
     this.producttypesIds = this.producttypes.map((pt) => pt.id);
+    this.resetPagination();
+  }
+
+  @action
+  handleDoelgroepenFilterChange(values) {
+    this.doelgroepen = sortByLabel(values);
+    this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
     this.resetPagination();
   }
 

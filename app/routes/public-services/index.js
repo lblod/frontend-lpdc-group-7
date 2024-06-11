@@ -30,10 +30,13 @@ export default class PublicServicesIndexRoute extends Route {
     isYourEurope: {
       refreshModel: true,
     },
-    doelgroepenIds: {
+    statusIds: {
       refreshModel: true,
     },
     producttypesIds: {
+      refreshModel: true,
+    },
+    doelgroepenIds: {
       refreshModel: true,
     },
     themaIds: {
@@ -61,8 +64,9 @@ export default class PublicServicesIndexRoute extends Route {
     return {
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadPublicServices: this.loadPublicServicesTask.perform(params),
-      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
+      loadStatusesOptions: await this.statutesConcepts.perform(),
       loadProducttypesOptions: await this.producttypesConcepts.perform(),
+      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
       loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
@@ -78,6 +82,7 @@ export default class PublicServicesIndexRoute extends Route {
     doelgroepenIds,
     producttypesIds,
     themaIds,
+    statusIds,
   }) {
     const query = {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
@@ -109,6 +114,10 @@ export default class PublicServicesIndexRoute extends Route {
         'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
     }
 
+    if (statusIds?.length > 0) {
+      query['filter[status][:id:]'] = statusIds.join(',');
+    }
+
     if (producttypesIds?.length > 0) {
       query['filter[type][:id:]'] = producttypesIds.join(',');
     }
@@ -125,10 +134,10 @@ export default class PublicServicesIndexRoute extends Route {
   }
 
   @task
-  *loadDoelgroepenConcepts() {
+  *statutesConcepts() {
     return yield this.store.query('concept', {
       'filter[concept-schemes][:uri:]':
-        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
+        'http://lblod.data.gift/concept-schemes/9cf6fa63-1f49-4d53-af06-e1c235ece10b',
       sort: 'label',
     });
   }
@@ -138,6 +147,15 @@ export default class PublicServicesIndexRoute extends Route {
     return yield this.store.query('concept', {
       'filter[concept-schemes][:uri:]':
         'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Type',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *loadDoelgroepenConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
       sort: 'label',
     });
   }

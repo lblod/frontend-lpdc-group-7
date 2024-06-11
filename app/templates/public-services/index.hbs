@@ -33,6 +33,17 @@
       <div>
         <AuLabel>Filter op eigenschappen</AuLabel>
         <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
+          Status
+        </label>
+        <PowerSelectMultiple
+          @options={{this.statusesOptions}}
+          @selected={{this.statuses}}
+          @onChange={{this.handleStatusesFilterChange}}
+          @searchField="label"
+          as |status|>
+          {{status.label}}
+        </PowerSelectMultiple>
+        <label class="au-u-margin-top-small au-u-margin-bottom-tiny au-c-label au-u-light">
           Producttype
         </label>
         <PowerSelectMultiple

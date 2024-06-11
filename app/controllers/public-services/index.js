@@ -65,6 +65,36 @@ export default class PublicServicesIndexController extends Controller {
     return this.model.loadPublicServices.isError;
   }
 
+  get hasActiveFilters() {
+    return (
+      Boolean(this.search) ||
+      this.isReviewRequiredFilterEnabled === true ||
+      this.needsConversionFromFormalToInformalFilterEnabled === true ||
+      this.isYourEurope === true ||
+      this.statuses.length > 0 ||
+      this.producttypes.length > 0 ||
+      this.doelgroepen.length > 0 ||
+      this.themas.length > 0
+    );
+  }
+
+  @action
+  resetFilters() {
+    this.search = '';
+    this.resetPagination();
+    this.isReviewRequiredFilterEnabled = false;
+    this.needsConversionFromFormalToInformalFilterEnabled = false;
+    this.isYourEurope = false;
+    this.statuses = [];
+    this.statusIds = [];
+    this.producttypes = [];
+    this.producttypesIds = [];
+    this.doelgroepen = [];
+    this.doelgroepenIds = [];
+    this.themas = [];
+    this.themaIds = [];
+  }
+
   @restartableTask
   *searchTask(searchValue) {
     yield timeout(500);

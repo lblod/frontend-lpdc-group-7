@@ -77,6 +77,13 @@
           {{thema.label}}
         </PowerSelectMultiple>
       </div>
+      {{#if this.hasActiveFilters}}
+        <div class="au-u-text-left@medium">
+          <AuButton @icon="cross" @skin="secondary" {{on "click" this.resetFilters}}>
+            Wis filters
+          </AuButton>
+        </div>
+      {{/if}}
     </div>
   </:sidebar>
   <:content>

@@ -140,6 +140,7 @@ export default class DetailsPageComponent extends Component {
       formalInformalChoice.chosenForm === 'informal'
     );
   }
+
   @task
   *loadForm() {
     const {
@@ -305,7 +306,34 @@ export default class DetailsPageComponent extends Component {
   }
 
   @action
-  fullyTakeConceptSnapshotOver() {
+  async fullyTakeConceptSnapshotOver() {
+    if (this.hasUnsavedChanges) {
+      const { shouldTransition, saved } = await this.modals.open(
+        UnsavedChangesModal,
+        {
+          saveHandler: async () => {
+            await this.saveSemanticForm.perform();
+          },
+        }
+      );
+
+      if (shouldTransition) {
+        if (!saved) {
+          let { publicService } = this.args;
+          await this.publicServiceService.loadPublicServiceDetails(
+            publicService.id
+          );
+          await this.loadForm.perform();
+        }
+
+        await this.doFullyTakeConceptSnapshotOver();
+      }
+    } else {
+      await this.doFullyTakeConceptSnapshotOver();
+    }
+  }
+
+  async doFullyTakeConceptSnapshotOver() {
     this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
       fullyTakeConceptSnapshotOverHandler: async () => {
         let { publicService } = this.args;

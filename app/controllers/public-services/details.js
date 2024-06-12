@@ -90,11 +90,6 @@ export default class PublicServicesDetailsController extends Controller {
 
   @dropTask()
   *unlinkConcept() {
-    if (this.formHasUnsavedChanges) {
-      yield this.modals.open(UnsavedChangesModalComponent, {
-        saveHandler: async () => this.saveFormMethod(),
-      });
-    }
     const { publicService } = this.model;
     yield this.publicServiceService.unlinkConcept(publicService);
     this.hideUnlinkWarning();

@@ -64,7 +64,7 @@ export default class PublicServiceModel extends Model {
   get isSent() {
     return (
       this.status?.uri ===
-      'http://lblod.data.gift/concepts/instance-status/verstuurd'
+      'http://lblod.data.gift/concepts/instance-status/verzonden'
     );
   }
 

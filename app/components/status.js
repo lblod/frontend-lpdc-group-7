@@ -6,7 +6,7 @@ const STATUS_LOOKUP = {
     label: 'Ontwerp',
   },
 
-  'http://lblod.data.gift/concepts/instance-status/verstuurd': {
+  'http://lblod.data.gift/concepts/instance-status/verzonden': {
     skin: 'success',
     label: 'Verzonden',
   },

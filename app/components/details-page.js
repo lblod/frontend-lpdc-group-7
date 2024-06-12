@@ -60,9 +60,11 @@ export default class DetailsPageComponent extends Component {
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.args.publicService.reviewStatus);
   }
+
   get functionallyChangedFields() {
     return this.args.functionallyChangedFields.join(', ');
   }
+
   get isInitialized() {
     return this.loadForm.last.isSuccessful;
   }
@@ -97,6 +99,7 @@ export default class DetailsPageComponent extends Component {
       !this.args.publicService.isPublished
     );
   }
+
   get ipdcConceptCompareLink() {
     const productId = this.args.publicService.concept.get('productId');
     const languageVersion =
@@ -293,75 +296,54 @@ export default class DetailsPageComponent extends Component {
   }
 
   @action
-  removePublicService() {
-    this.modals.open(ConfirmDeletionModal, {
-      deleteHandler: async () => {
-        await this.publicServiceService.deletePublicService(
-          this.args.publicService.uri
-        );
-        this.updateHasUnsavedChanges(false);
-        this.router.replaceWith('public-services');
-      },
+  async removePublicService() {
+    await this.withinUnsavedChangesModal(() => {
+      this.modals.open(ConfirmDeletionModal, {
+        deleteHandler: async () => {
+          await this.publicServiceService.deletePublicService(
+            this.args.publicService.uri
+          );
+          this.updateHasUnsavedChanges(false);
+          this.router.replaceWith('public-services');
+        },
+      });
     });
   }
 
   @action
   async fullyTakeConceptSnapshotOver() {
-    if (this.hasUnsavedChanges) {
-      const { shouldTransition, saved } = await this.modals.open(
-        UnsavedChangesModal,
-        {
-          saveHandler: async () => {
-            await this.saveSemanticForm.perform();
-          },
-        }
-      );
-
-      if (shouldTransition) {
-        if (!saved) {
+    await this.withinUnsavedChangesModal(() => {
+      this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
+        fullyTakeConceptSnapshotOverHandler: async () => {
           let { publicService } = this.args;
-          await this.publicServiceService.loadPublicServiceDetails(
-            publicService.id
+          await this.publicServiceService.fullyTakeConceptSnapshotOver(
+            publicService
           );
-          await this.loadForm.perform();
-        }
-
-        await this.doFullyTakeConceptSnapshotOver();
-      }
-    } else {
-      await this.doFullyTakeConceptSnapshotOver();
-    }
-  }
-
-  async doFullyTakeConceptSnapshotOver() {
-    this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
-      fullyTakeConceptSnapshotOverHandler: async () => {
-        let { publicService } = this.args;
-        await this.publicServiceService.fullyTakeConceptSnapshotOver(
-          publicService
-        );
-        this.router.refresh('public-services.details');
-      },
-      updateConceptSnapshotByFieldHandler: async () => {
-        let { readOnly, publicService } = this.args;
-        if (readOnly) {
-          await this.publicServiceService.reopenPublicService(publicService);
           this.router.refresh('public-services.details');
-        }
-      },
+        },
+        updateConceptSnapshotByFieldHandler: async () => {
+          let { readOnly, publicService } = this.args;
+          if (readOnly) {
+            await this.publicServiceService.reopenPublicService(publicService);
+            this.router.refresh('public-services.details');
+          }
+        },
+      });
     });
   }
 
   @action
-  convertToInformal() {
-    this.modals.open(ConfirmConvertToInformalModalComponent, {
-      convertToInformalHandler: async () => {
-        let { publicService } = this.args;
-        await this.publicServiceService.convertInstanceToInformal(
-          publicService
-        );
-        this.router.refresh('public-services.details');
-      },
+  async convertToInformal() {
+    await this.withinUnsavedChangesModal(() => {
+      this.modals.open(ConfirmConvertToInformalModalComponent, {
+        convertToInformalHandler: async () => {
+          let { publicService } = this.args;
+          await this.publicServiceService.convertInstanceToInformal(
+            publicService
+          );
+          this.router.refresh('public-services.details');
+        },
+      });
     });
   }
 
@@ -404,6 +386,33 @@ export default class DetailsPageComponent extends Component {
         this.updateHasUnsavedChanges(false);
         transition.retry();
       }
+    }
+  }
+
+  async withinUnsavedChangesModal(aFunctionToBeGuardedFromUnsavedChanges) {
+    if (this.hasUnsavedChanges) {
+      const { shouldTransition, saved } = await this.modals.open(
+        UnsavedChangesModal,
+        {
+          saveHandler: async () => {
+            await this.saveSemanticForm.perform();
+          },
+        }
+      );
+
+      if (shouldTransition) {
+        if (!saved) {
+          let { publicService } = this.args;
+          await this.publicServiceService.loadPublicServiceDetails(
+            publicService.id
+          );
+          await this.loadForm.perform();
+        }
+
+        await aFunctionToBeGuardedFromUnsavedChanges();
+      }
+    } else {
+      await aFunctionToBeGuardedFromUnsavedChanges();
     }
   }
 

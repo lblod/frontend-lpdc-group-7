@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { dropTask } from 'ember-concurrency';
 import { hasConcept } from 'frontend-lpdc/models/public-service';
 import { inject as service } from '@ember/service';
-import UnsavedChangesModalComponent from 'frontend-lpdc/components/unsaved-changes-modal';
 
 export default class PublicServicesDetailsController extends Controller {
   @service store;

@@ -18,7 +18,9 @@ export default class AbstractConceptOverviewController extends Controller {
   @tracked themaIds = [];
 
   get publicServices() {
-    return this.getValueFromTask('loadConceptualPublicServices');
+    return this.model['loadConceptualPublicServices'].isFinished
+      ? this.model['loadConceptualPublicServices'].value
+      : this.model['loadConceptualPublicServices'].lastSuccessful?.value || [];
   }
 
   get producttypesOptions() {

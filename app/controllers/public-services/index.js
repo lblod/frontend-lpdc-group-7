@@ -22,7 +22,9 @@ export default class PublicServicesIndexController extends Controller {
   serviceNeedsReview = serviceNeedsReview;
 
   get publicServices() {
-    return this.getValueFromTask('loadPublicServices');
+    return this.model['loadPublicServices'].isFinished
+      ? this.model['loadPublicServices'].value
+      : this.model['loadPublicServices'].lastSuccessful?.value || [];
   }
 
   get statusesOptions() {

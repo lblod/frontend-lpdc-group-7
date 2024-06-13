@@ -10,12 +10,27 @@ export default class AbstractConceptOverviewController extends Controller {
   @tracked isNewConcept = false;
   @tracked isNotInstantiated = false;
   @tracked isYourEurope = false;
-  @tracked producttypes = [];
   @tracked producttypesIds = [];
-  @tracked doelgroepen = [];
   @tracked doelgroepenIds = [];
-  @tracked themas = [];
   @tracked themaIds = [];
+
+  get doelgroepen() {
+    return this.doelgroepenIds.map((doelgroepId) =>
+      this.doelgroepenOptions.find((option) => option.id === doelgroepId)
+    );
+  }
+
+  get producttypes() {
+    return this.producttypesIds.map((producttypeId) =>
+      this.producttypesOptions.find((option) => option.id === producttypeId)
+    );
+  }
+
+  get themas() {
+    return this.themaIds.map((themaId) =>
+      this.themasOptions.find((option) => option.id === themaId)
+    );
+  }
 
   get publicServices() {
     return this.model['loadConceptualPublicServices'].isFinished
@@ -24,15 +39,15 @@ export default class AbstractConceptOverviewController extends Controller {
   }
 
   get producttypesOptions() {
-    return this.getValueFromTask('loadProducttypesOptions');
+    return this.model.producttypesOptions;
   }
 
   get doelgroepenOptions() {
-    return this.getValueFromTask('loadDoelgroepenOptions');
+    return this.model.doelgroepenOptions;
   }
 
   get themasOptions() {
-    return this.getValueFromTask('loadThemasOptions');
+    return this.model.themasOptions;
   }
 
   get showTableLoader() {
@@ -87,22 +102,19 @@ export default class AbstractConceptOverviewController extends Controller {
 
   @action
   handleDoelgroepenConceptFilterChange(values) {
-    this.doelgroepen = sortByLabel(values);
-    this.doelgroepenIds = this.doelgroepen.map((dg) => dg.id);
+    this.doelgroepenIds = sortByLabel(values).map((dg) => dg.id);
     this.page = 0;
   }
 
   @action
   handleProducttypesConceptFilterChange(values) {
-    this.producttypes = sortByLabel(values);
-    this.producttypesIds = this.producttypes.map((pt) => pt.id);
+    this.producttypesIds = sortByLabel(values).map((pt) => pt.id);
     this.page = 0;
   }
 
   @action
   handleThemasConceptFilterChange(values) {
-    this.themas = sortByLabel(values);
-    this.themaIds = this.themas.map((pt) => pt.id);
+    this.themaIds = sortByLabel(values).map((pt) => pt.id);
     this.page = 0;
   }
 
@@ -113,11 +125,8 @@ export default class AbstractConceptOverviewController extends Controller {
     this.isNewConcept = false;
     this.isNotInstantiated = false;
     this.isYourEurope = false;
-    this.producttypes = [];
     this.producttypesIds = [];
-    this.doelgroepen = [];
     this.doelgroepenIds = [];
-    this.themas = [];
     this.themaIds = [];
   }
 

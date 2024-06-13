@@ -297,16 +297,14 @@ export default class DetailsPageComponent extends Component {
 
   @action
   async removePublicService() {
-    await this.withinUnsavedChangesModal(() => {
-      this.modals.open(ConfirmDeletionModal, {
-        deleteHandler: async () => {
-          await this.publicServiceService.deletePublicService(
-            this.args.publicService.uri
-          );
-          this.updateHasUnsavedChanges(false);
-          this.router.replaceWith('public-services');
-        },
-      });
+    this.modals.open(ConfirmDeletionModal, {
+      deleteHandler: async () => {
+        await this.publicServiceService.deletePublicService(
+          this.args.publicService.uri
+        );
+        this.updateHasUnsavedChanges(false);
+        this.router.replaceWith('public-services');
+      },
     });
   }
 

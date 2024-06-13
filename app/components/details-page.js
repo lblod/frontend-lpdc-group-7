@@ -301,22 +301,24 @@ export default class DetailsPageComponent extends Component {
   }
 
   @action
-  fullyTakeConceptSnapshotOver() {
-    this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
-      fullyTakeConceptSnapshotOverHandler: async () => {
-        let { publicService } = this.args;
-        await this.publicServiceService.fullyTakeConceptSnapshotOver(
-          publicService
-        );
-        this.router.refresh('public-services.details');
-      },
-      updateConceptSnapshotByFieldHandler: async () => {
-        let { readOnly, publicService } = this.args;
-        if (readOnly) {
-          await this.publicServiceService.reopenPublicService(publicService);
+  async fullyTakeConceptSnapshotOver() {
+    await this.withinUnsavedChangesModal(() => {
+      this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
+        fullyTakeConceptSnapshotOverHandler: async () => {
+          let { publicService } = this.args;
+          await this.publicServiceService.fullyTakeConceptSnapshotOver(
+            publicService
+          );
           this.router.refresh('public-services.details');
-        }
-      },
+        },
+        updateConceptSnapshotByFieldHandler: async () => {
+          let { readOnly, publicService } = this.args;
+          if (readOnly) {
+            await this.publicServiceService.reopenPublicService(publicService);
+            this.router.refresh('public-services.details');
+          }
+        },
+      });
     });
   }
 
@@ -372,6 +374,33 @@ export default class DetailsPageComponent extends Component {
         this.updateHasUnsavedChanges(false);
         transition.retry();
       }
+    }
+  }
+
+  async withinUnsavedChangesModal(aFunctionToBeGuardedFromUnsavedChanges) {
+    if (this.hasUnsavedChanges) {
+      const { shouldTransition, saved } = await this.modals.open(
+        UnsavedChangesModal,
+        {
+          saveHandler: async () => {
+            await this.saveSemanticForm.perform();
+          },
+        }
+      );
+
+      if (shouldTransition) {
+        if (!saved) {
+          let { publicService } = this.args;
+          await this.publicServiceService.loadPublicServiceDetails(
+            publicService.id
+          );
+          await this.loadForm.perform();
+        }
+
+        await aFunctionToBeGuardedFromUnsavedChanges();
+      }
+    } else {
+      await aFunctionToBeGuardedFromUnsavedChanges();
     }
   }
 

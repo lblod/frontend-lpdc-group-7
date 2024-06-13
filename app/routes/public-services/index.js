@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { restartableTask, task } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
 import SelectUOrJeModal from 'frontend-lpdc/components/select-u-or-je-modal';
 
 export default class PublicServicesIndexRoute extends Route {
@@ -62,12 +62,9 @@ export default class PublicServicesIndexRoute extends Route {
 
   async model(params) {
     return {
+      ...this.modelFor('public-services'),
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadPublicServices: this.loadPublicServicesTask.perform(params),
-      loadStatusesOptions: await this.statutesConcepts.perform(),
-      loadProducttypesOptions: await this.producttypesConcepts.perform(),
-      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
-      loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
 
@@ -131,41 +128,5 @@ export default class PublicServicesIndexRoute extends Route {
     }
 
     return yield this.store.query('public-service', query);
-  }
-
-  @task
-  *statutesConcepts() {
-    return yield this.store.query('concept', {
-      'filter[concept-schemes][:uri:]':
-        'http://lblod.data.gift/concept-schemes/9cf6fa63-1f49-4d53-af06-e1c235ece10b',
-      sort: 'label',
-    });
-  }
-
-  @task
-  *producttypesConcepts() {
-    return yield this.store.query('concept', {
-      'filter[concept-schemes][:uri:]':
-        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Type',
-      sort: 'label',
-    });
-  }
-
-  @task
-  *loadDoelgroepenConcepts() {
-    return yield this.store.query('concept', {
-      'filter[concept-schemes][:uri:]':
-        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
-      sort: 'label',
-    });
-  }
-
-  @task
-  *themasConcepts() {
-    return yield this.store.query('concept', {
-      'filter[concept-schemes][:uri:]':
-        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Thema',
-      sort: 'label',
-    });
   }
 }

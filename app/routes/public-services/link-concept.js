@@ -22,12 +22,10 @@ export default class PublicServicesLinkConceptRoute extends AbstractConceptOverv
     }
 
     return {
+      ...this.modelFor('public-services'),
       publicService,
       loadConceptualPublicServices:
         this.loadConceptualPublicServicesTask.perform(params),
-      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
-      loadProducttypesOptions: await this.producttypesConcepts.perform(),
-      loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
 }

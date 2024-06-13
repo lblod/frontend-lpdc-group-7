@@ -8,12 +8,10 @@ export default class PublicServicesAddRoute extends AbstractConceptOverviewRoute
 
   async model(params) {
     return {
+      ...this.modelFor('public-services'),
       loadConceptualPublicServices:
         this.loadConceptualPublicServicesTask.perform(params),
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
-      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
-      loadProducttypesOptions: await this.producttypesConcepts.perform(),
-      loadThemasOptions: await this.themasConcepts.perform(),
     };
   }
 }

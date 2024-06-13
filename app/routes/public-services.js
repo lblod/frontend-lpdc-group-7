@@ -11,11 +11,13 @@ import LpdcInputComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-in
 import LpdcDateTimeComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-date-time';
 import LpdcRdfInputFieldsConceptSchemeMultiSelectorComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-concept-scheme-multi-selector';
 import LpdcRdfHeadingComponent from 'frontend-lpdc/components/rdf-form-fields/lpdc-heading';
+import { task } from 'ember-concurrency';
 
 export default class PublicServicesRoute extends Route {
   @service currentSession;
   @service session;
   @service router;
+  @service store;
 
   constructor() {
     super(...arguments);
@@ -27,6 +29,15 @@ export default class PublicServicesRoute extends Route {
     this.session.requireAuthentication(transition, 'login');
 
     return this.loadCurrentSession();
+  }
+
+  async model() {
+    return {
+      loadStatusesOptions: await this.statutesConcepts.perform(),
+      loadProducttypesOptions: await this.producttypesConcepts.perform(),
+      loadDoelgroepenOptions: await this.loadDoelgroepenConcepts.perform(),
+      loadThemasOptions: await this.themasConcepts.perform(),
+    };
   }
 
   async loadCurrentSession() {
@@ -78,5 +89,41 @@ export default class PublicServicesRoute extends Route {
         edit: LpdcRdfHeadingComponent,
       },
     ]);
+  }
+
+  @task
+  *statutesConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'http://lblod.data.gift/concept-schemes/9cf6fa63-1f49-4d53-af06-e1c235ece10b',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *producttypesConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Type',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *loadDoelgroepenConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Doelgroep',
+      sort: 'label',
+    });
+  }
+
+  @task
+  *themasConcepts() {
+    return yield this.store.query('concept', {
+      'filter[concept-schemes][:uri:]':
+        'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Thema',
+      sort: 'label',
+    });
   }
 }

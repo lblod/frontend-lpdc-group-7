@@ -24,12 +24,13 @@
       id={{this.inputId}}
       {{on "blur" (fn (mut this.hasBeenFocused) true)}}
     />
-
-    {{#if this.hasErrors}}
-      <AuHelpText @error={{this.hasErrors}}>
-        Datum formaat: DD-MM-JJJJ
-      </AuHelpText>
-    {{/if}}
+    {{#unless @show}}
+      {{#if this.hasErrors}}
+        <AuHelpText @error={{this.hasErrors}}>
+          Datum formaat: DD-MM-JJJJ
+        </AuHelpText>
+      {{/if}}
+    {{/unless}}
     {{#each this.errors as |error|}}
       <AuHelpText @error={{true}}>{{error.resultMessage}}</AuHelpText>
     {{/each}}

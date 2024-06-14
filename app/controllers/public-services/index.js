@@ -44,7 +44,7 @@ export default class PublicServicesIndexController extends Controller {
   get publicServices() {
     return this.model['loadPublicServices'].isFinished
       ? this.model['loadPublicServices'].value
-      : this.model['loadPublicServices'].lastSuccessful?.value || [];
+      : this.model['loadedPublicServices'] || [];
   }
 
   get statusesOptions() {

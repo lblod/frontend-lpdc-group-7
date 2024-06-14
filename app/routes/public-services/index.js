@@ -65,6 +65,7 @@ export default class PublicServicesIndexRoute extends Route {
       ...this.modelFor('public-services'),
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
       loadPublicServices: this.loadPublicServicesTask.perform(params),
+      loadedPublicServices: this.loadPublicServicesTask.lastSuccessful?.value,
     };
   }
 

@@ -11,6 +11,8 @@ export default class PublicServicesAddRoute extends AbstractConceptOverviewRoute
       ...this.modelFor('public-services'),
       loadConceptualPublicServices:
         this.loadConceptualPublicServicesTask.perform(params),
+      loadedConceptualPublicServices:
+        this.loadConceptualPublicServicesTask.lastSuccessful?.value,
       formalInformalChoice: await this.formalInformalChoice.getChoice(),
     };
   }

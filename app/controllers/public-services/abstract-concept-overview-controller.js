@@ -35,7 +35,7 @@ export default class AbstractConceptOverviewController extends Controller {
   get publicServices() {
     return this.model['loadConceptualPublicServices'].isFinished
       ? this.model['loadConceptualPublicServices'].value
-      : this.model['loadConceptualPublicServices'].lastSuccessful?.value || [];
+      : this.model['loadedConceptualPublicServices'] || [];
   }
 
   get producttypesOptions() {

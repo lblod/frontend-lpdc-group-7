@@ -29,6 +29,11 @@
           @onChange={{this.handleYourEuropeFilterChange}}>
           Your Europe
         </AuCheckbox>
+        <AuCheckbox
+          @checked={{this.forMunicipalityMerger}}
+          @onChange={{this.handleForMunicipalityMergerFilterChange}}>
+          Bestemd voor fusie
+        </AuCheckbox>
       </div>
       <div>
         <AuLabel>Filter op eigenschappen</AuLabel>
@@ -174,6 +179,11 @@
               >
                 {{publicService.nameNlOrGeenTitel}}
               </AuLink>
+              {{#if publicService.forMunicipalityMerger}}
+                <AuPill @skin="success" @size="small" @icon="external">
+                  fusie
+                </AuPill>
+              {{/if}}
               {{#if (this.serviceNeedsReview publicService)}}
                 <AuPill @skin="warning" @size="small" @icon="alert-triangle">
                   Herziening nodig

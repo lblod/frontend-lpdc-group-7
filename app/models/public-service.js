@@ -12,6 +12,7 @@ export default class PublicServiceModel extends Model {
   @attr versionedSource;
   @attr dutchLanguageVariant;
   @attr needsConversionFromFormalToInformal;
+  @attr forMunicipalityMerger;
 
   @belongsTo('concept', {
     async: false,

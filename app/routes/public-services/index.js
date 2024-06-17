@@ -30,6 +30,9 @@ export default class PublicServicesIndexRoute extends Route {
     isYourEurope: {
       refreshModel: true,
     },
+    forMunicipalityMerger: {
+      refreshModel: true,
+    },
     statusIds: {
       refreshModel: true,
     },
@@ -77,6 +80,7 @@ export default class PublicServicesIndexRoute extends Route {
     isReviewRequiredFilterEnabled,
     needsConversionFromFormalToInformalFilterEnabled,
     isYourEurope,
+    forMunicipalityMerger,
     doelgroepenIds,
     producttypesIds,
     themaIds,
@@ -86,7 +90,7 @@ export default class PublicServicesIndexRoute extends Route {
       'filter[created-by][:uri:]': this.currentSession.group.uri,
       'page[number]': page,
       'fields[public-services]':
-        'name,product-id,type,target-audiences,thematic-areas,publication-media,date-created,date-modified,status,needs-conversion-from-formal-to-informal,review-status',
+        'name,product-id,type,target-audiences,thematic-areas,publication-media,date-created,date-modified,status,needs-conversion-from-formal-to-informal,review-status,for-municipality-merger',
       include:
         'type,target-audiences,thematic-areas,publication-media,status,review-status',
     };
@@ -110,6 +114,10 @@ export default class PublicServicesIndexRoute extends Route {
     if (isYourEurope) {
       query['filter[publication-media][:uri:]'] =
         'https://productencatalogus.data.vlaanderen.be/id/concept/PublicatieKanaal/YourEurope';
+    }
+
+    if (forMunicipalityMerger) {
+      query['filter[for-municipality-merger]'] = true;
     }
 
     if (statusIds?.length > 0) {

@@ -119,7 +119,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   get shouldShowConversionAlertPublishedInstance() {
-    const {publicService, formalInformalChoice} = this.args;
+    const { publicService, formalInformalChoice } = this.args;
     return (
       publicService.needsConversionFromFormalToInformal &&
       publicService.isPublished &&
@@ -133,7 +133,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   get shouldShowConversionAlertDraftInstance() {
-    const {publicService, formalInformalChoice} = this.args;
+    const { publicService, formalInformalChoice } = this.args;
     return (
       publicService.needsConversionFromFormalToInformal &&
       !publicService.isPublished &&
@@ -142,7 +142,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   @task
-  * loadForm() {
+  *loadForm() {
     const {
       form: formTtl,
       meta: metaTtl,
@@ -188,16 +188,16 @@ export default class DetailsPageComponent extends Component {
 
   @dropTaskGroup publicServiceAction;
 
-  @task({group: 'publicServiceAction'})
-  * publishPublicService() {
-    const {publicService} = this.args;
+  @task({ group: 'publicServiceAction' })
+  *publishPublicService() {
+    const { publicService } = this.args;
     const validationErrors = yield this.publicServiceService.validateInstance(
       publicService
     );
 
     if (validationErrors.length > 0) {
       for (const validationError of validationErrors) {
-        this.toaster.error(validationError.message, 'Fout', {timeOut: 30000});
+        this.toaster.error(validationError.message, 'Fout', { timeOut: 30000 });
       }
     } else {
       yield this.publicServiceService.publishInstance(publicService);
@@ -206,8 +206,8 @@ export default class DetailsPageComponent extends Component {
     }
   }
 
-  @task({group: 'publicServiceAction'})
-  * handleFormSubmit(event) {
+  @task({ group: 'publicServiceAction' })
+  *handleFormSubmit(event) {
     event?.preventDefault?.();
     yield this.saveSemanticForm.unlinked().perform();
 
@@ -223,8 +223,8 @@ export default class DetailsPageComponent extends Component {
   }
 
   @dropTask
-  * saveSemanticForm() {
-    let {publicService} = this.args;
+  *saveSemanticForm() {
+    let { publicService } = this.args;
     let serializedData = this.formStore.serializeDataWithAddAndDelGraph(
       this.graphs.sourceGraph,
       'application/n-triples'
@@ -239,7 +239,7 @@ export default class DetailsPageComponent extends Component {
   }
 
   @dropTask
-  * requestSubmitConfirmation() {
+  *requestSubmitConfirmation() {
     let isValidForm = validateForm(this.form, {
       ...this.graphs,
       sourceNode: this.sourceNode,
@@ -268,13 +268,13 @@ export default class DetailsPageComponent extends Component {
         },
       });
     } else {
-      this.toaster.error('Formulier is ongeldig', 'Fout', {timeOut: 30000});
+      this.toaster.error('Formulier is ongeldig', 'Fout', { timeOut: 30000 });
     }
   }
 
   @dropTask()
-  * confirmInstanceAlreadyInformal() {
-    const {publicService} = this.args;
+  *confirmInstanceAlreadyInformal() {
+    const { publicService } = this.args;
     yield this.publicServiceService.confirmInstanceAlreadyInformal(
       publicService
     );
@@ -284,7 +284,7 @@ export default class DetailsPageComponent extends Component {
   requestReopeningConfirmation() {
     this.modals.open(ConfirmReopeningModal, {
       reopeningHandler: async () => {
-        let {publicService} = this.args;
+        let { publicService } = this.args;
         await this.publicServiceService.reopenPublicService(publicService);
 
         this.router.refresh('public-services.details');
@@ -329,14 +329,14 @@ export default class DetailsPageComponent extends Component {
     await this.withinUnsavedChangesModal(() => {
       this.modals.open(FullyTakeConceptSnapshotOverModalComponent, {
         fullyTakeConceptSnapshotOverHandler: async () => {
-          let {publicService} = this.args;
+          let { publicService } = this.args;
           await this.publicServiceService.fullyTakeConceptSnapshotOver(
             publicService
           );
           this.router.refresh('public-services.details');
         },
         updateConceptSnapshotByFieldHandler: async () => {
-          let {readOnly, publicService} = this.args;
+          let { readOnly, publicService } = this.args;
           if (readOnly) {
             await this.publicServiceService.reopenPublicService(publicService);
             this.router.refresh('public-services.details');
@@ -350,7 +350,7 @@ export default class DetailsPageComponent extends Component {
   convertToInformal() {
     this.modals.open(ConfirmConvertToInformalModalComponent, {
       convertToInformalHandler: async () => {
-        let {publicService} = this.args;
+        let { publicService } = this.args;
         await this.publicServiceService.convertInstanceToInformal(
           publicService
         );
@@ -360,8 +360,8 @@ export default class DetailsPageComponent extends Component {
   }
 
   @dropTask
-  * markAsReviewed() {
-    let {publicService} = this.args;
+  *markAsReviewed() {
+    let { publicService } = this.args;
     yield this.publicServiceService.confirmUpToDateTillLatestFunctionalChange(
       publicService
     );
@@ -375,7 +375,7 @@ export default class DetailsPageComponent extends Component {
     if (this.hasUnsavedChanges) {
       transition.abort();
 
-      const {shouldTransition, saved} = await this.modals.open(
+      const { shouldTransition, saved } = await this.modals.open(
         UnsavedChangesModal,
         {
           saveHandler: async () => {
@@ -403,7 +403,7 @@ export default class DetailsPageComponent extends Component {
 
   async withinUnsavedChangesModal(aFunctionToBeGuardedFromUnsavedChanges) {
     if (this.hasUnsavedChanges) {
-      const {shouldTransition, saved} = await this.modals.open(
+      const { shouldTransition, saved } = await this.modals.open(
         UnsavedChangesModal,
         {
           saveHandler: async () => {
@@ -414,7 +414,7 @@ export default class DetailsPageComponent extends Component {
 
       if (shouldTransition) {
         if (!saved) {
-          let {publicService} = this.args;
+          let { publicService } = this.args;
           await this.publicServiceService.loadPublicServiceDetails(
             publicService.id
           );

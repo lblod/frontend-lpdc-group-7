@@ -68,6 +68,10 @@ export default class PublicServicesIndexController extends Controller {
     return this.model.formalInformalChoice?.chosenForm === 'informal';
   }
 
+  get municipalityHasForMunicipalityMergerInstances() {
+    return this.model.municipalityHasForMunicipalityMergerInstances;
+  }
+
   get showTableLoader() {
     return this.model.loadPublicServices.isRunning;
   }

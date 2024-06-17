@@ -36,6 +36,8 @@ export default class PublicServicesRoute extends Route {
       producttypesOptions: await this.producttypesConcepts(),
       doelgroepenOptions: await this.loadDoelgroepenConcepts(),
       themasOptions: await this.themasConcepts(),
+      municipalityHasForMunicipalityMergerInstances:
+        await this.municipalityHasForMunicipalityMergerInstances(),
     };
   }
 
@@ -120,5 +122,17 @@ export default class PublicServicesRoute extends Route {
         'https://productencatalogus.data.vlaanderen.be/id/conceptscheme/Thema',
       sort: 'label',
     });
+  }
+
+  async municipalityHasForMunicipalityMergerInstances() {
+    const query = {
+      'filter[created-by][:uri:]': this.currentSession.group.uri,
+      'page[number]': 0,
+      'fields[public-services]': 'name',
+      'filter[for-municipality-merger]': true,
+    };
+
+    const result = await this.store.query('public-service', query);
+    return result.length > 0;
   }
 }

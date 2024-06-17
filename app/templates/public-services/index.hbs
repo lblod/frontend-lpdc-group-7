@@ -29,11 +29,13 @@
           @onChange={{this.handleYourEuropeFilterChange}}>
           Your Europe
         </AuCheckbox>
-        <AuCheckbox
-          @checked={{this.forMunicipalityMerger}}
-          @onChange={{this.handleForMunicipalityMergerFilterChange}}>
-          Bestemd voor fusie
-        </AuCheckbox>
+        {{#if this.municipalityHasForMunicipalityMergerInstances}}
+          <AuCheckbox
+            @checked={{this.forMunicipalityMerger}}
+            @onChange={{this.handleForMunicipalityMergerFilterChange}}>
+            Bestemd voor fusie
+          </AuCheckbox>
+        {{/if}}
       </div>
       <div>
         <AuLabel>Filter op eigenschappen</AuLabel>

@@ -39,6 +39,15 @@
       @iconAlignment="right"
       role="menu"
     >
+      <AuButton
+        @skin="link"
+        @icon="copy"
+        role="menuitem"
+        @disabled={{false}}
+        {{on "click" this.copyPublicService}}
+      >
+        Product kopiëren
+      </AuButton>
       {{#if this.shouldDisplayEnLinkToIpdc }}
         <AuLinkExternal
           href={{this.ipdcEnLink}}

@@ -9,6 +9,7 @@ import {
 } from '@lblod/ember-submission-form-fields';
 import { NamedNode } from 'rdflib';
 import { dropTask, dropTaskGroup, task } from 'ember-concurrency';
+import ConfirmCopyModal from 'frontend-lpdc/components/confirm-copy-modal';
 import ConfirmDeletionModal from 'frontend-lpdc/components/confirm-deletion-modal';
 import ConfirmReopeningModal from 'frontend-lpdc/components/confirm-reopening-modal';
 import ConfirmSubmitModal from 'frontend-lpdc/components/confirm-submit-modal';
@@ -56,9 +57,11 @@ export default class DetailsPageComponent extends Component {
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.args.publicService.reviewStatus);
   }
+
   get functionallyChangedFields() {
     return this.args.functionallyChangedFields.join(', ');
   }
+
   get isInitialized() {
     return this.loadForm.last.isSuccessful;
   }
@@ -93,6 +96,7 @@ export default class DetailsPageComponent extends Component {
       !this.args.publicService.isPublished
     );
   }
+
   get ipdcConceptCompareLink() {
     const productId = this.args.publicService.concept.get('productId');
     const languageVersion =
@@ -136,6 +140,7 @@ export default class DetailsPageComponent extends Component {
       formalInformalChoice.chosenForm === 'informal'
     );
   }
+
   @task
   *loadForm() {
     const {
@@ -296,6 +301,23 @@ export default class DetailsPageComponent extends Component {
         );
         this.updateHasUnsavedChanges(false);
         this.router.replaceWith('public-services');
+      },
+    });
+  }
+
+  @action
+  copyPublicService() {
+    this.modals.open(ConfirmCopyModal, {
+      copyHandler: async (forMunicipalityMerger) => {
+        //TODO LPDC-1057: add forMunicipalityMerger
+        const copiedPublicServiceUuid =
+          await this.publicServiceService.copyPublicService(
+            this.args.publicService
+          );
+        this.router.transitionTo(
+          'public-services.details',
+          copiedPublicServiceUuid
+        );
       },
     });
   }

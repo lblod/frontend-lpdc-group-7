@@ -158,6 +158,15 @@ export default class PublicServiceService extends Service {
     );
   }
 
+  async copyPublicService(publicService) {
+    const responseBody = await this.httpRequest.post(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/copy`
+    );
+    return responseBody.data.id;
+  }
+
   async reopenPublicService(publicService) {
     await this.httpRequest.put(
       `/lpdc-management/public-services/${encodeURIComponent(

@@ -309,10 +309,10 @@ export default class DetailsPageComponent extends Component {
   copyPublicService() {
     this.modals.open(ConfirmCopyModal, {
       copyHandler: async (forMunicipalityMerger) => {
-        //TODO LPDC-1057: add forMunicipalityMerger
         const copiedPublicServiceUuid =
           await this.publicServiceService.copyPublicService(
-            this.args.publicService
+            this.args.publicService,
+            forMunicipalityMerger
           );
         this.router.transitionTo(
           'public-services.details',

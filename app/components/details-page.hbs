@@ -39,15 +39,6 @@
       @iconAlignment="right"
       role="menu"
     >
-      <AuButton
-        @skin="link"
-        @icon="copy"
-        role="menuitem"
-        @disabled={{false}}
-        {{on "click" this.copyPublicService}}
-      >
-        Product kopiëren
-      </AuButton>
       {{#if this.shouldDisplayEnLinkToIpdc }}
         <AuLinkExternal
           href={{this.ipdcEnLink}}
@@ -70,6 +61,15 @@
           Engelse vertaling na publicatie
         </AuButton>
       {{/if}}
+      <AuButton
+        @skin="link"
+        @icon="copy"
+        role="menuitem"
+        @disabled={{false}}
+        {{on "click" this.copyPublicService}}
+      >
+        Product kopiëren
+      </AuButton>
       <AuButton
         @skin="link"
         @icon="bin"

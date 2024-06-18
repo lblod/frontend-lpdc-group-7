@@ -8,30 +8,36 @@
     Wenst u het product of de dienst te kopiëren ter voorbereiding van een gemeentelijke fusie?
   </:body>
   <:footer>
-    <AuButtonGroup>
-      <AuButton
-        @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
-        @loading={{this.copyForMunicipalityMerger.isRunning}}
-        @loadingMessage="Aan het kopiëren"
-        {{on "click" (perform this.copyForMunicipalityMerger)}}
-        data-test-confirm-copy-modal="copy-button-for-municipality-merger">
-        Ja, bestemd voor een fusie
-      </AuButton>
-      <AuButton
-        @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
-        @loading={{this.copyNotForMunicipalityMerger.isRunning}}
-        @loadingMessage="Aan het kopiëren"
-        {{on "click" (perform this.copyNotForMunicipalityMerger)}}
-        data-test-confirm-copy-modal="copy-button-not-for-municipality-merger">
-        Neen, enkel kopiëren
-      </AuButton>
-      <AuButton
-        @skin="secondary"
-        @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
-        {{on "click" this.close}}
-        data-test-confirm-copy-modal="cancel-button">
-        Annuleer
-      </AuButton>
-    </AuButtonGroup>
+    <AuToolbar as |Group|>
+      <Group>
+        <AuButtonGroup>
+          <AuButton
+            @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
+            @loading={{this.copyForMunicipalityMerger.isRunning}}
+            @loadingMessage="Aan het kopiëren"
+            {{on "click" (perform this.copyForMunicipalityMerger)}}
+            data-test-confirm-copy-modal="copy-button-for-municipality-merger">
+            Ja, bestemd voor een fusie
+          </AuButton>
+          <AuButton
+            @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
+            @loading={{this.copyNotForMunicipalityMerger.isRunning}}
+            @loadingMessage="Aan het kopiëren"
+            {{on "click" (perform this.copyNotForMunicipalityMerger)}}
+            data-test-confirm-copy-modal="copy-button-not-for-municipality-merger">
+            Neen, enkel kopiëren
+          </AuButton>
+        </AuButtonGroup>
+      </Group>
+      <Group>
+        <AuButton
+          @skin="naked"
+          @disabled={{(or this.copyForMunicipalityMerger.isRunning this.copyNotForMunicipalityMerger.isRunning)}}
+          {{on "click" this.close}}
+          data-test-confirm-copy-modal="cancel-button">
+          Annuleer
+        </AuButton>
+      </Group>
+    </AuToolbar>
   </:footer>
 </AuModal>

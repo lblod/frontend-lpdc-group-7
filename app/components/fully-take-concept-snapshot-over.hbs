@@ -6,45 +6,55 @@
   <:title>Wijzigingen overnemen</:title>
   <:body>
     <AuContent>
-    <p>Je kan wijzigingen op twee manieren overnemen:</p>
+      <p>Je kan wijzigingen op twee manieren overnemen:</p>
 
-    <ul>
-      <li>Je neemt het concept volledig over. Hierbij worden alle overeenkomstige velden overschreven door de nieuwe versie van het concept. Contactgegevens, meer info, uitvoerende overheid en geografisch toepassingsgebied van de bestaande instantie blijven behouden.
-      </li>
-      <li>Je kan veld per veld beslissen welke wijzigingen je overneemt van de nieuwe versie van het concept. In de instantie kan je de wijzigingen per veld bekijken via de bijgevoegde link en overnemen indien gewenst.</li>
-    </ul>
-    <p>Als je de gewenste wijzigingen hebt verwerkt, verzend de instantie dan opnieuw naar de Vlaamse overheid.</p>
+      <ul>
+        <li>Je neemt het concept volledig over. Hierbij worden alle overeenkomstige velden overschreven door de nieuwe
+          versie van het concept. Contactgegevens, meer info, uitvoerende overheid en geografisch toepassingsgebied van
+          de bestaande instantie blijven behouden.
+        </li>
+        <li>Je kan veld per veld beslissen welke wijzigingen je overneemt van de nieuwe versie van het concept. In de
+          instantie kan je de wijzigingen per veld bekijken via de bijgevoegde link en overnemen indien gewenst.
+        </li>
+      </ul>
+      <p>Als je de gewenste wijzigingen hebt verwerkt, verzend de instantie dan opnieuw naar de Vlaamse overheid.</p>
     </AuContent>
   </:body>
   <:footer>
-    <AuButtonGroup>
-      <AuButton
-        @skin="primary"
-        @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
-        @loading={{this.fullyTakeConceptSnapshot.isRunning}}
-        @loadingMessage="Aan het overnemen"
-        {{on "click" (perform this.fullyTakeConceptSnapshotOver)}}
-        data-test-fully-take-concept-snapshot-modal="fully-convert-button"
-      >
-        Concept volledig overnemen
-      </AuButton>
-      <AuButton
-        @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
-        @loading={{this.fullyTakeConceptSnapshot.isRunning}}
-        @loadingMessage="Aan het overnemen"
-        {{on "click" (perform this.updateConceptSnapshotByField)}}
-        data-test-fully-take-concept-snapshot-modal="update-concept-snapshot-by-field-button"
-      >
-        Wijzigingen per veld bekijken
-      </AuButton>
-      <AuButton
-        @skin="secondary"
-        @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
-        {{on "click" this.close}}
-        data-test-confirm-bijgewerkt-tot-modal="cancel-button"
-      >
-        Annuleer
-      </AuButton>
-    </AuButtonGroup>
+    <AuToolbar as |Group|>
+      <Group>
+        <AuButtonGroup>
+          <AuButton
+            @skin="primary"
+            @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
+            @loading={{this.fullyTakeConceptSnapshot.isRunning}}
+            @loadingMessage="Aan het overnemen"
+            {{on "click" (perform this.fullyTakeConceptSnapshotOver)}}
+            data-test-fully-take-concept-snapshot-modal="fully-convert-button"
+          >
+            Concept volledig overnemen
+          </AuButton>
+          <AuButton
+            @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
+            @loading={{this.fullyTakeConceptSnapshot.isRunning}}
+            @loadingMessage="Aan het overnemen"
+            {{on "click" (perform this.updateConceptSnapshotByField)}}
+            data-test-fully-take-concept-snapshot-modal="update-concept-snapshot-by-field-button"
+          >
+            Wijzigingen per veld bekijken
+          </AuButton>
+        </AuButtonGroup>
+      </Group>
+      <Group>
+        <AuButton
+          @skin="naked"
+          @disabled={{this.fullyTakeConceptSnapshot.isRunning}}
+          {{on "click" this.close}}
+          data-test-confirm-bijgewerkt-tot-modal="cancel-button"
+        >
+          Annuleer
+        </AuButton>
+      </Group>
+    </AuToolbar>
   </:footer>
 </AuModal>

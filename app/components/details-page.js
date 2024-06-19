@@ -315,6 +315,11 @@ export default class DetailsPageComponent extends Component {
               this.args.publicService,
               forMunicipalityMerger
             );
+          this.toaster.success(
+            'kopiëren gelukt',
+            'Je kan nu de kopie bewerken.',
+            { timeOut: 10000 }
+          );
           this.router.transitionTo(
             'public-services.details',
             copiedPublicServiceUuid

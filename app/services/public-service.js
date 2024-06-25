@@ -41,9 +41,11 @@ export default class PublicServiceService extends Service {
       const latestSnapshot = publicService.concept.get(
         'hasLatestFunctionalChange'
       );
-      latestSnapshotQueryParams = `?latestConceptSnapshotId=${encodeURIComponent(
-        latestSnapshot
-      )}`;
+      if (latestSnapshot) {
+        latestSnapshotQueryParams = `?latestConceptSnapshotId=${encodeURIComponent(
+          latestSnapshot
+        )}`;
+      }
     }
 
     return this.httpRequest.get(

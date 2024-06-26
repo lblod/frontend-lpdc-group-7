@@ -38,4 +38,3 @@ We use [release-it](https://github.com/release-it/release-it/tree/main) to make 
 ## 12. Development Environment
 
 ## 13. Decision Log
-

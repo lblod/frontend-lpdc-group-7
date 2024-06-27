@@ -92,6 +92,19 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     );
   }
 
+  get isMunicipalityMerger() {
+    const isMunicipalityMerger = this.args.formStore.match(
+      undefined,
+      new NamedNode(
+        'https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#forMunicipalityMerger'
+      ),
+      undefined,
+      this.args.formStore.sourceGraph
+    )[0].object.value;
+
+    return isMunicipalityMerger === '1';
+  }
+
   @action
   updateMunicipality(value) {
     this.municipality = value;

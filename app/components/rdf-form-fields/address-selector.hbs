@@ -1,4 +1,13 @@
 <div class="au-o-grid au-o-grid--tiny address-form">
+{{#if this.isMunicipalityMerger}}
+    <div class="au-o-grid__item au-u-margin-bottom-tiny">
+      <AuCheckbox
+        @checked={{false}}
+      >
+        Vrije invoervelden om nieuw adres in fusiegemeente te kunnen invoeren
+      </AuCheckbox>
+    </div>
+{{/if}}
   <div class="au-o-grid__item au-u-margin-bottom-tiny">
     <AuLabel for={{concat "municipality" this.id}}>Gemeente</AuLabel>
     <PowerSelect

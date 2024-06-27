@@ -1,5 +1,10 @@
 import InputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/input-field';
-import { updateSimpleFormValue } from '@lblod/submission-form-helpers';
+import {
+  removeDatasetForSimpleFormValue,
+  removeSimpleFormValue,
+  triplesForPath,
+  updateSimpleFormValue
+} from '@lblod/submission-form-helpers';
 import { action } from '@ember/object';
 import { Literal, NamedNode } from 'rdflib';
 import { tracked } from '@glimmer/tracking';
@@ -169,6 +174,9 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     this.updateStreet(null);
     this.updateHouseNumber(null);
     this.updateBusNumber(null);
+
+    this.updatePostcodeTriple(null);
+    this.updateAddressRegisterIdTriple(null);
   }
 
   async performValidateAddress() {
@@ -272,6 +280,15 @@ export default class AddressSelectorComponent extends InputFieldComponent {
       path: new NamedNode(path),
     };
     updateSimpleFormValue(storeOptions, newObject, originalObject);
+  }
+
+  removePostcode(){
+    const storeOptions = {
+      ...this.storeOptions,
+      path: new NamedNode(predicates.postcode),
+    };
+    removeSimpleFormValue(storeOptions, this.initialObjectPostcode);
+    this.initialObjectPostcode = null;
   }
 
   createObjectFromValue(value, language) {

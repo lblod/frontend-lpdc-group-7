@@ -13,8 +13,6 @@ export default class PublicServiceModel extends Model {
   @attr dutchLanguageVariant;
   @attr needsConversionFromFormalToInformal;
   @attr forMunicipalityMerger;
-  @attr('datetime') dateSent;
-  @attr('datetime') datePublished;
 
   @belongsTo('concept', {
     async: false,
@@ -66,7 +64,9 @@ export default class PublicServiceModel extends Model {
   }
 
   get isPublished() {
-    return this.datePublished > this.dateSent;
+    // TODO LPDC-1236: we should reimplement this with a query ... into lpdc-management
+    //return this.datePublished > this.dateSent;
+    return false;
   }
 
   get isYourEurope() {

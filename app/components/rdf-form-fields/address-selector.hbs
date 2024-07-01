@@ -74,8 +74,9 @@
       {{on "input" this.updateBusNumber}}
     />
   </div>
-  {{#unless (or @show this.isMunicipalityMerger)}}
+  {{#unless @show }}
     <div class="au-o-grid__item">
+  {{#unless this.isMunicipalityMerger}}
       {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
         <LoadingAlert @title="Valideren van adres" @skin="info" />
       {{else if (and this.canValidateAddress this.adresMatchFound)}}
@@ -99,6 +100,15 @@
           <p>Gelieve gemeente, straat en huisnummer in te vullen</p>
         </AuAlert>
       {{/if}}
+  {{else}}
+    <AuAlert
+      @skin="info"
+      @icon="pencil"
+    >
+      <p>Bij instanties bestemd voor je fusiegemeente wordt het contactadres niet gevalideerd.</p>
+    </AuAlert>
+  {{/unless}}
     </div>
+
   {{/unless}}
 </div>

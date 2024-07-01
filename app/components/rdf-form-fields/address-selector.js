@@ -1,10 +1,5 @@
 import InputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/input-field';
-import {
-  removeDatasetForSimpleFormValue,
-  removeSimpleFormValue,
-  triplesForPath,
-  updateSimpleFormValue
-} from '@lblod/submission-form-helpers';
+import { updateSimpleFormValue } from '@lblod/submission-form-helpers';
 import { action } from '@ember/object';
 import { Literal, NamedNode } from 'rdflib';
 import { tracked } from '@glimmer/tracking';
@@ -20,7 +15,6 @@ export default class AddressSelectorComponent extends InputFieldComponent {
   @tracked houseNumber;
   @tracked busNumber;
   @tracked adresMatchFound;
-  @tracked hasAddressValidation = true;
 
   @service toaster;
   httpRequest = new HttpRequest(this.toaster);
@@ -149,34 +143,20 @@ export default class AddressSelectorComponent extends InputFieldComponent {
 
   @restartableTask
   *validateAddress(updateTriples = true) {
-    if(this.hasAddressValidation) {
-      yield timeout(250);
-      const result = yield this.performValidateAddress();
-      this.adresMatchFound = !!result.adressenRegisterId;
-      if (updateTriples) {
-        this.adresMatchFound
-          ? this.updatePostcodeTriple(result.postcode)
-          : this.updateCountryTriple(null);
-        this.adresMatchFound
-          ? this.updateCountryTriple()
-          : this.updatePostcodeTriple(null);
-        this.adresMatchFound
-          ? this.updateAddressRegisterIdTriple(result.adressenRegisterId)
-          : this.updateAddressRegisterIdTriple(null);
-      }
+    yield timeout(250);
+    const result = yield this.performValidateAddress();
+    this.adresMatchFound = !!result.adressenRegisterId;
+    if (updateTriples) {
+      this.adresMatchFound
+        ? this.updatePostcodeTriple(result.postcode)
+        : this.updateCountryTriple(null);
+      this.adresMatchFound
+        ? this.updateCountryTriple()
+        : this.updatePostcodeTriple(null);
+      this.adresMatchFound
+        ? this.updateAddressRegisterIdTriple(result.adressenRegisterId)
+        : this.updateAddressRegisterIdTriple(null);
     }
-  }
-
-  @action
-  toggleAddressValidation() {
-    this.hasAddressValidation = !this.hasAddressValidation;
-    this.updateMunicipality(null);
-    this.updateStreet(null);
-    this.updateHouseNumber(null);
-    this.updateBusNumber(null);
-
-    this.updatePostcodeTriple(null);
-    this.updateAddressRegisterIdTriple(null);
   }
 
   async performValidateAddress() {
@@ -281,21 +261,11 @@ export default class AddressSelectorComponent extends InputFieldComponent {
     };
     updateSimpleFormValue(storeOptions, newObject, originalObject);
   }
-
-  removePostcode(){
-    const storeOptions = {
-      ...this.storeOptions,
-      path: new NamedNode(predicates.postcode),
-    };
-    removeSimpleFormValue(storeOptions, this.initialObjectPostcode);
-    this.initialObjectPostcode = null;
-  }
-
   createObjectFromValue(value, language) {
     return value ? new Literal(value, language) : null;
   }
 
-  powerSelectOrInput(value){
+  powerSelectOrInput(value) {
     return value instanceof InputEvent ? value.target.value : value;
   }
 }

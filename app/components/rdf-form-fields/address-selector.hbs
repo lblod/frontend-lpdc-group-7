@@ -1,17 +1,16 @@
 <div class="au-o-grid au-o-grid--tiny address-form">
-{{#if this.isMunicipalityMerger}}
-    <div class="au-o-grid__item au-u-margin-bottom-tiny">
-      <AuCheckbox
-        @checked={{not this.hasAddressValidation}}
-        @onChange={{this.toggleAddressValidation}}
-      >
-        Vrije invoervelden om nieuw adres in fusiegemeente te kunnen invoeren
-      </AuCheckbox>
-    </div>
-{{/if}}
   <div class="au-o-grid__item au-u-margin-bottom-tiny">
     <AuLabel for={{concat "municipality" this.id}}>Gemeente</AuLabel>
-  {{#if this.hasAddressValidation}}
+  {{#if this.isMunicipalityMerger}}
+    <AuInput
+      id={{concat "municipality" this.id}}
+      @width="block"
+      @value={{this.municipality}}
+      @disabled={{@show}}
+      {{on "input" this.updateMunicipality}}
+    >
+    </AuInput>
+  {{else}}
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
       @selected={{this.municipality}}
@@ -25,21 +24,21 @@
     >
       {{municipality}}
     </PowerSelect>
-  {{else}}
-    <AuInput
-      id={{concat "municipality" this.id}}
-      @width="block"
-      @value={{this.municipality}}
-      @disabled={{@show}}
-      {{on "input" this.updateMunicipality}}
-  >
-    </AuInput>
   {{/if}}
   </div>
 
   <div class="au-o-grid__item au-u-margin-bottom-tiny playwright-select-trick">
     <AuLabel for={{concat "street" this.id}}>Straat</AuLabel>
-  {{#if this.hasAddressValidation}}
+  {{#if this.isMunicipalityMerger}}
+    <AuInput
+      id={{concat "street" this.id}}
+      @width="block"
+      @disabled={{not this.canUpdateStreet}}
+      @value={{this.street}}
+      {{on "input" this.updateStreet}}
+    >
+    </AuInput>
+  {{else}}
     <PowerSelect
       @noMatchesMessage="Geen resultaten"
       @selected={{this.street}}
@@ -53,15 +52,6 @@
     >
       {{street}}
     </PowerSelect>
-  {{else}}
-    <AuInput
-      id={{concat "street" this.id}}
-      @width="block"
-      @disabled={{not this.canUpdateStreet}}
-      @value={{this.street}}
-      {{on "input" this.updateStreet}}
-    >
-    </AuInput>
   {{/if}}
   </div>
 
@@ -84,8 +74,7 @@
       {{on "input" this.updateBusNumber}}
     />
   </div>
-
-  {{#unless (or @show (not this.hasAddressValidation))}}
+  {{#unless (or @show this.isMunicipalityMerger)}}
     <div class="au-o-grid__item">
       {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
         <LoadingAlert @title="Valideren van adres" @skin="info" />

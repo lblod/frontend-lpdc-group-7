@@ -76,7 +76,14 @@
   </div>
   {{#unless @show }}
     <div class="au-o-grid__item">
-  {{#unless this.isMunicipalityMerger}}
+  {{#if this.isMunicipalityMerger}}
+    <AuAlert
+      @skin="info"
+      @icon="pencil"
+    >
+      <p>Bij instanties bestemd voor de fusiegemeente staat de adresvalidatie uit. Zo kan je de nieuwe adresgegevens al invullen.</p>
+    </AuAlert>
+  {{else}}
       {{#if (and this.canValidateAddress this.validateAddress.isRunning)}}
         <LoadingAlert @title="Valideren van adres" @skin="info" />
       {{else if (and this.canValidateAddress this.adresMatchFound)}}
@@ -100,14 +107,7 @@
           <p>Gelieve gemeente, straat en huisnummer in te vullen</p>
         </AuAlert>
       {{/if}}
-  {{else}}
-    <AuAlert
-      @skin="info"
-      @icon="pencil"
-    >
-      <p>Bij instanties bestemd voor de fusiegemeente staat de adresvalidatie uit. Zo kan je de nieuwe adresgegevens al invullen.</p>
-    </AuAlert>
-  {{/unless}}
+  {{/if}}
     </div>
 
   {{/unless}}

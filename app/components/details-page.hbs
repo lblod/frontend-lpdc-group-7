@@ -119,6 +119,7 @@
                 Concept bekijken
               </AuLinkExternal>
 
+            {{#unless this.isConceptArchived}}
               <AuButton
                 @skin="primary"
                 @icon="copy"
@@ -126,7 +127,7 @@
               >
                 Wijzigingen overnemen
               </AuButton>
-
+            {{/unless}}
 
             {{/if}}
             <AuButton

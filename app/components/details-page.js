@@ -90,17 +90,11 @@ export default class DetailsPageComponent extends Component {
   }
 
   get shouldDisplayEnLinkToIpdc() {
-    return (
-      this.args.publicService.isYourEurope &&
-      this.args.publicService.isPublished
-    );
+    return this.args.publicService.isYourEurope && this.args.isPublished;
   }
 
   get shouldDisplayReadonlyEnLinkToIpdc() {
-    return (
-      this.args.publicService.isYourEurope &&
-      !this.args.publicService.isPublished
-    );
+    return this.args.publicService.isYourEurope && !this.args.isPublished;
   }
 
   get ipdcConceptCompareLink() {
@@ -125,10 +119,10 @@ export default class DetailsPageComponent extends Component {
   }
 
   get shouldShowConversionAlertPublishedInstance() {
-    const { publicService, formalInformalChoice } = this.args;
+    const { publicService, formalInformalChoice, isPublished } = this.args;
     return (
       publicService.needsConversionFromFormalToInformal &&
-      publicService.isPublished &&
+      isPublished &&
       formalInformalChoice.chosenForm === 'informal'
     );
   }
@@ -139,10 +133,10 @@ export default class DetailsPageComponent extends Component {
   }
 
   get shouldShowConversionAlertDraftInstance() {
-    const { publicService, formalInformalChoice } = this.args;
+    const { publicService, formalInformalChoice, isPublished } = this.args;
     return (
       publicService.needsConversionFromFormalToInformal &&
-      !publicService.isPublished &&
+      !isPublished &&
       formalInformalChoice.chosenForm === 'informal'
     );
   }

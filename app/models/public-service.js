@@ -63,12 +63,6 @@ export default class PublicServiceModel extends Model {
     );
   }
 
-  get isPublished() {
-    // TODO LPDC-1236: we should reimplement this with a query ... into lpdc-management
-    //return this.datePublished > this.dateSent;
-    return false;
-  }
-
   get isYourEurope() {
     return this.publicationMedia.some(
       (medium) =>

@@ -209,4 +209,13 @@ export default class PublicServiceService extends Service {
     );
     await this.loadPublicServiceDetails(publicService.id);
   }
+
+  async isPublished(publicService) {
+    const response = await this.httpRequest.get(
+      `/lpdc-management/public-services/${encodeURIComponent(
+        publicService.uri
+      )}/is-published`
+    );
+    return response?.isPublished;
+  }
 }

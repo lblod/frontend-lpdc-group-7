@@ -33,12 +33,16 @@ export default class PublicServicesDetailsRoute extends Route {
         publicService.concept.get('hasLatestFunctionalChange')
       );
 
+    const publicServiceIsPublished =
+      await this.publicServiceService.isPublished(publicService);
+
     return {
       publicService,
       readOnly,
       languageVersionOfConcept,
       formalInformalChoice,
       functionallyChangedFields,
+      publicServiceIsPublished,
     };
   }
 

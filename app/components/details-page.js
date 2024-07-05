@@ -95,8 +95,7 @@ export default class DetailsPageComponent extends Component {
 
   get shouldDisplayEnLinkToIpdc() {
     return (
-      this.args.publicService.isYourEurope &&
-      this.isStatusVerzondenAndPublished
+      this.args.publicService.isYourEurope && this.isStatusVerzondenAndPublished
     );
   }
 

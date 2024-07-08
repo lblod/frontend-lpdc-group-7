@@ -18,10 +18,7 @@ import { FORM, RDF } from 'frontend-lpdc/rdf/namespaces';
 import ConfirmUpToDateTillModal from 'frontend-lpdc/components/confirm-up-to-date-till-modal';
 import getUUIDFromUri from 'frontend-lpdc/helpers/get-uuid-from-uri';
 import ENV from 'frontend-lpdc/config/environment';
-import {
-  isConceptDeleted,
-  isConceptUpdated,
-} from 'frontend-lpdc/models/public-service';
+import { isConceptUpdated } from 'frontend-lpdc/models/public-service';
 import FullyTakeConceptSnapshotOverModalComponent from 'frontend-lpdc/components/fully-take-concept-snapshot-over';
 import ConfirmConvertToInformalModalComponent from 'frontend-lpdc/components/confirm-convert-to-informal-modal';
 

@@ -64,9 +64,6 @@ export default class DetailsPageComponent extends Component {
   get isConceptUpdatedStatus() {
     return isConceptUpdated(this.args.publicService.reviewStatus);
   }
-  get isConceptArchived() {
-    return isConceptDeleted(this.args.publicService.reviewStatus);
-  }
 
   get functionallyChangedFields() {
     return this.args.functionallyChangedFields.join(', ');

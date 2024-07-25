@@ -1,18 +1,20 @@
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { ProseParser, Schema, Selection } from '@lblod/ember-rdfa-editor';
+import { inputRules, ProseParser, Schema, Selection } from '@lblod/ember-rdfa-editor';
 import {
-  block_rdfa,
-  doc,
+  blockRdfaWithConfig,
+  docWithConfig,
   hard_break,
   horizontal_rule,
-  invisible_rdfa,
+  invisibleRdfaWithConfig,
   paragraph,
-  repaired_block,
+  repairedBlockWithConfig,
   text,
-} from '@lblod/ember-rdfa-editor/nodes';
+} from '@lblod/ember-rdfa-editor/nodes'; // check
 import { inline_rdfa } from '@lblod/ember-rdfa-editor/marks';
+import { chromeHacksPlugin } from '@lblod/ember-rdfa-editor/plugins/chrome-hacks-plugin';
+import { firefoxCursorFix } from '@lblod/ember-rdfa-editor/plugins/firefox-cursor-fix';
 import {
   em,
   strikethrough,
@@ -20,7 +22,7 @@ import {
   subscript,
   superscript,
   underline,
-} from '@lblod/ember-rdfa-editor/plugins/text-style';
+} from '@lblod/ember-rdfa-editor/plugins/text-style'; // check
 import {
   tableKeymap,
   tableNodes,
@@ -29,20 +31,24 @@ import {
 import { image } from '@lblod/ember-rdfa-editor/plugins/image';
 import { link, linkView } from '@lblod/ember-rdfa-editor/plugins/link';
 import { blockquote } from '@lblod/ember-rdfa-editor/plugins/blockquote';
-import { heading } from '@lblod/ember-rdfa-editor/plugins/heading';
+import { headingWithConfig } from '@lblod/ember-rdfa-editor/plugins/heading';
 import { code_block } from '@lblod/ember-rdfa-editor/plugins/code';
 import {
-  bullet_list,
-  list_item,
-  ordered_list,
+  bulletListWithConfig,
+  listItemWithConfig,
+  listTrackingPlugin,
+  orderedListWithConfig,
 } from '@lblod/ember-rdfa-editor/plugins/list';
+import {
+  bullet_list_input_rule,
+  ordered_list_input_rule,
+} from '@lblod/ember-rdfa-editor/plugins/list/input_rules';
 import { placeholder } from '@lblod/ember-rdfa-editor/plugins/placeholder';
 import SimpleInputFieldComponent from '@lblod/ember-submission-form-fields/components/rdf-input-fields/simple-value-input-field';
 
 export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFieldComponent {
   @tracked editorController;
   inputId = 'richtext-' + guidFor(this);
-  plugins = [tablePlugin, tableKeymap];
 
   nodeViews = (controller) => {
     return {
@@ -52,17 +58,17 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
 
   schema = new Schema({
     nodes: {
-      doc,
+      doc: docWithConfig(),
       paragraph,
 
-      repaired_block,
+      repaired_block: repairedBlockWithConfig(),
 
-      list_item,
-      ordered_list,
-      bullet_list,
+      list_item: listItemWithConfig({ enableHierarchicalList: true }),
+      ordered_list: orderedListWithConfig({ enableHierarchicalList: true }),
+      bullet_list: bulletListWithConfig({ enableHierarchicalList: true }),
       placeholder,
       ...tableNodes({ tableGroup: 'block', cellContent: 'block+' }),
-      heading,
+      heading: headingWithConfig(),
       blockquote,
 
       horizontal_rule,
@@ -73,8 +79,8 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
       image,
 
       hard_break,
-      invisible_rdfa,
-      block_rdfa,
+      invisible_rdfa: invisibleRdfaWithConfig(),
+      block_rdfa: blockRdfaWithConfig(),
       link: link(this.linkOptions),
     },
     marks: {
@@ -87,6 +93,15 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
       superscript,
     },
   });
+
+  plugins = [
+    chromeHacksPlugin(), firefoxCursorFix(), listTrackingPlugin(), tablePlugin, tableKeymap,
+    inputRules({
+      rules: [
+        bullet_list_input_rule(this.schema.nodes.bullet_list),
+        ordered_list_input_rule(this.schema.nodes.ordered_list),
+      ],
+    }),];
 
   get linkOptions() {
     return {

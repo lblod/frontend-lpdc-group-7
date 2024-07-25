@@ -33,6 +33,7 @@
   "overrides": {
     "@embroider/macros": "^1.10.0",
     "@embroider/util": "^1.0.0",
+    "babel-plugin-ember-template-compilation": "2.2.1",
     "ember-cli-babel": "$ember-cli-babel",
     "moment": "^2.29.1"
   },

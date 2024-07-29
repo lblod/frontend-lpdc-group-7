@@ -9,9 +9,9 @@ module.exports = function (defaults) {
       webpack: {
         resolve: {
           fallback: {
-            vm: false // TODO: This config should come from the editor. Remove this once we update (and they configure it)
+            vm: false, // TODO: This config should come from the editor. Remove this once we update to v10+
           },
-        }
+        },
       },
     },
     'ember-simple-auth': {

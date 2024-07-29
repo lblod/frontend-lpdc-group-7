@@ -1,7 +1,12 @@
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { inputRules, ProseParser, Schema, Selection } from '@lblod/ember-rdfa-editor';
+import {
+  inputRules,
+  ProseParser,
+  Schema,
+  Selection,
+} from '@lblod/ember-rdfa-editor';
 import {
   blockRdfaWithConfig,
   docWithConfig,
@@ -33,6 +38,7 @@ import { link, linkView } from '@lblod/ember-rdfa-editor/plugins/link';
 import { blockquote } from '@lblod/ember-rdfa-editor/plugins/blockquote';
 import { headingWithConfig } from '@lblod/ember-rdfa-editor/plugins/heading';
 import { code_block } from '@lblod/ember-rdfa-editor/plugins/code';
+import { lastKeyPressedPlugin } from '@lblod/ember-rdfa-editor/plugins/last-key-pressed';
 import {
   bulletListWithConfig,
   listItemWithConfig,
@@ -95,13 +101,19 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
   });
 
   plugins = [
-    chromeHacksPlugin(), firefoxCursorFix(), listTrackingPlugin(), tablePlugin, tableKeymap,
+    chromeHacksPlugin(),
+    firefoxCursorFix(),
+    lastKeyPressedPlugin,
+    listTrackingPlugin(),
+    tablePlugin,
+    tableKeymap,
     inputRules({
       rules: [
         bullet_list_input_rule(this.schema.nodes.bullet_list),
         ordered_list_input_rule(this.schema.nodes.ordered_list),
       ],
-    }),];
+    }),
+  ];
 
   get linkOptions() {
     return {

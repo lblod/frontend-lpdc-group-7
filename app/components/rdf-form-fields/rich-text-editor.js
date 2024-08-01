@@ -97,7 +97,7 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
   @action
   handleRdfaEditorInit(editorController) {
     this.editorController = editorController;
-    this.setInitialValue();
+    this.setEditorValue();
   }
 
   @action
@@ -116,16 +116,16 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
       // Only trigger an update if the value actually changed.
       // This prevents that the form observer is triggered even though no editor content was changed.
       if (this.value !== editorValue) {
-        this.updateValueInStore([editorValue]);
+        this.updateValueInStore(editorValue);
       }
     }
   }
 
   @action
-  updateValueInStore(values) {
-    this.value = values[0] || '';
-    super.updateValue(this.value);
-    this.setInitialValue();
+  handleThreeWayCompareUpdate(values) {
+    const value = values[0] || '';
+    this.updateValueInStore(value);
+    this.setEditorValue();
   }
 
   loadProvidedValue() {
@@ -137,7 +137,12 @@ export default class RdfFormFieldsRichTextEditorComponent extends SimpleInputFie
     }
   }
 
-  setInitialValue() {
+  updateValueInStore(value = '') {
+    this.value = value;
+    super.updateValue(this.value);
+  }
+
+  setEditorValue() {
     if (this.value !== undefined && this.value !== null) {
       // We replicate the behavior of the controller.setHtmlContent method without focussing the field.
       // Since we use the `focusout` event focusing the field would trigger the `updateValue` action,

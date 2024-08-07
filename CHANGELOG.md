@@ -1,4 +1,7 @@
-## v0.18.2 (2024-08-05)
+## v0.18.3 (2024-08-07)
+#### :bug: Bug Fix
+* [#14](https://github.com/lblod/frontend-lpdc/pull/14) [LPDC-1282] Display ordered lists and tables properly in the read-only rich-text editor ([@Windvis](https://github.com/Windvis))
 
+## v0.18.2 (2024-08-05)
 #### :bug: Bug Fix
 * [#13](https://github.com/lblod/frontend-lpdc/pull/13) [LPDC-1270, LPDC-1276] Fix inconsistent rich text editor behavior ([@Windvis](https://github.com/Windvis))

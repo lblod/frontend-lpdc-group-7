@@ -1,3 +1,7 @@
+## v0.18.4 (2024-08-08)
+#### :bug: Bug Fix
+* [#15](https://github.com/lblod/frontend-lpdc/pull/15) [LPDC-1276] Fix a "three-way-compare" link styling issue ([@Windvis](https://github.com/Windvis))
+
 ## v0.18.3 (2024-08-07)
 #### :bug: Bug Fix
 * [#14](https://github.com/lblod/frontend-lpdc/pull/14) [LPDC-1282] Display ordered lists and tables properly in the read-only rich-text editor ([@Windvis](https://github.com/Windvis))

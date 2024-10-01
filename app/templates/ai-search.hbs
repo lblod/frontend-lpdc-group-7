@@ -1,2 +1,75 @@
-{{page-title "AiSearch"}}
+{{page-title "AI Search"}}
+
+
+
+<div class="au-c-main-container__content au-c-main-container__content--scroll">
+  <section class="au-o-region-large au-o-layout">
+    <AuCard as |c|><c.header>
+        <AuHeading>Producten en diensten</AuHeading>
+        <p style="font-weight: lighter;">Zoek producten en diensten die door de verschillende overheden binnen Vlaanderen worden aangeboden. Let op: voor lokale producten en diensten is dit overzicht nog volop in opbouw.</p>
+      </c.header>
+      <c.content style="font-size: small;">
+        <div style="display: flex; align-items: center;">
+          <AuInput
+            id="search-input"
+            type="text"
+            @width="block"
+            style="width: 50%; margin-right: 10px;"
+            value={{this.searchTerm}}
+            oninput={{this.updateSearchTerm}}
+            placeholder="Waar wilt u meer over weten?"
+          />
+          <AuButton {{on "click" this.performSearch}}>Help me</AuButton>
+        </div>
+        <AuCard as |c|>
+          <c.header>
+              <AuHeading @skin="4">
+                antwoord
+              </AuHeading>
+            
+          </c.header>
+          <c.content>
+            
+            <AuContent>
+              Om voedsel te verkopen op een losse standplaats op de openbare markt in Mechelen moet je aan de onderstaande voorwaarden voldoen.
+
+              Je hebt een machtiging tot het uitoefenen van ambulante activiteiten als werkgever (de zogenaamde leurkaart). Die machtiging wordt afgeleverd door een erkend ondernemingsloket en is geldig in heel België voor de duur van de activiteit. Uitzondering: voor occasionele verkopen met niet-commercieel karakter is geen machtiging vereist. 
+
+              Je hebt een registratie, erkenning of toelating van het Federaal Agentschap voor de Veiligheid van de Voedselketen (FAVV) .
+
+            </AuContent>
+            
+          </c.content>
+        </AuCard>
+
+        <AuCard as |c|>
+          <c.header>
+            <AuHeading @skin="4">
+                hier vonden wij deze informatie
+              </AuHeading>
+          </c.header>
+          <c.content>
+            
+            <AuContent>
+              <AuLinkExternal
+
+              >
+                Marktvoorwaarde mechelen
+              </AuLinkExternal>
+            </AuContent>
+            <AuContent>
+            
+            </AuContent>
+          </c.content>
+        </AuCard>
+       
+      </c.content>
+      <c.footer style="margin-left: auto;">
+        
+      </c.footer>
+    </AuCard>
+  </section>
+</div>
+
+
 {{outlet}}

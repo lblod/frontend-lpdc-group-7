@@ -21,6 +21,7 @@
           />
           <AuButton {{on "click" this.performSearch}}>Help me</AuButton>
         </div>
+        {{#if this.answer}}
         <AuCard as |c|>
           <c.header>
               <AuHeading @skin="4">
@@ -31,17 +32,14 @@
           <c.content>
             
             <AuContent>
-              Om voedsel te verkopen op een losse standplaats op de openbare markt in Mechelen moet je aan de onderstaande voorwaarden voldoen.
-
-              Je hebt een machtiging tot het uitoefenen van ambulante activiteiten als werkgever (de zogenaamde leurkaart). Die machtiging wordt afgeleverd door een erkend ondernemingsloket en is geldig in heel België voor de duur van de activiteit. Uitzondering: voor occasionele verkopen met niet-commercieel karakter is geen machtiging vereist. 
-
-              Je hebt een registratie, erkenning of toelating van het Federaal Agentschap voor de Veiligheid van de Voedselketen (FAVV) .
-
+              {{this.answer}}
             </AuContent>
             
           </c.content>
         </AuCard>
+        {{/if}}
 
+        {{#if this.links}}
         <AuCard as |c|>
           <c.header>
             <AuHeading @skin="4">
@@ -49,25 +47,28 @@
               </AuHeading>
           </c.header>
           <c.content>
-            
+            {{#each this.links as |link|}}
             <AuContent>
+
               <AuLinkExternal
 
               >
-                Marktvoorwaarde mechelen
+                {{link}}
               </AuLinkExternal>
             </AuContent>
             <AuContent>
             
             </AuContent>
+            {{/each}}
           </c.content>
         </AuCard>
-       
+       {{/if}}
       </c.content>
       <c.footer style="margin-left: auto;">
         
       </c.footer>
     </AuCard>
+    
   </section>
 </div>
 

@@ -50,11 +50,11 @@
             {{#each this.sources as |source|}}
             <AuContent>
               <AuLinkExternal
-                @href={{source.url}}
+                href={{source.url}}
               >
                 {{source.product_name}} {{source.location}}
               </AuLinkExternal>
-              
+              {{log source.url}}
             </AuContent>
             <AuContent>
             

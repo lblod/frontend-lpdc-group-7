@@ -17,8 +17,14 @@
             oninput={{this.updateSearchTerm}}
             placeholder="Waar wilt u meer over weten?"
           />
-          <AuButton {{on "click" this.performSearch}}>Help me</AuButton>
+          <AuButton {{on "click" this.performSearch.perform}}>Help me</AuButton>
         </div>
+        {{#if this.isLoading}}
+          <div style="margin-top: 20px; display: flex; align-items: center; color: gray;">
+            <AuLoader style="margin-right: 10px;" /> <!-- Add margin for spacing -->
+            Bezig met het ophalen van gegevens...
+          </div>
+        {{/if}}
         {{#if this.answer}}
         <AuCard as |c|>
           <c.header>
@@ -33,7 +39,6 @@
           </c.content>
         </AuCard>
         {{/if}}
-
         {{#if this.sources}}
         <AuCard as |c|>
           <c.header>
@@ -45,10 +50,11 @@
             {{#each this.sources as |source|}}
             <AuContent>
               <AuLinkExternal
-              
+                @href={{source.url}}
               >
-                {{source.link}}
+                {{source.product_name}} {{source.location}}
               </AuLinkExternal>
+              
             </AuContent>
             <AuContent>
             

@@ -34,7 +34,7 @@
         </AuCard>
         {{/if}}
 
-        {{#if this.links}}
+        {{#if this.sources}}
         <AuCard as |c|>
           <c.header>
             <AuHeading @skin="4">
@@ -42,12 +42,12 @@
               </AuHeading>
           </c.header>
           <c.content>
-            {{#each this.links as |link|}}
+            {{#each this.sources as |source|}}
             <AuContent>
               <AuLinkExternal
               
               >
-                {{link}}
+                {{source.link}}
               </AuLinkExternal>
             </AuContent>
             <AuContent>

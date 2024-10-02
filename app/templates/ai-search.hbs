@@ -24,17 +24,14 @@
         {{#if this.answer}}
         <AuCard as |c|>
           <c.header>
-              <AuHeading @skin="4">
-                antwoord
-              </AuHeading>
-            
+            <AuHeading @skin="4">
+              Antwoord
+            </AuHeading>
           </c.header>
           <c.content>
-            
             <AuContent>
               {{this.answer}}
             </AuContent>
-            
           </c.content>
         </AuCard>
         {{/if}}
@@ -43,15 +40,14 @@
         <AuCard as |c|>
           <c.header>
             <AuHeading @skin="4">
-                hier vonden wij deze informatie
+                Hier vonden wij deze informatie
               </AuHeading>
           </c.header>
           <c.content>
             {{#each this.links as |link|}}
             <AuContent>
-
               <AuLinkExternal
-
+              
               >
                 {{link}}
               </AuLinkExternal>

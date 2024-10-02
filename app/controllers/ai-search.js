@@ -9,22 +9,21 @@ export default class AiSearchController extends Controller {
   @tracked sources = [];
   @tracked isLoading = false;
 
-  mockJSON= {
-    "answer": "Om voedsel te verkopen op een losse standplaats op de openbare markt in Mechelen moet je aan de onderstaande voorwaarden voldoen. Je hebt een machtiging tot het uitoefenen van ambulante activiteiten als werkgever (de zogenaamde leurkaart). Die machtiging wordt afgeleverd door een erkend ondernemingsloket en is geldig in heel België voor de duur van de activiteit. Uitzondering: voor occasionele verkopen met niet-commercieel karakter is geen machtiging vereist. Je hebt een registratie, erkenning of toelating van het Federaal Agentschap voor de Veiligheid van de Voedselketen (FAVV).",
-    "sources": [
-      {
-        "product_name": "voorlopig rijbewijs",
-        "location": "Mechelen",
-        "url": "https://www.vlaanderen.be/"
-      },
-      {
-        "product_name": "voorlopig rijbewijs",
-        "location": "Aalat",
-        "url": "https://www.vlaanderen.be/"
-      }
-    ]
-  }
-  
+  // mockJSON= {
+  //   "answer": "Om voedsel te verkopen op een losse standplaats op de openbare markt in Mechelen moet je aan de onderstaande voorwaarden voldoen. Je hebt een machtiging tot het uitoefenen van ambulante activiteiten als werkgever (de zogenaamde leurkaart). Die machtiging wordt afgeleverd door een erkend ondernemingsloket en is geldig in heel België voor de duur van de activiteit. Uitzondering: voor occasionele verkopen met niet-commercieel karakter is geen machtiging vereist. Je hebt een registratie, erkenning of toelating van het Federaal Agentschap voor de Veiligheid van de Voedselketen (FAVV).",
+  //   "sources": [
+  //     {
+  //       "product_name": "voorlopig rijbewijs",
+  //       "location": "Mechelen",
+  //       "url": "https://www.vlaanderen.be/"
+  //     },
+  //     {
+  //       "product_name": "voorlopig rijbewijs",
+  //       "location": "Aalat",
+  //       "url": "https://www.vlaanderen.be/"
+  //     }
+  //   ]
+  // }
 
   @action
   updateSearchTerm(event) {
@@ -34,14 +33,14 @@ export default class AiSearchController extends Controller {
   @task({ drop: true })
   *performSearch() {
     this.isLoading = true;
-    console.log(this.isLoading)
     this.answer = '';
     this.sources = [];
 
     try {
-      // Simulating a delay for better UX, you can remove the timeout in production
-      yield timeout(500); // Optional: simulating a delay for better UX
+      // Optional: simulating a delay for better UX
+      yield timeout(500);
 
+      // Yielding the Promise from getAnswerJSON
       const response = yield this.getAnswerJSON(this.searchTerm);
 
       if (response) {
@@ -54,17 +53,12 @@ export default class AiSearchController extends Controller {
       this.answer = 'Sorry, er liep iets fout bij het zoeken.';
       console.error('Error fetching the AI response:', error);
     } finally {
-      this.isLoading = false; 
+      this.isLoading = false; // End loading
     }
   }
 
-  getLinks() {
-    const mockLinks = ['Marktvoorwaarde Mechelen', 'test link'];
-    this.links = mockLinks;
-  }
-
   getAnswerJSON(question) {
-    const url = 'ai-search/question';
+    const url = '/ai-search/question';
     const payload = {
       question: question.trim(),
       result_limit: 7,
@@ -72,7 +66,7 @@ export default class AiSearchController extends Controller {
 
     console.log('POST request to:', url, 'with payload:', payload);
 
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,9 +77,6 @@ export default class AiSearchController extends Controller {
         throw new Error('Network response was not ok ' + response.statusText);
       }
       return response.json();
-    })
-    .catch(error => {
-      console.error('Error fetching the AI response:', error);
-    });;
+    });
   }
 }
